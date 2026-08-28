@@ -304,10 +304,34 @@
   details p{margin:10px 0}
   details b{color:var(--ink);font-weight:600}
 
-  @media(max-width:900px){
+  /* A PHONE ON ITS SIDE KEEPS THE DESKTOP SPLIT
+     -------------------------------------------
+     This rule was keyed on width alone. A phone in landscape is still under
+     900px wide - 844 or 932 on the common ones - so it stacked, and then
+     scrolling down the controls carried the yantra off the top of the
+     screen and out of sight.
+
+     Stack only in PORTRAIT, where there is height to spare for one column
+     under the other. In landscape the two columns stay, and with them the
+     thing that makes the desktop work: the body does not scroll at all, the
+     figure is pinned in its own flex cell, and #panel scrolls inside
+     itself. The yantra cannot leave the screen because nothing it sits in
+     ever moves. */
+  @media(max-width:900px) and (orientation:portrait){
     body{flex-direction:column;overflow:auto}
     #panel{width:100%;border-left:0;border-top:1px solid var(--edge)}
     #fig{width:min(100%,74vh)}
+  }
+  /* Short and wide. The split is kept, but 392px of panel out of 844 leaves
+     the figure too little, and the height is what limits it here rather than
+     the width - so the panel gives up some room and the padding shrinks.
+     The second selector is not redundant: `body.pal-count #fig` earlier in
+     the sheet outranks a bare `#fig`, so it has to be named again to win. */
+  @media(orientation:landscape) and (max-height:560px){
+    #panel{width:min(46vw,340px);padding:12px 14px 18px}
+    #stage{padding:8px}
+    #fig,body.pal-count #fig{width:min(100%,97vh)}
+    h1{font-size:15px;margin-bottom:2px}
   }
   /* WHITE, AND LAST
      ---------------
