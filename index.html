@@ -317,10 +317,22 @@
      figure is pinned in its own flex cell, and #panel scrolls inside
      itself. The yantra cannot leave the screen because nothing it sits in
      ever moves. */
+  /* PORTRAIT PINS THE FIGURE TOO
+     ----------------------------
+     One column, but the page itself still must not scroll. #stage is given a
+     fixed band at the top and #panel takes the rest and scrolls inside
+     itself, exactly as the side-by-side layout does - so the yantra stays on
+     screen while the controls run past under it.
+
+     flex:none on the stage matters: without it the band collapses as the
+     panel's content grows, and the figure shrinks away to nothing instead of
+     holding its height. */
   @media(max-width:900px) and (orientation:portrait){
-    body{flex-direction:column;overflow:auto}
-    #panel{width:100%;border-left:0;border-top:1px solid var(--edge)}
-    #fig{width:min(100%,74vh)}
+    body{flex-direction:column;overflow:hidden}
+    #stage{flex:none;height:44vh;padding:10px}
+    #panel{width:100%;flex:1;min-height:0;border-left:0;
+           border-top:1px solid var(--edge)}
+    #fig,body.pal-count #fig{width:min(100%,42vh)}
   }
   /* Short and wide. The split is kept, but 392px of panel out of 844 leaves
      the figure too little, and the height is what limits it here rather than
@@ -377,7 +389,7 @@
     <option value="exact" title="ruler and compass · four parameters · 6 corners on the circle">Straight</option>
     <option value="arcs" title="ruler and compass · twelve seed points · eighteen parameters · the first grown ring on a circle to machine precision">Arcs — ring 1 held</option>
     <option value="arcs2" title="the same construction, holding the second grown ring on its circle instead of the first">Arcs — ring 2 held</option>
-    <option value="arcsfree" title="the same construction with neither grown ring held on a circle: the exact rimmed yantra on its own. Every seed moves as far as the rim allows, and no slider is refused by a ring. Switch both rings off in View to see it bare">Arcs — no rings</option>
+    <option value="arcsfree" title="the same construction with neither grown ring held on a circle: the exact rimmed yantra on its own. Every seed moves as far as the rim allows, and no slider is refused by a ring. Switch both rings off in View to see it bare">Arcs — no rings held</option>
   </select>
   <!-- the figure's own presets, where you choose the figure -->
   <div class="btns" id="figpresets" style="margin-top:10px"></div>
@@ -445,8 +457,8 @@
   <select id="palette-select">
     <option value="none">Lines</option>
     <option value="rainbow2">Rainbow</option>
-    <option value="aumrings" title="the warmer Rainbow in the aum ramp's three colours: white at the heart, gold through the middle, orange at the rim, on the aum ground">Aum rings — white at the heart, orange at the rim</option>
-    <option value="count">Counts — up minus down, mod m</option>
+    <option value="aumrings" title="the warmer Rainbow in the aum ramp's three colours: white at the heart, gold through the middle, orange at the rim, on the aum ground">AYP aum colors</option>
+    <option value="count" title="each region coloured by the number of upward triangles covering it minus the downward ones, taken modulo 3">Counts mod 3</option>
   </select>
   <div class="crit" id="rampbox">
     <div class="crow"><label>Ramp</label></div>
