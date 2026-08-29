@@ -263,7 +263,20 @@
   /* .tip is a one-line status strip - fixed height, clipped, no wrapping.
      The panel notes are prose and were wearing it, so every line but the
      first was cut off and the text could not be read. They wrap. */
-  .note{font-size:10px;color:var(--dim2);margin-top:4px;line-height:1.55;white-space:normal}
+  /* the panel notes: a first sentence always visible, the rest behind a
+     twisty, so the construction sections stay short until asked */
+  .note{font-size:10px;color:var(--dim2);margin-top:4px;line-height:1.55;
+        white-space:normal}
+  /* the shared summary rule is a small-caps section head; a note summary is
+     prose, so it takes the note's own type and drops the rule beneath it */
+  .note > summary{cursor:pointer;color:var(--dim2);font:10px/1.55 var(--mono);
+        letter-spacing:0;text-transform:none;margin:0 0 0 11px;padding-bottom:0;
+        border-bottom:0;list-style-position:outside}
+  .note > summary::marker{color:var(--dim)}
+  .note[open] > summary{margin-bottom:4px}
+  .note .notebody{display:block;margin-left:11px}
+  .note.one > summary{list-style:none;cursor:default}
+  .note.one > summary::-webkit-details-marker{display:none}
   .striphost{margin-top:6px}
   .strip{width:100%;height:34px;display:block}
   .strip .axis{stroke:var(--edge);stroke-width:1}
@@ -359,6 +372,7 @@
      Everything the reader presses is white; a switch that is ON keeps dark
      text, because its background is the gold. */
   #panel h2{color:#fff}
+  #panel > h2:first-of-type{margin-top:0}
   .btns button,
   .btns.tog button,
   #exact-toggles button,
@@ -392,6 +406,7 @@
 <div id="panel">
   <h1><span class="sri">Śrī</span> <em>Yantra</em></h1>
   <div class="sub">ruler and compass constructions<span id="build" class="gone"></span></div>
+  <h2>Select Śrī Yantra</h2>
   <select id="figure-select">
     <option value="exact" title="ruler and compass · four parameters · 6 corners on the circle">Straight</option>
     <option value="arcs" title="ruler and compass · twelve seed points · eighteen parameters · the first grown ring on a circle to machine precision">Arcs — ring 1 held</option>
@@ -429,7 +444,7 @@
 
   <div id="exactbox" class="off">
     <h2>Construction</h2>
-    <div class="note" id="exact-note"></div>
+    <details class="note" id="exact-note"><summary></summary><span class="notebody"></span></details>
     <div class="btns tog" id="exact-toggles" style="margin:10px 0 14px"></div>
     <div id="exact-rows"></div>
     <div class="tip" id="exact-read" style="white-space:pre;line-height:1.5"></div>
@@ -437,7 +452,7 @@
 
   <div id="arcbox" class="off">
     <h2>Construction</h2>
-    <div class="note" id="arc-note"></div>
+    <details class="note" id="arc-note"><summary></summary><span class="notebody"></span></details>
     <div class="btns tog" id="arc-toggles" style="margin:10px 0 14px"></div>
     <div id="arc-rows"></div>
     <div class="tip" id="arc-read" style="white-space:pre;line-height:1.5"></div>
@@ -445,7 +460,7 @@
 
   <div id="innerbox" class="off">
     <h2>Inner triangles</h2>
-    <div class="note" id="inner-note"></div>
+    <details class="note" id="inner-note"><summary></summary><span class="notebody"></span></details>
     <div class="btns tog" id="inner-toggles" style="margin:10px 0 12px"></div>
     <div id="inner-rows"></div>
     <div class="tip" id="inner-read" style="white-space:pre;line-height:1.5"></div>
@@ -576,8 +591,9 @@
 
     <p><b>The paper.</b> The construction is written up in
     <i>The circular-arc Śrī Yantra</i>, which proves that the classical
-    concurrency conditions hold exactly, counts the family two independent
-    ways, and comes with GeoGebra files for the three yantras above. The
+    concurrency conditions hold exactly, in addition to eight further
+    concurrency conditions that hold all the corners of the Śrī Yantra on the
+    circular rim; it counts the family two independent ways and comes with GeoGebra files for the three yantras above. The
     paper, the GeoGebra files and this viewer are at
     <a href="https://github.com/michaelkopp/sriyantra" target="_blank"
        rel="noopener">github.com/michaelkopp/sriyantra</a>.</p>
@@ -3064,6 +3080,24 @@ const el = (tag, parent, attrs) => {
 /* ...and the same for the panel, which is HTML. These have to be different:
    an <input type="range"> created in the SVG namespace is not a slider, it
    is an unknown element that renders as nothing.                        */
+/* The panel notes are <details>: the first sentence sits on the summary line
+   and the rest opens on request. Splitting here rather than storing two
+   strings keeps each note written as one piece of prose. A note that is a
+   single sentence gets no twisty. */
+const setNote = (el, text) => {
+  if (!el) return;
+  const sum = el.querySelector('summary'), body = el.querySelector('.notebody');
+  if (!sum || !body) { el.textContent = text; return; }   /* a plain div */
+  const t = String(text).trim();
+  /* a sentence end followed by a space and a capital or a digit, so that an
+     abbreviation mid-sentence does not cut the summary short */
+  const m = /^([\s\S]*?[.!?])\s+(?=[A-Z\u00c0-\u017f0-9\u201c"])([\s\S]+)$/.exec(t);
+  sum.textContent = m ? m[1] : t;
+  body.textContent = m ? m[2] : '';
+  el.open = false;
+  el.classList.toggle('one', !m);
+};
+
 const hel = (tag, parent, attrs) => {
   const e = document.createElement(tag);
   for (const k in attrs) e.setAttribute(k, attrs[k]);
@@ -8051,14 +8085,14 @@ function buildInnerPanel() {
      an offset, which is why the figure jumped somewhere else entirely. The
      anchor is now taken at the figure on screen, when it is asked for.  */
   if (STRAIGHT || (INNER && !INNER.length)) {
-    note.textContent = STRAIGHT
+    setNote(note, STRAIGHT
       ? 'None here. On the straight figure the whole family is four-dimensional '
         + 'before anything is held, and holding the other six triangles leaves '
         + 'nothing at all — the four parameters are already spoken for. Each arc '
         + 'figure has five such directions; this one has none.'
       : 'None here. This figure already holds both grown rings, and asking for '
         + 'six of the nine triangles on top of that leaves nothing free. Try it '
-        + 'on either arc construction — each of those has five.';
+        + 'on either arc construction — each of those has five.');
     $('#inner-read').textContent = '';
     return;
   }
@@ -8068,7 +8102,7 @@ function buildInnerPanel() {
      Five is what all three arc figures give; the live count is used the
      moment there is one. */
   const nd = (INNER && INNER.length) || 5, ndw = NW[nd] || nd;
-  note.textContent =
+  setNote(note,
     ndw.charAt(0).toUpperCase() + ndw.slice(1)
     + ' directions that move t4, t5 and t6 and leave the other six of the nine '
     + 'triangles exactly where they are. These are counted in the '
@@ -8077,7 +8111,7 @@ function buildInnerPanel() {
     + 'the two do not add up to anything. Scaled so a full slider moves the '
     + 'worst-placed node the same distance whichever one you pull. t6 cannot be '
     + 'moved on its own at all, and two of the ' + ndw + ' need all three '
-    + 'triangles at once \u2014 they do not come apart.';
+    + 'triangles at once \u2014 they do not come apart.');
   const hb = hel('button', tog, { id: 'inner-hold', title: 'put the other six triangles’ arcs '
                  + 'back after every solver step. Without this the solver is free '
                  + 'to move them and the sliders stop meaning what they say' });
@@ -8089,11 +8123,11 @@ function buildInnerPanel() {
       /* the criteria fit drives the same figure from the other end, rebuilding
          it from its own parameters every frame, so whichever of the two runs
          second wins and the other's sliders do nothing. One driver at a time. */
-      if (CFIT) { CFIT = false; note.textContent =
+      if (CFIT) { CFIT = false; setNote(note,
         'the criteria fit has been switched off — it and the hold cannot '
-        + 'both drive the figure'; }
-      if (!INNER && !innerAnchor()) { INNERON = false; note.textContent =
-        'could not find the directions here — let the figure settle first'; return; }
+        + 'both drive the figure'); }
+      if (!INNER && !innerAnchor()) { INNERON = false; setNote(note,
+        'could not find the directions here — let the figure settle first'); return; }
       setRunning(true);              // a construction has to hand over to the solver
     }
     showForConstruction();
@@ -8112,12 +8146,16 @@ function buildInnerPanel() {
     const b = hel('button', row, {});
     b.textContent = 'take the directions here';
     b.addEventListener('click', () => {
-      if (!innerAnchor()) { note.textContent =
-        'could not find the directions here — let the figure settle first'; return; }
+      if (!innerAnchor()) { setNote(note,
+        'could not find the directions here — let the figure settle first'); return; }
       INNERON = true;
+      /* this called note(...), the toast at the foot of the panel - but
+         inside this function 'note' is the inner-note element, so the call
+         threw the moment the branch was reached. The sibling path a few lines
+         up writes the same message into the note, so this does too. */
       if (CFIT) { CFIT = false;
-        note('the criteria fit has been switched off \u2014 it and the inner hold '
-             + 'cannot both drive the figure'); }
+        setNote(note, 'the criteria fit has been switched off \u2014 it and the '
+             + 'inner hold cannot both drive the figure'); }
       showForConstruction(); setRunning(true); buildInnerPanel();
       if (DATASET.construct === 'exact') buildExactPanel();
       else if (DATASET.construct) buildArcPanel();
@@ -8222,12 +8260,12 @@ function buildExactPanel() {
     exactReadout();
     return;
   }
-  $('#exact-note').textContent =
+  setNote($('#exact-note'),
     'Four heights on the vertical diameter, 0 at the bottom of the circle and '
     + '2 at the top. Everything else follows by ruler and compass, so every '
     + 'setting of these four sliders is an exact Sri Yantra. The buttons at the '
     + 'top of the panel are figures worth stopping at \u2014 hover one to see '
-    + 'what it satisfies.';
+    + 'what it satisfies.');
   const tog = $('#exact-toggles');
   tog.textContent = '';
   for (const which in XLINE) {
@@ -8898,7 +8936,14 @@ function buildArcPanel() {
   box.classList.toggle('off', !on);
   if (!on) return;
   if (ARC_LIVE && arcSliders.length) { arcReadout(); return; }
-  $('#arc-note').textContent =
+  /* THE COUNT IN THE NOTE MUST BE READ LATE
+     ----------------------------------------
+     The note quotes ARCPCT.length. This panel is built once before the null
+     space of the ring condition is installed, and on that pass ARCPCT is
+     still null - so a ring-held figure announced eighteen free directions
+     while showing twelve sliders. Written as a function here and called at
+     the foot of the build, once the basis exists. */
+  const arcNoteText = () =>
     'Twelve seed points and eighteen numbers; everything else follows by '
     + '"circle through three points" and "where two circles cross". Nothing is '
     + 'being fitted \u2014 the eighty-eight incidences hold because each one is '
@@ -9129,6 +9174,7 @@ function buildArcPanel() {
     else { ARCSEEDLIM = null; arcSeedLimits(); buildArcPanel();
            note('the seed travel is measured from here'); }
   });
+  setNote($('#arc-note'), arcNoteText());
   arcReadout();
 }
 
