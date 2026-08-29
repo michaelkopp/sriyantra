@@ -260,6 +260,10 @@
   .read{font-size:10.5px;color:var(--dim);margin-top:3px}
   .read b{color:var(--ink);font-weight:600}
   .tip{font-size:10px;color:var(--dim2);margin-top:3px;height:13px;overflow:hidden;white-space:nowrap}
+  /* .tip is a one-line status strip - fixed height, clipped, no wrapping.
+     The panel notes are prose and were wearing it, so every line but the
+     first was cut off and the text could not be read. They wrap. */
+  .note{font-size:10px;color:var(--dim2);margin-top:4px;line-height:1.55;white-space:normal}
   .striphost{margin-top:6px}
   .strip{width:100%;height:34px;display:block}
   .strip .axis{stroke:var(--edge);stroke-width:1}
@@ -422,7 +426,7 @@
 
   <div id="exactbox" class="off">
     <h2>Construction</h2>
-    <div class="tip" id="exact-note"></div>
+    <div class="note" id="exact-note"></div>
     <div class="btns tog" id="exact-toggles" style="margin:10px 0 14px"></div>
     <div id="exact-rows"></div>
     <div class="tip" id="exact-read" style="white-space:pre;line-height:1.5"></div>
@@ -430,7 +434,7 @@
 
   <div id="arcbox" class="off">
     <h2>Construction</h2>
-    <div class="tip" id="arc-note"></div>
+    <div class="note" id="arc-note"></div>
     <div class="btns tog" id="arc-toggles" style="margin:10px 0 14px"></div>
     <div id="arc-rows"></div>
     <div class="tip" id="arc-read" style="white-space:pre;line-height:1.5"></div>
@@ -438,7 +442,7 @@
 
   <div id="innerbox" class="off">
     <h2>Inner triangles</h2>
-    <div class="tip" id="inner-note"></div>
+    <div class="note" id="inner-note"></div>
     <div class="btns tog" id="inner-toggles" style="margin:10px 0 12px"></div>
     <div id="inner-rows"></div>
     <div class="tip" id="inner-read" style="white-space:pre;line-height:1.5"></div>
@@ -500,7 +504,7 @@
     <button id="t-centre">centre</button>
     <button id="t-frame">frame</button>
     <button id="t-petals" title="two rows of lotus petals between the circle and the frame — eight in the inner row, sixteen in the outer, as in the painted figures. Everything outside them moves out to make room">petalled frame</button>
-    <button id="t-rimfill" title="fill the ground between the yantra and the rim — in whatever the palette puts inside the rim, and in the shards’ own colour on Cracks">rim fills</button>
+    <button id="t-rimfill" title="fill the ground between the yantra and the rim — in whatever the palette puts inside the rim">rim fills</button>
     <button class="growdep" id="t-ringfill">ring fills</button>
     <button class="growdep" id="t-diamond" title="fill every grown cell as the whole lens its two sides cut out, rather than stopping at the ring it stands on">diamonds</button>
     <button class="growdep" id="t-diamond2" title="the same, but only for the outer grown ring \u2014 the inner one keeps its cells">outer diamonds</button>
@@ -543,12 +547,14 @@
     construction.</p>
 
     <p class="on-arc"><b>The grown rings.</b> Outside the nine triangles the
-    figure grows two rings of cells. <b class="on-ring1">Ring 1 held</b>
-    <b class="on-ring2">Ring 2 held</b> keeps that ring's tips exactly on a
-    circle, which costs six or seven of the eighteen numbers; the sliders then
-    move only what is left. <b class="on-free">No rings</b> holds neither, so
-    all eighteen are free — it opens on the ring-two figure and lets go from
-    there.</p>
+    figure grows two rings of cells.
+    <span class="on-ring1">Holding ring 1 keeps that ring's tips exactly on a
+    circle. It costs six of the eighteen numbers, leaving twelve for the
+    sliders to move.</span><span class="on-ring2">Holding ring 2 keeps that
+    ring's tips exactly on a circle. It costs seven of the eighteen numbers,
+    leaving eleven for the sliders to move.</span><span class="on-free">Neither
+    ring is held here, so all eighteen numbers are free. The figure opens on
+    the ring-two shape and lets go from there.</span></p>
 
     <p class="on-arc"><b>Principal directions.</b> The eighteen seeds are a
     fine basis and poor dials: moving one moves the picture by an amount that
@@ -5730,9 +5736,8 @@ setCrackW(Math.round(DRAW.crack * 10000), true);
    were chosen for, so there is nothing here to get wrong. */
 function setCount(m, sgn, quiet) {
   COUNTM = 3; COUNTSGN = -1; COUNTSHIFT = 0;
-  $('#counttip').textContent = COUNTSGN < 0
-    ? (COUNTM === 3 ? 'the three colours of blue outward, exactly' : 'up minus down, mod ' + COUNTM)
-    : 'how many triangles cover the cell, mod ' + COUNTM;
+  $('#counttip').textContent =
+    'each region: upward triangles over it minus downward, modulo 3';
   if (!quiet && !running) draw();
 }
 /* the ramp's own colours are written on <body>, where they beat the palette
@@ -8038,21 +8043,30 @@ function buildInnerPanel() {
     note.textContent = STRAIGHT
       ? 'None here. On the straight figure the whole family is four-dimensional '
         + 'before anything is held, and holding the other six triangles leaves '
-        + 'nothing at all — the four parameters are already spoken for. Every arc '
-        + 'figure has five such directions; this one has zero.'
+        + 'nothing at all — the four parameters are already spoken for. Each arc '
+        + 'figure has five such directions; this one has none.'
       : 'None here. This figure already holds both grown rings, and asking for '
         + 'six of the nine triangles on top of that leaves nothing free. Try it '
-        + 'on `Numerical, arcs` or on either arc construction — each of those '
-        + 'has five.';
+        + 'on either arc construction — each of those has five.';
     $('#inner-read').textContent = '';
     return;
   }
+  const NW = ['no','one','two','three','four','five','six','seven','eight','nine'];
+  /* INNER is null until the directions are actually taken, and the panel is
+     built before that happens - so this cannot read INNER.length outright.
+     Five is what all three arc figures give; the live count is used the
+     moment there is one. */
+  const nd = (INNER && INNER.length) || 5, ndw = NW[nd] || nd;
   note.textContent =
-    'Five directions that move t4, t5 and t6 and leave the other six triangles '
-    + 'exactly where they are. Scaled so a full slider moves the worst-placed '
-    + 'node the same distance whichever one you pull. t6 cannot be moved on its '
-    + 'own at all, and two of the five need all three triangles at once — they '
-    + 'do not come apart.';
+    ndw.charAt(0).toUpperCase() + ndw.slice(1)
+    + ' directions that move t4, t5 and t6 and leave the other six of the nine '
+    + 'triangles exactly where they are. These are counted in the '
+    + 'construction\u2019s own parameters, not in the eighteen seed numbers, so '
+    + 'they are not part of the count the Construction section reports \u2014 '
+    + 'the two do not add up to anything. Scaled so a full slider moves the '
+    + 'worst-placed node the same distance whichever one you pull. t6 cannot be '
+    + 'moved on its own at all, and two of the ' + ndw + ' need all three '
+    + 'triangles at once \u2014 they do not come apart.';
   const hb = hel('button', tog, { id: 'inner-hold', title: 'put the other six triangles’ arcs '
                  + 'back after every solver step. Without this the solver is free '
                  + 'to move them and the sliders stop meaning what they say' });
@@ -8155,7 +8169,7 @@ function innerReadout() {
         + 't4, t5, t6     moved  ' + c.moved.toFixed(4) + ' of the radius\n'
         + 'incidences     ' + c.inc.toExponential(1)
         + '   (was ' + INNERINC0.toExponential(1) + ' at the anchor)';
-  if (!INNERON) s += '\n\nthe hold is off — the solver may move all nine';
+  if (!INNERON) s += '\n\nthe hold is off — all nine triangles may move';
   /* two ways this can quietly fail, and both are worth saying out loud */
   if (INNERON && asked && c.moved < 1e-4)
     s += '\n\nnothing is moving: the criteria are holding this figure where it is.\n'
@@ -8198,14 +8212,11 @@ function buildExactPanel() {
     return;
   }
   $('#exact-note').textContent =
-    'Four heights on the vertical diameter, on the unit circle, running 0 to 2 '
-    + 'from the bottom of the circle to the top. Everything else follows with '
-    + 'straightedge and compass, so every setting here is an exact Sri Yantra. '
-    + 'Multiply by 4.5 for the .ggb, which keeps its diameter at 9. '
-    + 'The buttons below are the figures worth stopping at \u2014 hover one for '
-    + 'what it satisfies. Natural is the one where all five of the conditions '
-    + 'the literature uses to single out a Sri Yantra hold at once, to better '
-    + 'than 0.0024 of the radius.';
+    'Four heights on the vertical diameter, 0 at the bottom of the circle and '
+    + '2 at the top. Everything else follows by ruler and compass, so every '
+    + 'setting of these four sliders is an exact Sri Yantra. The buttons at the '
+    + 'top of the panel are figures worth stopping at \u2014 hover one to see '
+    + 'what it satisfies.';
   const tog = $('#exact-toggles');
   tog.textContent = '';
   for (const which in XLINE) {
@@ -8877,11 +8888,10 @@ function buildArcPanel() {
   if (!on) return;
   if (ARC_LIVE && arcSliders.length) { arcReadout(); return; }
   $('#arc-note').textContent =
-    'Twelve seed points, eighteen numbers, and everything else follows by '
-    + '"circle through three points" and "where two circles cross". No solver '
-    + 'runs here: the eighty-eight incidences hold because each one is a step '
-    + 'of the construction. Eighteen is also what the solver\u2019s Jacobian '
-    + 'gives for the free family, counted a completely different way. '
+    'Twelve seed points and eighteen numbers; everything else follows by '
+    + '"circle through three points" and "where two circles cross". Nothing is '
+    + 'being fitted \u2014 the eighty-eight incidences hold because each one is '
+    + 'a step of the construction. '
     + (ARC_PC
        ? ('These are the ' + (ARCPCT ? ARCPCT.length : 18) + ' directions the figure is '
          + 'free to move along'
@@ -9512,7 +9522,7 @@ function buildFigurePresets() {
   }
   for (const k in PRESETS)
     add(PRESET_LABEL[k] || k,
-        k === 'drawn' ? 'every criterion at nought \u2014 the hand drawing, left alone' : null,
+        k === 'drawn' ? 'the figure exactly as it was loaded, left alone' : null,
         () => { applyPreset(PRESETS[k], k === 'drawn');
                 activeName = k; activeSaved = ''; renderSaved(); });
 }
