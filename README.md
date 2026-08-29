@@ -10,7 +10,7 @@ drawn with circular arcs instead of straight lines.
 
 ## What this is
 
-The Śrī Yantra is the union of nine maximal triangles, symmetric about a
+The Śrī Yantra is the union of nine triangles, symmetric about a
 vertical axis, whose sides are required to meet in a large number of
 prescribed coincidences. Drawing one accurately is a genuine problem, and the
 straight-sided case was settled by Chiodo (*C. R. Math. Acad. Sci. Paris*
