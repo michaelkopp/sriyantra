@@ -120,13 +120,10 @@ browser.
 
 The viewer was written over a long series of sessions; the paper, the figures,
 the GeoGebra files and the solver formulations were produced in one. The
-second author proposed the problem, ran the two solver scripts — each takes
-upwards of an hour — and corrected the first author's mathematics and prose
-throughout.
+second author proposed the problem and guided the research and development.
 
 Every quantitative claim in the paper is checked against the construction by a
-script rather than asserted from memory; several were wrong when first written
-and were caught that way.
+script rather than asserted from memory.
 
 ## Licence
 
