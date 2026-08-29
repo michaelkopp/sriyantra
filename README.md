@@ -19,7 +19,7 @@ showed the essential step to be a circle–line–point problem of Apollonius.
 
 This repository treats the figure obtained by replacing each of the
 twenty-seven sides with a circular arc, keeping every incidence, while 
-adding 8 new ones, so that all fourteen outer corners of the sri yantra 
+adding eight new ones, so that all fourteen outer corners of the sri yantra 
 sit on the circumscribed circle. Despite the extra coincidences, the result is
 a much less rigid object:
 
