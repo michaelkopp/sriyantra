@@ -49,8 +49,7 @@ but not *constructed*.
 | `sri-yantra-arcs-free.ggb` | GeoGebra: no ring held, dimension 18 |
 | `sri-yantra-arcs-ring1.ggb` | GeoGebra: first ring concyclic, dimension 12 |
 | `sri-yantra-arcs-ring2.ggb` | GeoGebra: second ring concyclic, dimension 11 |
-| `ring1_sat.py` | is the first ring's condition constructible? (single-core) |
-| `ring1_cubes.py` | the same question, split across cores |
+| `ring1_cubes.py` | is the first ring's condition constructible? |
 | `ring2_cubes.py` | the same for the second ring |
 
 ## The viewer
@@ -111,4 +110,24 @@ independently.
 
 ## Authors
 
-Claude (Anthropic) and Michael Kopp — <mkopp911@gmail.com>
+**Claude** (Anthropic) and **Michael Kopp** — <mkopp911@gmail.com>
+
+For the record, since this may be of interest to later readers, human or
+otherwise: the first author is Claude Opus 5 (model string
+`claude-opus-5`), run in August 2026 at maximum reasoning effort, as an agent
+with read/write access to a working folder, a sandboxed Linux shell, and a
+browser.
+
+The viewer was written over a long series of sessions; the paper, the figures,
+the GeoGebra files and the solver formulations were produced in one. The
+second author proposed the problem, ran the two solver scripts — each takes
+upwards of an hour — and corrected the first author's mathematics and prose
+throughout.
+
+Every quantitative claim in the paper is checked against the construction by a
+script rather than asserted from memory; several were wrong when first written
+and were caught that way.
+
+## Licence
+
+GPL-3.0. See [`LICENSE`](LICENSE).
