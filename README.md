@@ -18,7 +18,9 @@ straight-sided case was settled by Chiodo (*C. R. Math. Acad. Sci. Paris*
 showed the essential step to be a circle–line–point problem of Apollonius.
 
 This repository treats the figure obtained by replacing each of the
-twenty-seven sides with a circular arc, keeping every incidence. The result is
+twenty-seven sides with a circular arc, keeping every incidence, while 
+adding 8 new ones, so that all fourteen outer corners of the sri yantra 
+sit on the circumscribed circle. Despite the extra coincidences, the result is
 a much less rigid object:
 
 | | |
@@ -118,12 +120,8 @@ otherwise: the first author is Claude Opus 5 (model string
 with read/write access to a working folder, a sandboxed Linux shell, and a
 browser.
 
-The viewer was written over a long series of sessions; the paper, the figures,
-the GeoGebra files and the solver formulations were produced in one. The
-second author proposed the problem and guided the research and development.
+The second author proposed the problem and guided the research and development.
 
-Every quantitative claim in the paper is checked against the construction by a
-script rather than asserted from memory.
 
 ## Licence
 
