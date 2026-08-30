@@ -59,7 +59,7 @@ circle. Whether a device of that kind reaches either ring-held figure is open.
 | `sri-yantra-arcs-ring2.ggb` | GeoGebra: second ring concyclic, dimension 11 |
 | `ring1_cubes.py` | can the first ring's condition be built in? |
 | `ring2_cubes.py` | the same for the second ring |
-| `chiodo_cubes.py` | the same question asked of Chiodo's straight figure |
+
 
 ## The viewer
 
