@@ -113,19 +113,6 @@ search is about 3 × 10⁶⁴ orders, so the scripts cut it into disjoint cubes 
 84,211 of them after four steps for the first ring — and refute each
 independently.
 
-`chiodo_cubes.py` asks the same of Chiodo's straight figure, as a calibration
-of what unsatisfiable means here. It also returns **unsatisfiable**, in
-seconds, and it needs no solver:
-
-```
-python3 chiodo_cubes.py --sweep    # the whole proof by exhaustion, ~5 s
-```
-
-The figure's own arithmetic hands it four free parameters — Chiodo's four
-heights — and no ordering gets past 31 of its 57 objects. Since Chiodo does
-construct the figure, this fixes the reading of all three results: they deny
-constructions internal to the figure, and say nothing about constructions that
-reach outside it.
 
 ## Citing
 
