@@ -409,8 +409,8 @@
   <h2>Select Śrī Yantra</h2>
   <select id="figure-select">
     <option value="exact" title="ruler and compass · four parameters · 6 corners on the circle">Straight</option>
-    <option value="arcs" title="ruler and compass · twelve seed points · eighteen parameters · the first grown ring on a circle to machine precision">Arcs — ring 1 held</option>
-    <option value="arcs2" title="the same construction, holding the second grown ring on its circle instead of the first">Arcs — ring 2 held</option>
+    <option value="arcs" title="twelve seed points · twelve free numbers · the first grown ring built onto its circle, not fitted to it">Arcs — ring 1 built</option>
+    <option value="arcs2" title="the same, for the second grown ring: eleven free numbers, its fourteen vertices cut out of the circle they lie on">Arcs — ring 2 built</option>
     <option value="arcsfree" title="the same construction with neither grown ring held on a circle: the exact rimmed yantra on its own. Every seed moves as far as the rim allows, and no slider is refused by a ring. Switch both rings off in View to see it bare">Arcs — no rings held</option>
   </select>
   <!-- the figure's own presets, where you choose the figure -->
@@ -456,6 +456,14 @@
     <div class="btns tog" id="arc-toggles" style="margin:10px 0 14px"></div>
     <div id="arc-rows"></div>
     <div class="tip" id="arc-read" style="white-space:pre;line-height:1.5"></div>
+  </div>
+
+  <div id="rbbox" class="off">
+    <h2>Construction</h2>
+    <details class="note" id="rb-note"><summary></summary><span class="notebody"></span></details>
+    <div class="btns tog" id="rb-toggles" style="margin:10px 0 14px"></div>
+    <div id="rb-rows"></div>
+    <div class="tip" id="rb-read" style="white-space:pre;line-height:1.5"></div>
   </div>
 
   <div id="innerbox" class="off">
@@ -566,28 +574,35 @@
 
     <p class="on-arc"><b>The grown rings.</b> Outside the nine triangles the
     figure grows two rings of cells.
-    <span class="on-ring1">Holding ring 1 keeps that ring's tips exactly on a
-    circle. It costs six of the eighteen numbers, leaving twelve for the
-    sliders to move.</span><span class="on-ring2">Holding ring 2 keeps that
-    ring's tips exactly on a circle. It costs seven of the eighteen numbers,
-    leaving eleven for the sliders to move.</span><span class="on-free">Neither
-    ring is held here, so all eighteen numbers are free. The figure opens on
-    the ring-two shape and lets go from there.</span></p>
+    <span class="on-ring1">Ring 1 is <i>built</i> onto its circle here, not
+    fitted to it: the circle is drawn first, each of the ring's fourteen
+    vertices is cut out of it, and the arcs of the yantra are drawn through
+    them. Twelve numbers are free — eleven seeds and the circle's radius — and
+    one more is solved for, to make a single coincidence hold.</span><span
+    class="on-ring2">Ring 2 is <i>built</i> onto its circle in the same way,
+    with eleven free numbers instead of twelve.</span><span class="on-free">No
+    ring sits on a circle here, so all eighteen seed numbers are free and
+    nothing is solved for at all. The figure opens on the ring-two shape and
+    lets go from there.</span></p>
 
-    <p class="on-arc"><b>Principal directions.</b> The eighteen seeds are a
-    fine basis and poor dials: moving one moves the picture by an amount that
-    has nothing to do with moving another. The principal directions are the
-    same space in an order — each scaled so a full slider moves the
-    worst-placed node the same distance, and each one the figure can actually
-    take, since they are found in the null space of whatever ring is held.</p>
+    <p class="on-arc"><b>Principal directions.</b> The parameters are a fine
+    basis and poor dials: moving one moves the picture by an amount that has
+    nothing to do with moving another. On the built figures the disparity is
+    extreme — sixty steps of "circle through three points" amplify a change in
+    a seed, and the ring's radius moves the innermost triangles four hundred
+    times further than it moves itself. The principal directions are the same
+    space in an order, each scaled so a full slider moves the worst-placed node
+    the same distance as any other.</p>
 
     <p><b>The bindu.</b> The dot at the centre is the point the innermost
     triangle is measured against, not an ornament: on the straight figure one
     of the switches puts it exactly at the centroid.</p>
 
-    <p><b>Note.</b> Every figure here is a construction. There is no solver
-    running and nothing is being fitted — what the sliders move are the
-    numbers the drawing is made from.</p>
+    <p><b>Note.</b> Every figure here is a construction, and nothing is
+    fitted. On the two ring figures one number is solved for, because one
+    coincidence has to be arranged rather than constructed — the same device
+    Chiodo uses on the straight figure. Everything else, including the whole
+    ring, follows from the order of the steps.</p>
 
     <p><b>The paper.</b> The construction is written up in
     <i>The circular-arc Śrī Yantra</i>, which proves that the classical
@@ -8620,6 +8635,547 @@ function arcSeedLabels() {
   return L;
 }
 
+/* ---- THE RING, BUILT RATHER THAN HELD ---------------------------------
+   ring1_cubes.py and ring2_cubes.py showed that no construction of the kind
+   in Section "How it is built" can put a grown ring on a circle: every one of
+   its incidences would have to follow from the order, and none does.
+   Chiodo's construction of the straight figure is not of that kind either. At
+   one point he chooses a parameter so that a coincidence occurs, and makes
+   the choice by an auxiliary construction rather than by solving.
+
+   Allowed one such step, both rings come within reach, and one step is
+   enough. RINGBUILD carries the two orders, compiled: the seeds, the steps,
+   and the single coincidence left to arrange.
+
+     ring 1   the base arc of D1 is the circle centred on the axis through
+              D1's rim corner and U2's apex. It must also pass through the
+              point where D3's right leg, continued, meets the ring circle.
+     ring 2   U2's apex is where D1's base meets the axis. U2's right leg
+              must pass through it.
+
+   Everything else - all 114 incidences, and the concyclicity of all fourteen
+   ring vertices - follows from the order. One number is solved for; the rest
+   are free.                                                              */
+const RINGBUILD = {"ring1":{"R":1.2336067805243813,"seeds":[{"i":1,"kind":"free","x":0.325671002024,"y":-0.0486645285664,"a":null},{"i":0,"kind":"free","x":0.40255896897616716,"y":0.07995186209565727,"a":null},{"i":25,"kind":"free","x":0.455989849604,"y":-0.0310575207951,"a":null},{"i":3,"kind":"axis","x":0,"y":-0.4208528514168048,"a":null},{"i":27,"kind":"axis","x":0,"y":-0.6523609113718601,"a":null},{"i":55,"kind":"pole","x":0,"y":-1,"a":null},{"i":46,"kind":"axis","x":0,"y":0.458346729508,"a":null},{"i":44,"kind":"rim","x":-0.4061343130376837,"y":-0.9138133943937399,"a":-1.989016111660748},{"i":68,"kind":"pole","x":0,"y":1,"a":null},{"i":67,"kind":"axis","x":0,"y":0.908246941832509,"a":null},{"i":65,"kind":"rim","x":0.7968742534609248,"y":-0.6041452012315368,"a":-0.6486927410236439}],"tips":[{"orb":[0,7],"sides":[0,7],"h":[0.8463322499564097,0.8975006471470108]},{"orb":[0,7],"sides":[0,8],"h":[-0.8463322499563914,0.8975006471470108]},{"orb":[1,16],"sides":[1,17],"h":[0.3541252963917868,1.1816856449270774]},{"orb":[1,16],"sides":[2,16],"h":[-0.3541252963917869,1.1816856449270776]},{"orb":[3,15],"sides":[3,15],"h":[1.2333273077414075,-0.02625720700672418]},{"orb":[3,15],"sides":[3,15],"h":[-1.2333273077414073,-0.02625720700672418]},{"orb":[4,6],"sides":[4,6],"h":[1.11891390584475,0.5194394673751809]},{"orb":[4,6],"sides":[5,6],"h":[-1.11891390584475,0.5194394673751811]},{"orb":[4,22],"sides":[4,23],"h":[-0.3258721988646516,-1.1897869552858313]},{"orb":[4,22],"sides":[5,22],"h":[0.32587219886465113,-1.1897869552858313]},{"orb":[16,18],"sides":[17,18],"h":[-1.0989976818491842,-0.5603479135699916]},{"orb":[16,18],"sides":[16,18],"h":[1.0989976818491838,-0.560347913569992]},{"orb":[19,21],"sides":[20,21],"h":[-0.837481344905024,-0.9057652487790283]},{"orb":[19,21],"sides":[19,21],"h":[0.8374813449050453,-0.9057652487790274]}],"steps":[["s3",13,0,1,3],["s3",22,1,64,46],["t",8,23,-0.3258721988646516,-1.1897869552858313],["t",9,22,0.32587219886465113,-1.1897869552858313],["s2",18,27,65],["nx",45,18,23,-0.4341377901190528,-0.6380868897487062],["s3",4,59,55,[8]],["nr",52,5,-0.9860390076985804,0.16651448975028824],["t",10,18,-1.0989976818491842,-0.5603479135699916],["t",11,18,1.0989976818491838,-0.560347913569992],["s2",3,46,52],["t",4,3,1.2333273077414075,-0.02625720700672418],["t",5,3,-1.2333273077414073,-0.02625720700672418],["s2",15,3,[4]],["nx",48,4,15,0.7208237873390602,-0.2948437903487017],["s3",19,48,65,67],["nx",14,3,19,0.3946502086477745,0.4148407789195002],["nx",34,15,22,0.41566284424875966,-0.37979755316217484],["nr",47,15,0.9837805456326438,-0.17937624713082195],["s3",16,47,68,[11]],["t",2,17,0.3541252963917868,1.1816856449270774],["t",3,16,-0.3541252963917869,1.1816856449270776],["nx",57,5,17,-0.9041130350286282,0.0011055614554117826],["nx",32,3,16,0.725627448352,0.306685582764],["t",12,20,-0.837481344905024,-0.9057652487790283],["t",13,19,0.8374813449050453,-0.9057652487790274],["s2",21,44,[12]],["na",36,21,-0.9162877017129598],["s3",7,32,34,36],["nx",33,7,19,0.6127383292945495,0.0010658840105212328],["t",0,7,0.8463322499564097,0.8975006471470108],["t",1,8,-0.8463322499563914,0.8975006471470108],["s2",0,67,[0]],["nr",9,0,-0.4242460313063741,0.9055469645031069],["s3",1,12,14,[2]],["nx",7,2,23,-0.261031859642,0.0936879409509],["s2",12,0,7],["nx",56,5,21,-0.117540728686,-0.916080460435],["t",6,4,1.11891390584475,0.5194394673751809],["t",7,5,-1.11891390584475,0.5194394673751811],["nr",31,7,0.800617104794826,0.599176310871809],["s2",6,31,[6]],["na",61,6,0.6811008497583529],["s3",25,0,25,61],["na",16,1,-0.2196416970284696],["nx",20,7,25,0.522755567868,-0.189230721165],["s2",24,16,20],["nx",21,22,24,0.3776487192756541,-0.2037962070292666],["s3",10,21,25,27],["nx",24,10,19,0.5204110708748471,0.19634116281342834],["nx",15,1,25,0.3264601510301748,0.22064792181206297],["s2",9,15,24],["nx",53,3,25,0.18062161380855327,0.4493206204191347],["nx",2,13,24,0.202169610808,-0.215106292792],["nx",38,6,20,-0.20812835840107724,0.6756180254523059],["nx",10,0,17,-0.137596804234,0.907962937153],["nx",26,10,15,0.2454792833193286,-0.4066244272727091],["nx",29,9,23,-0.18065833798190625,0.23153306942326904],["nx",35,7,18,0.2315165978107828,-0.6483047101808462],["nx",13,1,6,0.43346517478669616,0.6572633684884314]],"fit":{"kind":"n","node":13,"circle":16},"solveIdx":0,"mir":[6,5,4,3,2,1,0,8,7,12,11,10,9,19,18,17,16,15,14,13,23,22,21,20,28,62,49,27,24,30,29,37,43,42,41,40,36,31,39,38,35,34,33,32,64,59,46,51,50,26,48,47,54,63,52,55,60,58,57,45,56,61,25,53,44,66,65,67,68],"smir":[0,2,1,3,5,4,6,8,7,9,11,10,12,14,13,15,17,16,18,20,19,21,23,22,24,26,25]},"ring2":{"R":1.4533633622134141,"seeds":[{"i":0,"kind":"free","x":0.43271054831273176,"y":0.09431479391980747,"a":null},{"i":1,"kind":"free","x":0.353808868089,"y":-0.0557960163148,"a":null},{"i":20,"kind":"free","x":0.557216988564,"y":-0.206909476983,"a":null},{"i":27,"kind":"axis","x":0,"y":-0.7376883062026446,"a":null},{"i":29,"kind":"free","x":-0.20892461747066643,"y":0.2601842882556762,"a":null},{"i":36,"kind":"axis","x":0,"y":-0.9461811945769771,"a":null},{"i":47,"kind":"rim","x":0.9881425793728429,"y":-0.1535390596245291,"a":-0.1541488117130982},{"i":68,"kind":"pole","x":0,"y":1,"a":null},{"i":55,"kind":"pole","x":0,"y":-1,"a":null}],"tips":[{"orb":[0,4],"sides":[0,4],"h":[1.1394740314647713,0.9021441094582932]},{"orb":[0,4],"sides":[0,5],"h":[-1.1394740314647713,0.9021441094582922]},{"orb":[1],"sides":[1,2],"h":[0,1.4533633622221158]},{"orb":[3,18],"sides":[3,18],"h":[1.3962235042277202,-0.4035157851282567]},{"orb":[3,18],"sides":[3,18],"h":[-1.3962235042277207,-0.4035157851282566]},{"orb":[4,19],"sides":[4,20],"h":[-0.7160635053761206,-1.2647205695037762]},{"orb":[4,19],"sides":[5,19],"h":[0.7160635053761206,-1.2647205695037764]},{"orb":[6,15],"sides":[6,15],"h":[1.3967051587413883,0.40184544566078995]},{"orb":[6,15],"sides":[6,15],"h":[-1.3967051587413886,0.40184544566078984]},{"orb":[7,16],"sides":[7,17],"h":[0.7304074160469536,1.2564911735528534]},{"orb":[7,16],"sides":[8,16],"h":[-0.7304074160469535,1.2564911735528534]},{"orb":[16,21],"sides":[17,21],"h":[-1.1294463613906023,-0.9146671412392486]},{"orb":[16,21],"sides":[16,21],"h":[1.1294463613906223,-0.9146671412392464]},{"orb":[22],"sides":[22,23],"h":[0,-1.4533633622478448]}],"steps":[["ta",13,-1.4533633622478448],["s3",22,1,30,[13]],["nr",44,23,-0.3314609174080737,-0.9434689503269296],["s2",21,36,44],["t",11,21,-1.1294463613906023,-0.9146671412392486],["t",12,21,1.1294463613906223,-0.9146671412392464],["s3",16,47,68,[12]],["t",9,17,0.7304074160469536,1.2564911735528534],["t",10,16,-0.7304074160469535,1.2564911735528534],["s3",7,20,36,[9]],["nx",32,7,16,0.735281286155,0.32962569248],["na",46,22,0.519671332585],["s2",3,32,46],["nx",34,7,22,0.4166104831331163,-0.4603723158004749],["nr",31,7,0.7751404394471852,0.631788967245887],["s2",15,34,47],["t",3,3,1.3962235042277202,-0.4035157851282567],["t",4,3,-1.3962235042277207,-0.4035157851282566],["t",7,15,1.3967051587413883,0.40184544566078995],["t",8,15,-1.3967051587413886,0.40184544566078984],["s2",6,31,[7]],["s2",18,27,[3]],["nx",45,18,23,-0.3945529876498614,-0.7123447152109137],["nr",52,3,-0.98809034732324,0.15387483721076342],["s3",4,59,54,55],["na",3,15,-0.5185831526576876],["nx",48,4,15,0.7292799414953426,-0.332196544202395],["t",5,4,-0.7160635053761206,-1.2647205695037762],["t",6,5,0.7160635053761206,-1.2647205695037764],["nr",65,18,0.7679166964008204,-0.6405497228075665],["s3",19,48,65,[6]],["nx",13,6,16,0.41092652587410056,0.7017942609143348],["nx",14,3,19,0.40733787195256077,0.46397588635834275],["na",67,19,0.934868675632344],["s3",13,0,1,3],["t",0,4,1.1394740314647713,0.9021441094582932],["t",1,5,-1.1394740314647713,0.9021441094582922],["s2",0,67,[0]],["nr",9,0,-0.363643250308201,0.9315382904128456],["ta",2,1.4533633622221158],["s3",1,12,13,14],["na",61,6,0.7287358625569401],["s3",25,0,20,61],["nx",15,1,25,0.35517635495839833,0.24153392520708566],["na",16,1,-0.25503903573360764],["s2",9,15,29],["s2",24,16,20],["nx",7,2,23,-0.294341668776,0.100289409112],["nx",21,22,24,0.39623122014127893,-0.23079216261274754],["nx",24,9,19,0.554422739102252,0.19999843291879077],["s3",10,21,24,27],["s2",12,0,7],["nx",2,13,24,0.230582520975,-0.246848061673],["nx",10,0,17,-0.108736428026,0.93457091974],["nx",25,10,25,0.487455868822,-0.0255055795869],["nx",26,10,15,0.2211871793376591,-0.5024029446964909],["nx",33,7,19,0.6404430041172859,-0.008242875850457973],["nx",38,6,20,-0.21296574927504947,0.721522300938653],["nx",53,3,25,0.1815479476398729,0.5087717185075423],["nx",35,7,18,0.21455848482598133,-0.7302154405463895],["nx",56,5,21,-0.0890146580208,-0.945985598466],["nx",57,5,17,-0.9230200127007564,0.0018280803653482058]],"fit":{"kind":"s","circle":1,"point":[2]},"solveIdx":9,"mir":[6,5,4,3,2,1,0,8,7,12,11,10,9,19,18,17,16,15,14,13,23,22,21,20,28,62,49,27,24,30,29,37,43,42,41,40,36,31,39,38,35,34,33,32,64,59,46,51,50,26,48,47,54,63,52,55,60,58,57,45,56,61,25,53,44,66,65,67,68],"smir":[0,2,1,3,5,4,6,8,7,9,11,10,12,14,13,15,17,16,18,20,19,21,23,22,24,26,25]}};
+
+/* the ring circle, as a generalised circle of radius R about the centre */
+const gcRing = R => [1, 0, 0, -R * R];
+
+function ringBuild(rb, vals, R) {
+  const P = new Array(69).fill(null), G = new Array(27).fill(null);
+  const T = new Array(rb.tips.length).fill(null), mir = rb.mir;
+  const put = (i, q) => { P[i] = q; if (mir[i] !== i) P[mir[i]] = [-q[0], q[1]]; };
+  let k = 0;
+  for (const s of rb.seeds) {
+    if (s.kind === 'pole') put(s.i, [s.x, s.y]);
+    else if (s.kind === 'axis') put(s.i, [0, vals[k++]]);
+    else if (s.kind === 'rim') { const a = vals[k++]; put(s.i, [Math.cos(a), Math.sin(a)]); }
+    else put(s.i, [vals[k++], vals[k++]]);
+  }
+  /* a step's point argument: a number is a node, [j] is ring vertex j */
+  const pt = r => (Array.isArray(r) ? T[r[0]] : P[r]);
+  for (const st of rb.steps) {
+    const op = st[0];
+    if (op === 's2' || op === 's3') {
+      const g = op === 's2' ? gcAxis2(pt(st[2]), pt(st[3]))
+                            : gcThrough3(pt(st[2]), pt(st[3]), pt(st[4]));
+      if (!g) return null;
+      G[st[1]] = g;
+      const m = rb.smir[st[1]];
+      if (G[m] == null) G[m] = (m === st[1]) ? g : [g[0], -g[1], g[2], g[3]];
+    } else if (op === 'na') {
+      const q = gcMeet(G[st[2]], GC_AXIS, [0, st[3]]);
+      if (!q) return null;
+      put(st[1], q);
+    } else if (op === 'nr') {
+      const q = gcMeet(G[st[2]], GC_RIM, [st[3], st[4]]);
+      if (!q) return null;
+      put(st[1], q);
+    } else if (op === 'nx') {
+      const q = gcMeet(G[st[2]], G[st[3]], [st[4], st[5]]);
+      if (!q) return null;
+      put(st[1], q);
+    } else if (op === 't') {
+      const q = gcMeet(G[st[2]], gcRing(R), [st[3], st[4]]);
+      if (!q) return null;
+      T[st[1]] = q;
+    } else if (op === 'ta') {
+      T[st[1]] = [0, st[2] > 0 ? R : -R];
+    }
+  }
+  const f = rb.fit;
+  const q = f.kind === 's' ? pt(f.point) : P[f.node];
+  const g = G[f.circle];
+  if (!g || !q) return null;
+  const res = g[0] * (q[0] * q[0] + q[1] * q[1]) + g[1] * q[0] + g[2] * q[1] + g[3];
+  return { P, G, T, res };
+}
+
+/* THE ONE ARRANGED COINCIDENCE, SOLVED
+   The residual is smooth in the parameter but the chain of fifty-odd steps
+   amplifies it by about 1e4, so the bracket has to start small and the
+   solving is done by bisection - Newton would take steps that leave the
+   region where the construction is defined.                              */
+function ringSolve(rb, vals, R, idx, span) {
+  const f = t => {
+    const w = vals.slice(); w[idx] = t;
+    const r = ringBuild(rb, w, R);
+    return r ? r.res : null;
+  };
+  const t0 = vals[idx];
+  /* Sample outward on a geometric ladder rather than shrinking a fixed
+     bracket: when another parameter moves, the root can move much further
+     than the starting span, and the region where the construction is
+     defined can end before it. The ladder finds a sign change between
+     consecutive DEFINED samples, wherever it is.                        */
+  const lad = [0];
+  for (let d = 1e-9; d <= (span || 0.5); d *= 1.6) lad.push(d, -d);
+  lad.sort((p, q) => p - q);
+  const xs = [], ys = [];
+  for (const d of lad) {
+    const y = f(t0 + d);
+    if (y != null) { xs.push(t0 + d); ys.push(y); }
+  }
+  let a = null, b = null, fa = 0, fb = 0;
+  for (let i = 1; i < xs.length; i++) {
+    if (ys[i - 1] === 0) return xs[i - 1];
+    if (ys[i - 1] * ys[i] < 0) {
+      /* nearest bracket to the starting point wins */
+      if (a === null || Math.abs(xs[i] - t0) < Math.abs(b - t0)) {
+        a = xs[i - 1]; b = xs[i]; fa = ys[i - 1]; fb = ys[i];
+      }
+    }
+  }
+  if (a === null) return null;
+  for (let i = 0; i < 200; i++) {
+    const m = (a + b) / 2, fm = f(m);
+    if (fm == null) break;
+    if (fa * fm <= 0) { b = m; fb = fm; } else { a = m; fa = fm; }
+  }
+  return (a + b) / 2;
+}
+
+/* the free parameters of the built figure: every seed number except the one
+   the coincidence is solved for, and the ring's radius */
+function ringBuildFree(rb) {
+  const L = [];
+  let k = 0;
+  for (const s of rb.seeds) {
+    if (s.kind === 'pole') continue;
+    if (s.kind === 'free') { L.push(['P' + s.i + ' x', k++], ['P' + s.i + ' y', k++]); }
+    else if (s.kind === 'rim') L.push(['P' + s.i + ' angle', k++]);
+    else L.push(['P' + s.i + ' height', k++]);
+  }
+  return L.filter(e => e[1] !== rb.solveIdx);
+}
+
+function ringBuildSeeds(rb) {
+  const v = [];
+  for (const s of rb.seeds) {
+    if (s.kind === 'free') v.push(s.x, s.y);
+    else if (s.kind === 'rim') v.push(s.a);
+    else if (s.kind === 'axis') v.push(s.y);
+  }
+  return v;
+}
+
+/* Hand the built figure to the rest of the viewer. The drawing, the
+   palettes, the rings and the exports all work from the eighteen seed
+   numbers of the recipe in "How it is built", so the built nodes are read
+   back into those and nothing downstream needs to know.                  */
+function ringBuildToArcSeed(P) {
+  const v = [];
+  for (const s of ARCREC.seeds) {
+    const q = P[s.i];
+    if (!q) return null;
+    if (s.kind === 'free') v.push(q[0], q[1]);
+    else if (s.kind === 'rim') v.push(Math.atan2(q[1], q[0]));
+    else if (s.kind === 'axis') v.push(q[1]);
+  }
+  return v;
+}
+
+/* ---- THE CONSTRUCTION PANEL FOR THE TWO RING FIGURES -------------------
+   On these two the figure is BUILT, not held. There is no eighteen-seed
+   basis here and no fit: the ring is on its circle because the steps put it
+   there, and the only thing solved for is the one arranged coincidence.  */
+let RB_VALS = null, RB_R = 0, RB_LIM = null, RB_KEY = '';
+let RB_PC = null, RB_PCT = null, RB_INPC = true;
+
+/* only the two ring-held figures: `arcsfree` also carries DATASET.ring, but
+   nothing is being built there */
+function rbKeyOf(ds) {
+  for (const k in DATASETS) if (DATASETS[k] === ds) return k;
+  return '';
+}
+function rbWhichKey() {
+  const k = rbKeyOf(DATASET);
+  return k === 'arcs' ? 'ring1' : k === 'arcs2' ? 'ring2' : '';
+}
+
+/* the free parameters: every seed number except the one the coincidence
+   determines, and the ring's radius last */
+function rbFreeIdx(rb) {
+  const L = [];
+  for (let i = 0; i < ringBuildSeeds(rb).length; i++) if (i !== rb.solveIdx) L.push(i);
+  L.push('R');
+  return L;
+}
+
+function rbLabels(rb) {
+  const L = [];
+  let k = 0;
+  for (const s of rb.seeds) {
+    if (s.kind === 'pole') continue;
+    if (s.kind === 'free') { L[k++] = 'P' + s.i + ' x'; L[k++] = 'P' + s.i + ' y'; }
+    else if (s.kind === 'rim') L[k++] = 'P' + s.i + ' angle on the rim';
+    else L[k++] = 'P' + s.i + ' height on the axis';
+  }
+  return L;
+}
+
+function rbReset(which) {
+  const rb = RINGBUILD[which];
+  if (!rb) return false;
+  RB_KEY = which;
+  RB_VALS = ringBuildSeeds(rb);
+  RB_R = rb.R;
+  RB_LIM = null;
+  RB_PC = null;
+  RB_PCT = null;
+  const t = ringSolve(rb, RB_VALS, RB_R, rb.solveIdx);
+  if (t === null) return false;
+  RB_VALS[rb.solveIdx] = t;
+  return true;
+}
+
+/* solve the coincidence again and hand the figure to the rest of the viewer */
+function rbApply() {
+  const rb = RINGBUILD[RB_KEY];
+  const t = ringSolve(rb, RB_VALS, RB_R, rb.solveIdx);
+  if (t === null) return false;
+  const w = RB_VALS.slice();
+  w[rb.solveIdx] = t;
+  const b = ringBuild(rb, w, RB_R);
+  if (!b) return false;
+  const s18 = ringBuildToArcSeed(b.P);
+  if (!s18 || !arcConstruct(s18)) return false;
+  RB_VALS = w;
+  arcApply(s18, false);
+  return true;
+}
+
+/* set the free parameters from a vector, solve, and apply */
+function rbSetFree(vals, R) {
+  const keepV = RB_VALS.slice(), keepR = RB_R;
+  const rb = RINGBUILD[RB_KEY], F = rbFreeIdx(rb);
+  for (let i = 0; i < F.length; i++) {
+    if (F[i] === 'R') RB_R = vals[i];
+    else RB_VALS[F[i]] = vals[i];
+  }
+  if (rbApply()) return true;
+  RB_VALS = keepV; RB_R = keepR;
+  return false;
+}
+
+function rbGetFree() {
+  const rb = RINGBUILD[RB_KEY];
+  return rbFreeIdx(rb).map(i => (i === 'R' ? RB_R : RB_VALS[i]));
+}
+
+/* PRINCIPAL DIRECTIONS OF THE BUILT FIGURE
+   ----------------------------------------
+   The seed coordinates are a poor basis here. A chain of sixty steps moves
+   the figure by wildly different amounts depending on which number is
+   pushed - on the first ring the widest slider reaches thirty times further
+   than the narrowest, and the radius moves the late-built inner nodes four
+   hundred times more than it moves itself. Diagonalising what each
+   parameter does to the figure replaces that with directions ordered by how
+   much of the figure each moves, and scaled so a full slider travels the
+   same distance whichever one is pulled.                                 */
+function rbAnchorPC() {
+  const rb = RINGBUILD[RB_KEY], F = rbFreeIdx(rb), f = F.length, m = 2 * 69;
+  const v0 = rbGetFree();
+  const base = ringBuild(rb, RB_VALS, RB_R);
+  if (!base) return false;
+  const X0 = new Float64Array(m);
+  for (let i = 0; i < 69; i++) { X0[2 * i] = base.P[i][0]; X0[2 * i + 1] = base.P[i][1]; }
+  const MB = [];
+  for (let k = 0; k < f; k++) {
+    const h = 1e-6 * Math.max(0.05, Math.abs(v0[k]));
+    const col = new Float64Array(m);
+    const at = d => {
+      const w = RB_VALS.slice();
+      let R = RB_R;
+      if (F[k] === 'R') R += d; else w[F[k]] += d;
+      const t = ringSolve(rb, w, R, rb.solveIdx);
+      if (t === null) return null;
+      w[rb.solveIdx] = t;
+      return ringBuild(rb, w, R);
+    };
+    const a = at(h), b = at(-h);
+    if (a && b) for (let i = 0; i < 69; i++) {
+      col[2 * i] = (a.P[i][0] - b.P[i][0]) / (2 * h);
+      col[2 * i + 1] = (a.P[i][1] - b.P[i][1]) / (2 * h);
+    }
+    MB.push(col);
+  }
+  const G = [];
+  for (let i = 0; i < f; i++) {
+    const r = new Float64Array(f);
+    for (let j = 0; j < f; j++) {
+      let s = 0;
+      for (let q = 0; q < m; q++) s += MB[i][q] * MB[j][q];
+      r[j] = s;
+    }
+    G.push(r);
+  }
+  const ev = symEigen(G, f);
+  RB_PC = { v0, X0, V: [], s: [], f };
+  for (const e of ev) {
+    const wv = new Float64Array(m), sv = new Array(f).fill(0);
+    for (let i = 0; i < f; i++) {
+      const c = e.vec[i];
+      if (!c) continue;
+      for (let q = 0; q < m; q++) wv[q] += c * MB[i][q];
+      sv[i] += c;
+    }
+    let worst = 0;
+    for (let i = 0; i < 69; i++) worst = Math.max(worst, Math.hypot(wv[2 * i], wv[2 * i + 1]));
+    RB_PC.V.push(sv);
+    RB_PC.s.push(MODE_REACH / (worst || 1));
+  }
+  RB_PCT = new Array(f).fill(0);
+  RB_LIM = null;
+  return true;
+}
+
+function rbFromPC(t) {
+  const f = RB_PC.f, out = RB_PC.v0.slice();
+  for (let k = 0; k < f; k++) {
+    const a = t[k] * RB_PC.s[k];
+    if (!a) continue;
+    for (let i = 0; i < f; i++) out[i] += a * RB_PC.V[k][i];
+  }
+  return out;
+}
+
+/* HOW FAR EACH SLIDER GOES
+   Measured, not guessed: push outward until the coincidence has no root or
+   a step stops being defined. The two orders carried here were chosen out
+   of two hundred for making these as long as possible.                  */
+function rbLimits() {
+  if (RB_LIM) return RB_LIM;
+  const rb = RINGBUILD[RB_KEY];
+  const probe = [0.5, 0.2, 0.1, 0.05, 0.02, 8e-3, 3e-3, 1e-3, 3e-4, 1e-4, 3e-5, 1e-5];
+  const n = RB_INPC ? RB_PC.f : rbFreeIdx(rb).length;
+  const keepV = RB_VALS.slice(), keepR = RB_R, keepT = RB_PCT ? RB_PCT.slice() : null;
+  /* A SLIDER MAY ONLY GO AS FAR AS THE PICTURE STAYS TRUE
+     -----------------------------------------------------
+     The construction is exact wherever it is defined, but the ring the
+     VIEWER grows is found by its own rule, and the two can part company.
+     On the second ring the two vertices that sit on the axis are each the
+     crossing of a leg with its own mirror image, and a mirror pair crosses
+     the axis twice: the construction pins the outer crossing, and far
+     enough from the start the growth takes the inner one instead. The
+     built ring is still round to 1e-16 there; the drawn one is not, and it
+     is the drawn one you can see. So each slider is stopped where the two
+     still agree.                                                        */
+  const ok = (i, d) => {
+    let vals;
+    if (RB_INPC) { const t = keepT.slice(); t[i] += d; vals = rbFromPC(t); }
+    else { vals = rbGetFree(); vals[i] += d; }
+    const w = keepV.slice();
+    let R = keepR;
+    const F = rbFreeIdx(rb);
+    for (let k = 0; k < F.length; k++) { if (F[k] === 'R') R = vals[k]; else w[F[k]] = vals[k]; }
+    const t2 = ringSolve(rb, w, R, rb.solveIdx);
+    if (t2 === null) return false;
+    w[rb.solveIdx] = t2;
+    const b = ringBuild(rb, w, R);
+    if (!b) return false;
+    return rbDrawnAgrees(b, w, R);
+  };
+  RB_LIM = [];
+  for (let i = 0; i < n; i++) {
+    const lim = [0, 0];
+    for (const sgn of [1, -1]) {
+      for (const d of probe) {
+        if (ok(i, sgn * d)) { lim[sgn > 0 ? 1 : 0] = sgn * d; break; }
+      }
+    }
+    RB_LIM.push(lim);
+  }
+  return RB_LIM;
+}
+
+/* does the ring the viewer grows match the one the construction built? */
+function rbDrawnAgrees(b, w, R) {
+  const s18 = ringBuildToArcSeed(b.P);
+  if (!s18) return false;
+  const c = arcConstruct(s18);
+  if (!c) return false;
+  const keep = ARCSEED;
+  ARCSEED = s18;
+  let bad = false;
+  try {
+    if (!arcPush(c)) bad = true;
+    else {
+      const L = drawLayers(), r = (L && L[RING_N - 1]) ? L[RING_N - 1] : [];
+      if (r.length !== b.T.length) bad = true;
+      else for (const g of r) {
+        let d = Infinity;
+        for (const q of b.T) d = Math.min(d, Math.hypot(g.tip[0] - q[0], g.tip[1] - q[1]));
+        if (d > 1e-7) { bad = true; break; }
+      }
+    }
+  } catch (e) { bad = true; }
+  ARCSEED = keep;
+  const back = arcConstruct(ARCSEED);
+  if (back) arcPush(back);
+  return !bad;
+}
+
+function buildRBPanel() {
+  const box = $('#rbbox');
+  const which = rbWhichKey();
+  const on = !!(which && RINGBUILD[which]);
+  box.classList.toggle('off', !on);
+  if (!on) {                       /* leave nothing behind on the other figures */
+    $('#rb-rows').textContent = '';
+    $('#rb-toggles').textContent = '';
+    $('#rb-read').textContent = '';
+    return;
+  }
+  const rb = RINGBUILD[which];
+  if (RB_KEY !== which || !RB_VALS) {
+    if (!rbReset(which)) { setNote($('#rb-note'), 'the construction does not solve here'); return; }
+    rbApply();
+  }
+  if (RB_INPC && !RB_PC) rbAnchorPC();
+
+  setNote($('#rb-note'),
+    'Twelve seed points and ' + (rbFreeIdx(rb).length) + ' free numbers; everything '
+    + 'else follows by "circle through three points", "where two circles cross" '
+    + 'and "where a circle meets the ring". Nothing is fitted. The ring is on '
+    + 'its circle because the steps put it there: each of its fourteen vertices '
+    + 'is cut out of that circle, and the arcs are drawn through them. '
+    + 'One coincidence has to be arranged rather than constructed, which is the '
+    + 'device Chiodo uses on the straight figure — '
+    + (RING_N === 1
+       ? 'here the crossing of D1’s right leg with D3’s base is asked to fall on '
+         + 'U1’s right leg as well, three arcs through one point where two of '
+         + 'them fix it, and it is the last of the sixty steps.'
+       : 'here D1’s right leg is drawn through three of its own nodes and asked '
+         + 'to pass through a vertex of the ring as well.')
+    + ' One number is solved for so that it holds; the rest are free, and every '
+    + 'incidence of the figure follows from the order of the steps. '
+    + (RB_INPC
+       ? 'These are the principal directions: an orthogonal basis of what the '
+         + 'construction can do, ordered by how much of the figure each moves and '
+         + 'scaled so a full slider travels the same distance whichever one you pull.'
+       : 'These are the parameters themselves — the seed coordinates and the '
+         + 'ring’s radius. They are not equally scaled; the principal directions are.'));
+
+  const tog = $('#rb-toggles');
+  tog.textContent = '';
+  const bb = hel('button', tog, { title: 'the parameters themselves, or the principal '
+                 + 'directions of the construction' });
+  bb.textContent = 'principal components';
+  bb.classList.toggle('on', RB_INPC);
+  bb.addEventListener('click', () => {
+    RB_INPC = !RB_INPC;
+    RB_LIM = null;
+    if (RB_INPC && !rbAnchorPC()) { RB_INPC = false; note('could not take the directions here'); }
+    buildRBPanel();
+  });
+  const rows = $('#rb-rows');
+  rows.textContent = '';
+  const lim = rbLimits();
+  const labels = rbLabels(rb);
+  const F = rbFreeIdx(rb);
+
+  const mk = (label, get, set, lo, hi, title) => {
+    const row = hel('div', rows, { class: 'crit' });
+    const head = hel('div', row, { class: 'crow' });
+    hel('label', head, { title: title || '' }).textContent = label;
+    const val = hel('span', head, { class: 'wval' });
+    val.textContent = get().toFixed(6);
+    const sl = hel('input', row, { type: 'range', min: lo, max: hi, step: (hi - lo) / 2000 });
+    sl.value = get();
+    sl.addEventListener('input', () => {
+      const keep = get();
+      if (!set(+sl.value)) { sl.value = keep; return; }
+      val.textContent = get().toFixed(6);
+      $('#rb-read').textContent = rbReadout();
+      draw();
+    });
+  };
+
+  if (RB_INPC) {
+    const top = RB_PC.s[0] ? 1 : 1;
+    for (let k = 0; k < RB_PC.f; k++) {
+      if (!lim[k][0] && !lim[k][1]) continue;
+      const pct = 100 * (RB_PC.s[0] ? RB_PC.s[0] / RB_PC.s[k] : 1);
+      mk('direction ' + (k + 1) + ' — ' + pct.toFixed(1) + '% of the first',
+         () => RB_PCT[k],
+         v => { const t = RB_PCT.slice(); t[k] = v;
+                if (!rbSetFree(rbFromPC(t), null)) return false;
+                RB_PCT = t; return true; },
+         RB_PCT[k] + lim[k][0], RB_PCT[k] + lim[k][1],
+         'an orthogonal direction of the construction, scaled so a full slider '
+         + 'moves the worst-placed node the same distance as any other');
+    }
+  } else {
+    for (let i = 0; i < F.length; i++) {
+      if (!lim[i][0] && !lim[i][1]) continue;
+      const nm = F[i] === 'R' ? 'the ring’s radius' : labels[F[i]];
+      const cur = () => (F[i] === 'R' ? RB_R : RB_VALS[F[i]]);
+      mk(nm, cur,
+         v => { const w = rbGetFree(); w[i] = v; return rbSetFree(w, null); },
+         cur() + lim[i][0], cur() + lim[i][1],
+         F[i] === 'R' ? 'the circle the ring is built onto — it is drawn first, so '
+                      + 'its radius is an input to the construction'
+                      : 'a free parameter of the construction');
+    }
+    const sr = hel('div', rows, { class: 'crit' });
+    const sh = hel('div', sr, { class: 'crow' });
+    hel('label', sh, { title: 'not free: this is what the arranged coincidence '
+                       + 'determines' }).textContent = labels[rb.solveIdx] + ' — solved';
+    hel('span', sh, { class: 'wval' }).textContent = RB_VALS[rb.solveIdx].toFixed(9);
+  }
+
+  const btns = hel('div', rows, { class: 'btns' });
+  const ab = hel('button', btns, { title: 'take the principal directions afresh at the '
+                 + 'figure on screen, and set every coordinate back to zero' });
+  ab.textContent = 're-anchor here';
+  ab.addEventListener('click', () => {
+    if (RB_INPC) { if (rbAnchorPC()) buildRBPanel(); }
+    else { RB_LIM = null; buildRBPanel(); }
+  });
+  const rst = hel('button', btns, {});
+  rst.textContent = 'back to the start';
+  rst.addEventListener('click', () => {
+    rbReset(RB_KEY); rbApply();
+    if (RB_INPC) rbAnchorPC();
+    buildRBPanel(); draw();
+  });
+  $('#rb-read').textContent = rbReadout();
+}
+
+function rbReadout() {
+  const rb = RINGBUILD[RB_KEY];
+  const b = ringBuild(rb, RB_VALS, RB_R);
+  if (!b) return 'the construction is not defined here';
+  const rad = b.T.map(q => Math.hypot(q[0], q[1]));
+  const mean = rad.reduce((a, c) => a + c, 0) / rad.length;
+  return 'arranged coincidence  ' + b.res.toExponential(2)
+    + '\nring ' + RING_N + ': ' + rad.length + ' vertices, radius ' + mean.toFixed(12)
+    + '\n   spread  '
+    + ((Math.max.apply(null, rad) - Math.min.apply(null, rad)) / mean).toExponential(2)
+    + ' of it, by construction';
+}
+
 function arcConstruct(vals) {
   const P = new Array(69).fill(null), G = new Array(27).fill(null);
   const put = (i, q) => { P[i] = q; const m = ARCREC.mir[i]; if (m !== i) P[m] = [-q[0], q[1]]; };
@@ -8932,9 +9488,16 @@ function buildArcPanel() {
   /* gated on the figure's NAME, so the second arc construction came up with
      no panel at all - no sliders, no basis toggle, no fit button - while its
      geometry was perfectly fine. It belongs to any arc construction.     */
-  const on = !!(DATASET && DATASET.construct === 'arc');
+  /* THE FITTED BASIS IS GONE FROM THE RING FIGURES
+     -----------------------------------------------
+     On `arcs` and `arcs2` the ring used to be held: the eighteen seeds were
+     free and the concyclicity was reached by solving. It is built now, so
+     that basis would let a slider undo what the construction just made
+     exact. The panel below replaces it - one driver, and it is the one
+     that keeps the ring on its circle.                                  */
+  const on = !!(DATASET && DATASET.construct === 'arc' && !rbWhichKey());
   box.classList.toggle('off', !on);
-  if (!on) return;
+  if (!on) { buildRBPanel(); return; }
   if (ARC_LIVE && arcSliders.length) { arcReadout(); return; }
   /* THE COUNT IN THE NOTE MUST BE READ LATE
      ----------------------------------------
@@ -9176,6 +9739,7 @@ function buildArcPanel() {
   });
   setNote($('#arc-note'), arcNoteText());
   arcReadout();
+  buildRBPanel();
 }
 
 function arcReadout() {
