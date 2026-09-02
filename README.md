@@ -47,8 +47,8 @@ crossing of two circles. That is also the character of Chiodo's construction
 of the straight figure, whose one such step is the Apollonius problem. Whether
 the arc figures' one coincidence can likewise be arranged with straightedge
 and compass is left open; the paper locates the question — the coincidence
-can sit at only eleven objects, and at two of them it is three compass strokes
-from being drawn — and reports what has been tried.
+can sit at only eleven objects, and at three of them it is three compass
+strokes from being drawn — and reports what has been tried.
 
 ## Contents
 
