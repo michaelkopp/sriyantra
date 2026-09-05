@@ -128,7 +128,11 @@
     --x-f-lc0:#cdbfe0;--x-f-lc1:#bcd4e8;--x-f-lc2:#bfe0c3;
     --x-f-lc3:#fbe9b6;--x-f-lc4:#f7d4a8;--x-f-lc5:#eeb6ae;
     --x-f-grow:#d9602a;--x-f-grow2:#c8342a;
-    --x-f-grow-lt:#f2c5ab;--x-f-grow2-lt:#eeb6ae}
+    --x-f-grow-lt:#f2c5ab;--x-f-grow2-lt:#eeb6ae;
+    /* the petals carry the ramp one step further round than the ring they
+       stand on, so the yantra's outer band and the first row of petals do
+       not meet in the same orange */
+    --x-f-petal:#c8342a;--x-f-petal2:#9e2a26}
   /* AUM RINGS: two ramps rather than one
      ------------------------------------
      Same scheme and structure as `Rainbow, warmer`, but where that runs one
@@ -179,14 +183,14 @@
      region meets its neighbour rather than butting against it.          */
   body.pal-aumrings{--bg:#ffffcc;--ink:#b0691f;--gold:#d47a20;--dim:#c0a870;
     --x-bg:#ffffcc;--x-ink:#b0691f;
-    --x-f-c0:#efd49f;--x-f-c1:#ebc68a;--x-f-c2:#e7b776;
-    --x-f-c3:#e2a663;--x-f-c4:#dd934f;--x-f-c5:#d77f3c;
-    --x-f-lc0:#ffffff;--x-f-lc1:#ffffce;--x-f-lc2:#ffff9d;
-    --x-f-lc3:#feff6b;--x-f-lc4:#feff53;--x-f-lc5:#feff3a;
-    --x-f-grow:#dd934f;--x-f-grow2:#d77f3c;
+    --x-f-c0:#efd49f;--x-f-c1:#eec687;--x-f-c2:#edb66f;
+    --x-f-c3:#eca558;--x-f-c4:#eb9241;--x-f-c5:#e97e2a;
+    --x-f-lc0:#ffffff;--x-f-lc1:#ffffea;--x-f-lc2:#ffffcd;
+    --x-f-lc3:#ffffac;--x-f-lc4:#feff8b;--x-f-lc5:#feff61;
+    --x-f-grow:#eb9241;--x-f-grow2:#e97e2a;
     --x-f-grow-lt:#f8f2d8;--x-f-grow2-lt:#f4ecc4;
     /* the frame in the oranges, not in the glow's yellow */
-    --x-frame-a:#d77f3c;--x-frame-b:#eab97a}body.pal-rainbow2 .tri,body.pal-aumrings .tri{stroke:var(--x-ink);stroke-width:.8}body.pal-rainbow2 .frame,
+    --x-frame-a:#e97e2a;--x-frame-b:#f4bc71}body.pal-rainbow2 .tri,body.pal-aumrings .tri{stroke:var(--x-ink);stroke-width:.8}body.pal-rainbow2 .frame,
   body.pal-aumrings .frame{stroke-linejoin:miter;stroke-linecap:butt}
   body.pal-count{--bg:#8ecbf5;--ink:#2e4a5e;--gold:#ffffff;--dim:#4a6d85;
     --x-bg:#8ecbf5;--x-ink:#3b5468}
@@ -241,7 +245,7 @@
   #lensbox{margin-top:12px}
   #lensbox.off,#countbox.off,#crackbox.off,#criteria.off,#crit-head.off,#rampbox.off,
   .gone{display:none!important}
-  #exactbox.off,#arcbox.off,#innerbox.off,#presetbox.off,#solverbox.off,
+  #exactbox.off,#arcbox.off,#rbbox.off,#innerbox.off,#presetbox.off,#solverbox.off,
   /* THIS LIST IS THE WHOLE RULE, SO A NEW BOX MUST JOIN IT
      ------------------------------------------------------
      `off` is not a general-purpose hide: it does nothing at all unless the
@@ -385,7 +389,19 @@
      body, and each paragraph says which figures it belongs to */
   .on-straight,.on-arc,.on-ring1,.on-ring2,.on-free{display:none}
   body.fig-exact .on-straight{display:block}
+  /* `on-arc` is the NINE-triangle text - twelve seeds, eighteen numbers, the
+     two grown rings, one number solved for. None of that is true of `Arcs
+     extended 2` and `3`, which carry eleven triangles, grow no ring, and
+     solve nothing, so they take `on-arcx` instead and are left out here.
+     `on-both` is what genuinely applies to all five arc figures. */
   body.fig-arcs .on-arc,body.fig-arcs2 .on-arc,body.fig-arcsfree .on-arc{display:block}
+  .on-arcx,.on-arcx2,.on-arcx3,.on-nine,.on-both{display:none}
+  body.fig-arcx2 .on-arcx,body.fig-arcx3 .on-arcx{display:block}
+  body.fig-arcx2 .on-arcx2,body.fig-arcx3 .on-arcx3{display:inline}
+  body.fig-arcs .on-both,body.fig-arcs2 .on-both,body.fig-arcsfree .on-both,
+  body.fig-arcx2 .on-both,body.fig-arcx3 .on-both{display:block}
+  body.fig-exact .on-nine,body.fig-arcs .on-nine,body.fig-arcs2 .on-nine,
+  body.fig-arcsfree .on-nine{display:block}
   body.fig-arcs .on-ring1,body.fig-arcs2 .on-ring2,body.fig-arcsfree .on-free{display:inline}
   /* Lines: the frame, its circles and the rim are the same stroke as the
      triangles - one line style for the whole drawing */
@@ -412,6 +428,8 @@
     <option value="arcs" title="twelve seed points · twelve free numbers · the first grown ring built onto its circle, not fitted to it">Arcs — ring 1 built</option>
     <option value="arcs2" title="the same, for the second grown ring: eleven free numbers, its fourteen vertices cut out of the circle they lie on">Arcs — ring 2 built</option>
     <option value="arcsfree" title="the same construction with neither grown ring held on a circle: the exact rimmed yantra on its own. Every seed moves as far as the rim allows, and no slider is refused by a ring. Switch both rings off in View to see it bare">Arcs — no rings held</option>
+    <option value="arcx2" title="eleven triangles instead of nine. The four largest bases change owner and carry their legs out to the rim, so four large triangles interleave and cut a ring of ten cells outside the caturdasara. Twenty-two free numbers, every step a circle through points or a crossing of two — nothing held and nothing corrected">Arcs extended 2</option>
+    <option value="arcx3" title="the same, one level further in: U3 and D1 are carried out to the rim as well, so each of the two corners splits in two and the ring has fourteen cells. Twenty free numbers, and again a construction throughout">Arcs extended 3</option>
   </select>
   <!-- the figure's own presets, where you choose the figure -->
   <div class="btns" id="figpresets" style="margin-top:10px"></div>
@@ -585,26 +603,68 @@
     nothing is solved for at all. The figure opens on the ring-two shape and
     lets go from there.</span></p>
 
-    <p class="on-arc"><b>Principal directions.</b> The parameters are a fine
+    <p class="on-arcx"><b>Thirteen corners, <span class="on-arcx2">twenty-two</span><span
+    class="on-arcx3">twenty</span> numbers.</b> These two are not the
+    nine-triangle figure. The outermost side on each hand is carried out until
+    it closes into a triangle of its own, so there are eleven — six pointing
+    down and five up — and in exchange the fourteen corners the other arc
+    figures hold on the circle are released. Thirteen of the figure’s own
+    corners are placed <span class="on-arcx2">— nine free in the plane, three
+    on the axis, one on the rim —</span><span class="on-arcx3">— seven free
+    in the plane, four on the axis, two on the rim —</span> and the other
+    <span class="on-arcx2">fifty-two</span><span class="on-arcx3">fifty-four</span>
+    objects follow from them.</p>
+
+    <p class="on-arcx"><b>The ring.</b> What the two new sides cut out of the
+    rim is a ring of <span class="on-arcx2">ten</span><span
+    class="on-arcx3">fourteen</span> cells, and its
+    <span class="on-arcx2">ten</span><span class="on-arcx3">fourteen</span>
+    outer nodes are on the circle exactly. It is not a grown ring and these
+    figures grow none: it is the ring the eleven triangles cut. That is why
+    they wear the lotus and offer no ring switches.</p>
+
+    <p class="on-arcx"><b>Nothing is arranged.</b> The order these two are
+    replayed from produces every node and every curve from the ones before it,
+    so each step is a circle through points or the crossing of two circles and
+    nothing at all is solved at run time — there is no coincidence to
+    arrange here, and no number that has to be found for one. Move any slider
+    and every incidence holds, the ring’s outer nodes on the rim included.
+    They give out sooner than the other three in exchange: because each corner
+    is determined by the ones before it, a single corner moved on its own runs
+    out of room much earlier than a combination does, which is what the
+    principal directions are for.</p>
+
+    <p class="on-both"><b>Principal directions.</b> The parameters are a fine
     basis and poor dials: moving one moves the picture by an amount that has
     nothing to do with moving another. On the built figures the disparity is
     extreme — sixty steps of "circle through three points" amplify a change in
-    a seed, and the ring's radius moves the innermost triangles four hundred
-    times further than it moves itself. The principal directions are the same
-    space in an order, each scaled so a full slider moves the worst-placed node
-    the same distance as any other.</p>
+    a seed<span class="on-arc">, and the ring's radius moves the innermost
+    triangles four hundred times further than it moves itself</span>. The
+    principal directions are the same space in an order, each scaled so a full
+    slider moves the worst-placed node the same distance as any other.</p>
 
     <p><b>The bindu.</b> The dot at the centre is the point the innermost
     triangle is measured against, not an ornament: on the straight figure one
     of the switches puts it exactly at the centroid.</p>
 
-    <p><b>Note.</b> Every figure here is a construction, and nothing is
-    fitted. On the two ring figures one number is solved for, because one
-    coincidence has to be arranged rather than constructed — the same device
-    Chiodo uses on the straight figure. Everything else, including the whole
-    ring, follows from the order of the steps.</p>
+    <p class="on-nine"><b>Note.</b> Every figure here is a construction, and
+    nothing is fitted. On the two ring figures one number is solved for,
+    because one coincidence has to be arranged rather than constructed — the
+    same device Chiodo uses on the straight figure. Everything else, including
+    the whole ring, follows from the order of the steps.</p>
 
-    <p><b>The paper.</b> The construction is written up in
+    <p class="on-straight"><b>The paper.</b> The straight construction is
+    Chiodo’s: A. Chiodo, <i>On the construction of the Śrī Yantra</i>,
+    C. R. Math. Acad. Sci. Paris <b>359</b> (2021), no. 4, 377–397
+    (<a href="https://doi.org/10.5802/crmath.163" target="_blank"
+        rel="noopener">doi:10.5802/crmath.163</a>). He proves that the
+    conditions can be met exactly and shows the essential step to be a
+    circle–line–point problem of Apollonius. This viewer and the arc figures
+    are at
+    <a href="https://github.com/michaelkopp/sriyantra" target="_blank"
+       rel="noopener">github.com/michaelkopp/sriyantra</a>.</p>
+
+    <p class="on-arc"><b>The paper.</b> The construction is written up in
     <i>The circular-arc Śrī Yantra</i>, which proves that the classical
     concurrency conditions hold exactly, in addition to eight further
     concurrency conditions that hold all the corners of the Śrī Yantra on the
@@ -612,10 +672,23 @@
     paper, the GeoGebra files and this viewer are at
     <a href="https://github.com/michaelkopp/sriyantra" target="_blank"
        rel="noopener">github.com/michaelkopp/sriyantra</a>.</p>
+
+    <p class="on-arcx"><b>The paper.</b> These two are not treated in
+    <i>The circular-arc Śrī Yantra</i>, which is about the nine-triangle
+    families; they belong to <i>Extended circular-arc Śrī Yantras</i>. This
+    viewer and the GeoGebra files for both figures are at
+    <a href="https://github.com/michaelkopp/sriyantra" target="_blank"
+       rel="noopener">github.com/michaelkopp/sriyantra</a>.</p>
   </details>
 </div>
 
 <script>
+/* `Straight extended` is not one of this viewer's figures. The drawing code
+   ported from the development copy asks whether it is showing that figure;
+   here the answer is always no, and every branch that would reach into its
+   machinery is short-circuited by this one constant. */
+const EXT = false;
+
 // ---- Data extracted from sri_yantra_hand_nodes.csv / .svg -------------------
 // 69 nodes, in the original CSV order (export keeps this order).
 const NODES0_A = [[166.35756, 983.2383], [156.29317, 1000.7652], [140.3471, 1025.4317], [123.93687, 1047.0685], [105.50348, 1025.634], [90.58376, 1002.7889], [81.43679, 984.94811], [99.28806, 983.89875], [148.69417, 983.54858], [69.50363, 888.65996], [105.69112, 887.87756], [150.91879, 888.23312], [184.41012, 888.15072], [179.80015, 916.46638], [168.82313, 947.70389], [158.8243, 967.29768], [123.33419, 1025.9226], [89.96804, 968.26274], [81.51101, 947.80501], [73.03014, 916.07758], [184.73567, 1020.7678], [163.34891, 1022.8943], [83.75727, 1022.92], [63.67879, 1019.9611], [181.1634, 967.85854], [173.54675, 998.06313], [146.85872, 1047.0711], [124.88086, 1074.1224], [69.03972, 969.39708], [112.77516, 967.14245], [139.11815, 966.75869], [213.37748, 918.75541], [205.99222, 950.65113], [193.83511, 994.59858], [171.49028, 1044.696], [151.08903, 1073.4478], [126.94807, 1098.9787], [36.96666, 917.36919], [105.46267, 915.87694], [148.80666, 916.08647], [98.99139, 1073.5991], [77.07354, 1044.9573], [54.8538, 998.45622], [43.5123, 951.60036], [70.39368, 1096.3376], [72.55275, 1070.9304], [126.10792, 946.65857], [234.6863, 1034.573], [207.80323, 1039.5968], [100.99254, 1046.9968], [44.59134, 1040.8266], [18.35771, 1036.2907], [15.20928, 955.28381], [147.35693, 946.56495], [234.60947, 952.27764], [128.18755, 1115.0352], [104.65558, 1098.8726], [25.29963, 993.92729], [223.7883, 995.7103], [179.2561, 1071.677], [150.68177, 1098.9327], [127.86524, 916.19364], [74.96603, 996.13873], [105.43187, 945.77221], [183.28698, 1097.4738], [215.35183, 1066.8461], [38.37677, 1069.9248], [128.40169, 888.09302], [128.01623, 870.38187]];
@@ -690,6 +763,40 @@ const DATASETS = {
      refused by ring1Gate.                                                */
   arcsfree:  { nodes: NODES0_A, tri: TRI_A, outer: OUTER_A, fit: FIT_A, grow: 2,
                construct: 'arc', ring: 1, nohold: true,
+               chains: [[11, 39, 53, 30], [1, 25, 33, 58], [2, 26, 35, 60]] },
+
+  /* `Arcs extended 2`: the same operation once more, one level out. In
+     `Arcs extended 1` the ring is the six points of the star D0 and U0 make
+     crossing each other. Here the four bases change owner - U2 and D3 take
+     the outer ones and carry their legs out to reach them, D0 and U0 take
+     the freed inner ones and carry theirs out along them - so four large
+     triangles interleave instead of two, and the ring has ten points. No new
+     curve is invented: every one of the four bases is already in `Arcs
+     extended 1`. The ten outer nodes are then held on the rim.          */
+  arcx2:     { nodes: NODES0_A, tri: TRI_A, outer: OUTER_A, fit: FIT_A, grow: 2,
+               construct: 'arc', ring: 1, nohold: true, arcext: true, arcext2: true,
+               chains: [[11, 39, 53, 30], [1, 25, 33, 58], [2, 26, 35, 60]] },
+  /* `Arcs extended 3`: the same operation once more, one level further in.
+     `Arcs extended 2` carries U2 and D3 out to the rim and leaves each of
+     them one corner there. Here U3 and D1 are carried out as well, and each
+     of those two corners splits in two:
+
+       U3's base, run on, meets U2's left leg - and that crossing is put on
+         the rim;
+       U3's left leg, run on, meets U2's own base - on the rim as well;
+
+     and the same for D1 against D3. Between the two new corners the old one
+     is left behind as the floor of a notch, so where the star had one point
+     it now has two, and where the ring had ten cells it has fourteen.
+
+     Two of the four are constructions rather than conditions: U2's base is
+     drawn through node 55 and the point where U3's own leg crosses the rim,
+     so U3's leg meets it there by construction, and D3's base likewise
+     through node 68 and D1's crossing. The other two - each triangle's base
+     against the next one's leg - are held.                              */
+  arcx3:     { nodes: NODES0_A, tri: TRI_A, outer: OUTER_A, fit: FIT_A, grow: 2,
+               construct: 'arc', ring: 1, nohold: true, arcext: true,
+               arcext2: true, arcext3: true,
                chains: [[11, 39, 53, 30], [1, 25, 33, 58], [2, 26, 35, 60]] },
   /* Both of these are constructions rather than solves: the parameters
      determine the figure outright, so there is no solver to run, nothing to
@@ -2260,6 +2367,7 @@ function tipOf(P, fi) {
 
 function buildAll(ds) {
   DATASET = ds;
+  setExtCounts(ds);       /* how many cells the eleven triangles cut out of the rim */
   NODES0 = ds.nodes; TRI = ds.tri; OUTER = ds.outer; FIT = ds.fit;
 
 /* Straight mode: every kappa is dropped from the parameter vector rather than
@@ -2336,7 +2444,20 @@ TRI_NAMES = Object.keys(TRI);
    ruler-and-compass construction does precisely this. Asking for more than
    six is what the straight figure cannot do.                             */
 PIN = new Set();
-if (!STRAIGHT) for (const i of OUTER) PIN.add(i);
+/* THE EXTENDED FIGURES HOLD NOTHING ON THE CIRCLE
+   -----------------------------------------------
+   This set does two things further down that both assume a circle: a pinned
+   mirror pair is parametrised by an ANGLE, and START normalises every pinned
+   node to radius 1. On `Arcs extended 2` and `3` the fourteen old rim nodes
+   are exactly the ones being RELEASED - the new ring's ten (or fourteen)
+   nodes take their place on the rim - and an angle is precisely what cannot
+   express a released one. Left pinned, every figure the construction built
+   was snapped straight back onto the circle by arcPush, silently: the
+   construction stayed exact and only the pushed copy moved, so the fills,
+   which are read from the recipe, were right while the outlines, read from
+   the pushed nodes, were the wrong figure. */
+if (ds.arcext) { /* nothing pinned: there is no circle to be pinned to */ }
+else if (!STRAIGHT) for (const i of OUTER) PIN.add(i);
 else for (const n of TRI_NAMES) {
   const t = TRI[n], c = [t.base[0], t.base[t.base.length - 1], t.right[t.right.length - 1]];
   if (c.every(i => OUTER_SET.has(i))) for (const i of c) PIN.add(i);
@@ -3353,7 +3474,19 @@ function drawHover() {
   if (!hiLine) return;
   if (!HOVERLINE) { hiLine.setAttribute('d', ''); return; }
   const w = HOVERLINE;
-  const d = (w.kind === 'tri')
+  let d;
+  if (w.kind === 'arcx') {
+    const R = arcxRim(), z = R && R[w.name];
+    const pt = q => q[0].toFixed(5) + ' ' + (-q[1]).toFixed(5);
+    d = z ? 'M' + z.pts.map(pt).join('L') : '';
+    hiLine.setAttribute('d', d || ''); return;
+  }
+  if (w.kind === 'rim') {
+    const R = EXT ? extRimWedges(curFigure(EXACTP)) : null;
+    const z = R && R[w.name];
+    d = z ? ('M' + z.apex[0].toFixed(5) + ' ' + (-z.apex[1]).toFixed(5)
+           + 'L' + z[w.side][0].toFixed(5) + ' ' + (-z[w.side][1]).toFixed(5)) : '';
+  } else d = (w.kind === 'tri')
     ? trianglePath(P, solver.A, w.name, flip, 4)
     : (BEYOND ? extendedPath(w.si, flip, BEYOND_R, 4)
               : emit(sideSegs(P, solver.A, w.si), flip, 4));
@@ -3395,14 +3528,23 @@ const PALETTES = {
   /* Penrose's engraving: white tiles, dots gathering at every edge */
   /* the same scheme; only the CSS differs, where the first grown ring and its
      field sit half way between orange and red                            */
+  /* Rainbow's light ramp is a list of chosen hues and every one of them is
+     spoken for - lc5 is --x-f-grow2-lt, the ground the outer row of petals
+     stands in - so the sixth band cannot come out of it. It takes the pale
+     twin of the ring that stands in it instead, which is the same rule the
+     grown rings' own fields follow, and the ramp is left alone.       */
   rainbow2:{ scheme: 'rainbow', dot: 0.013, dotOff: true, frame: true, open: true,
-             field: true, fieldIn: '--x-f-lc4' },
-  /* the same palette in the aum colours; see the CSS block for the two ramps.
+             field: true, fieldIn: '--x-f-lc4', outerIn: '--x-f-grow-lt',
+             fixedField: true },
+  /* the same palette in the aum colours; see the CSS block for the ramp.
      The disc inside the rim takes a light step rather than the outermost
      one: the fillings brighten OUTWARD, so the ground under the middle of
-     the figure belongs at the pale end of that ramp, not the yellow end. */
+     the figure belongs at the pale end of that ramp, not the yellow end.
+     `lightRamp` generates that ramp to fit the figure instead of reading
+     the six fixed values from the CSS - see applyLightRamp.           */
   aumrings:{ scheme: 'rainbow', dot: 0.013, dotOff: true, frame: true, open: true,
-             field: true, fieldIn: '--x-f-lc5' },
+             field: true, fieldIn: '--x-f-lc4', outerIn: '--x-f-lc5',
+             lightRamp: true, fixedField: true },
   /* the same scheme with the downward triangles counting +1, so a cell carries
      the number of triangles over it: 1 to 9 here, 1 to 11 on the extended
      figure, and the modulus decides how many of those get their own shade */
@@ -3421,6 +3563,47 @@ let palette = 'count';   // Counts, on the blue ramp - the site's own colours
 /* The grown figures used to reserve a fixed 1.52 or 2.15 whatever they
    actually reached - too much room for some, too little for others, and the
    second ring of a constrained figure ran clean off the edge. Measure it. */
+
+/* how far out the drawing actually reaches, so the view and the palette
+   rings are sized to the figure rather than to the old rim */
+function extReach() {
+  let r = 0;
+  if (typeof EXT !== 'undefined' && EXT) {
+    let R = null;
+    try { R = extRimWedges(curFigure(EXACTP)); } catch (e) { return 0; }
+    if (!R) return 0;
+    for (const k of ['D0', 'U0'])
+      for (const p of [R[k].apex, R[k].left, R[k].right])
+        r = Math.max(r, Math.abs(p[0]), Math.abs(p[1]));
+  } else if (typeof ARCEXT === 'function' && ARCEXT()) {
+    /* the arc figure's D0 and U0 are whole circles, so the reach is the
+       farthest point of each lens - which was left out, and the exported
+       drawing was cropped through both of them */
+    let R = null;
+    try { R = ARCEXT2() ? arcx2Sides() : arcxRim(); } catch (e) { return 0; }
+    if (!R) return 0;
+    for (const k of (ARCEXT2() ? ['D0', 'U0', 'U2', 'D3'] : ['D0', 'U0']))
+      if (R[k]) for (const p of R[k].pts) r = Math.max(r, Math.abs(p[0]), Math.abs(p[1]));
+    /* and the yantra itself: with the fourteen released it no longer sits
+       inside the circle, so the old baseline of 1.13 cropped it */
+    if (typeof solver !== 'undefined' && solver && solver.X)
+      for (let i = 0; i < solver.X.length; i += 2)
+        r = Math.max(r, Math.abs(solver.X[i]), Math.abs(solver.X[i + 1]));
+  } else return 0;
+  return Math.min(r * 1.06, 2.6);
+}
+function palReach() {
+  let r = (typeof frameReach === 'function' && typeof solver !== 'undefined' && solver)
+            ? frameReach() : 1;
+  /* extReach already carries its own 1.06 of margin; the rings want the
+     figure itself */
+  const e = (typeof extReach === 'function') ? extReach() : 0;
+  if (e) r = Math.max(r, e / 1.06);
+  return Math.max(r, 1);
+}
+const palDiscR = p => (p.disc || 0) * palReach();
+const palRingR = (p, k) => ((p.rings && p.rings[k]) || 0) * palReach();
+
 const palExtent = k =>
   Math.max((typeof GROW !== 'undefined' && GROW && typeof solver !== 'undefined')
              ? frameReach() * 1.07 : 1.13,
@@ -3429,7 +3612,8 @@ const palExtent = k =>
            (typeof petalsOn === 'function' && petalsOn() && typeof solver !== 'undefined')
              ? petalGeom(ringReach()).outer * 1.06 : 0,
            (typeof show !== 'undefined' && show.meet) ? MEET_R + 0.06 : 0,
-           (PALETTES[k].disc || 0) * 1.02,
+           extReach(),
+           palDiscR(PALETTES[k]) * 1.02,
            /* the frame already ends in a margin of its own, so no extra */
            (BEYOND && PALETTES[k].crack) ? BEYOND_R * 1.03 : 0,
            PALETTES[k].frame && FRAMEON && typeof solver !== 'undefined'
@@ -3509,7 +3693,7 @@ function petalGeom(R) {
    switched off still shows the two ring colours, in the petals instead.
    The count schemes number the rings rather than colouring them from a
    variable, so they are asked the same question a different way.       */
-function ringFillColour(L) {
+function ringFillColour(L, petal) {
   /* A scheme that names no fills fills nothing. Ink is line art, and the
      fallback chain below was walking all the way down to --x-ink and
      handing the petals an off-white: invisible against the dark page on
@@ -3530,7 +3714,9 @@ function ringFillColour(L) {
   };
   /* the ring colour if there is one; then the facing pair; then, for the
      schemes that colour by band, the outermost two bands; then the ink */
-  if (!L) return pick('--x-f-grow', '--x-f-up', '--x-f-r0', '--x-ink');
+  if (!L) return pick(...(petal ? ['--x-f-petal'] : []),
+                      '--x-f-grow', '--x-f-up', '--x-f-r0', '--x-ink');
+  if (petal && v('--x-f-petal2') !== 'none') return v('--x-f-petal2');
   return v('--x-f-grow2') !== 'none' ? v('--x-f-grow2')
        : v('--x-f-grow') !== 'none'  ? v('--x-f-grow')
        : pick('--x-f-down', '--x-f-r1', '--x-ink');
@@ -3586,6 +3772,7 @@ function paleGrounds() {
    field, rings and petals included, and this is one disc.              */
 function rimFillColour() {
   if (typeof show === 'undefined' || !show.rimfill || !PALETTES[palette]) return null;
+  if (fixedField()) return null;   // inert on the ramped palettes
   const css = getComputedStyle(document.body);
   const v = k => (css.getPropertyValue(k) || '').trim();
   const own = v('--x-rimfill');
@@ -3594,7 +3781,7 @@ function rimFillColour() {
     const c = crackStyle().shell;
     return (c && c !== 'none') ? c : null;
   }
-  const fin = PALETTES[palette].fieldIn ? v(PALETTES[palette].fieldIn) : '';
+  const fv = fieldVar(); const fin = fv ? v(fv) : '';
   if (fin && fin !== 'none') return fin;
   /* a counting scheme names no colours in CSS at all - they come off the
      ramp - so ask it the same question the ring band asks */
@@ -4666,10 +4853,11 @@ function growSegs(e, tip, from) {
   return arcSegs(p, tip, 1 / e.c.R, mx / L, my / L);
 }
 
+
 function buildFigureDOM() {
   for (const g in G) G[g].textContent = '';
   crackBack = el('circle', G.disc, { cx: 0, cy: 0, r: 0, fill: 'url(#crack-back)' });
-  palDiscs = [0, 1, 2, 3].map(() =>
+  palDiscs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(() =>
     el('circle', G.disc, { class: 'pal-disc', cx: 0, cy: 0, r: 0 }));
   /* Only the yantra's own circle. A disc drawn on a grown ring's circle
      contains the one inside it, so the first ring's band picked up a layer of
@@ -4682,11 +4870,74 @@ function buildFigureDOM() {
   /* above the band, so it covers it in the gaps; still below the shards */
   gapFills = [0, 1].map(() =>
     el('path', G.disc, { class: 'gap-fill', d: '', 'fill-rule': 'evenodd' }));
+  /* FIRST IN THE FILL LAYER, SO IT IS A GROUND AND NOT A LID
+     -------------------------------------------------------
+     It was built after the petals' fills and so covered them: with `rim
+     fills` and the petals both on, the band came up a flat wash with the
+     petals' outlines drawn on it and their colour gone. The switch lays a
+     ground, so it goes down before everything else here.            */
+  rimEl = el('path', G.fills, { class: 'rim-fill', d: '' });
   stipEl = el('path', G.fills, { class: 'stip', d: '' });
   palRings = [0, 1, 2].map(() => el('circle', G.deco, { class: 'pal-ring', cx: 0, cy: 0, r: 0 }));
   palDot = el('circle', G.deco, { class: 'pal-dot', cx: 0, cy: 0, r: 0 });
   applyPaletteShapes();
-  el('circle', G.circle, { cx: 0, cy: 0, r: 1, class: 'ring rim' });
+  if (!EXT) el('circle', G.circle, { cx: 0, cy: 0, r: 1, class: 'ring rim' });
+  /* THE RIM OF THE EXTENDED FIGURE IS NOT A CIRCLE
+     ----------------------------------------------
+     It is D0 and U0 - the two lines the outer corners were asked to lie on -
+     with their mirrors, and those four lines close into a quadrilateral. No
+     circle is drawn at all on this figure: there is none in the construction
+     and one on the picture would only say something false. The quadrilateral
+     takes the `rim` class, so the `circle` View switch shows and hides it. */
+  /* D0 and U0 are sides of the figure, so they are drawn in the lines layer
+     with the same stroke as every other side, not as a rim ornament in the
+     circle layer. Their corners get node dots like any other corner, and
+     each of their four legs gets a hit path so hovering names it.      */
+  /* THE EXTENSION'S OWN SIDES ARE NOT `ytri`
+     ----------------------------------------
+     `ytri` marks a triangle drawn bounded, so that "arcs on" can hide it and
+     put the continued arc in its place. The extension's sides are already
+     whole curves - closed loops, on the arc figures literally circles - so
+     there is nothing to continue and nothing to hide. Marked `ytri` they
+     vanished under "arcs on", and the Cracks palettes, which turn it on,
+     showed the nine and not the two.                                   */
+  rimPaths = EXT ? ['D0', 'U0'].map(() => el('path', G.tris, { class: 'tri xtri', d: '' })) : null;
+  /* the arc figure's own D0 and U0: two generalised circles rather than two
+     pairs of straight legs, drawn as the lens each makes with its mirror */
+  arcxPaths = ARCEXT() ? ['D0', 'U0'].map(() => el('path', G.tris, { class: 'tri xtri', d: '' })) : null;
+  rimDots = EXT ? [0, 1, 2, 3].map(() => el('circle', G.nodes, { class: 'node outer', r: 0.014 })) : null;
+  /* The four corners D0 and U0 bring with them are nodes of the figure like
+     any other, so they are numbered on from 68: the two tips on the axis,
+     then the crossing of D0 and U0 and its mirror.                      */
+  rimLabels = EXT ? EXT_RIM_NODES.map(n => {
+    const t = el('text', G.labels, { class: 'lbl' }); t.textContent = n; return t;
+  }) : null;
+  /* the arc figure's two new nodes: 69 where D0 meets the axis below, 70
+     where U0 meets it above. Both sit on the rim, which is the whole point
+     of the figure - the fourteen that used to be there are free now.    */
+  /* `Arcs extended 1`: 69, 70 the two apexes; 71, 72 where D0's and U0's
+     legs cross; 73-76 the four base corners. Six of those eight - the
+     apexes and the corners - are the points of the ring, and all six are on
+     the rim. `Arcs extended 2` has ten instead, also all on the rim: 69 and
+     70 the apexes, 71-78 the eight base corners. */
+  /* `Arcs extended 3` splits two of figure 2's corners in two, so its ring
+     has fourteen outer nodes rather than ten: 69 and 70 the apexes, 71-82
+     the twelve base corners. The extra dots are parked when the figure has
+     fewer.                                                              */
+  const NOUT = ARCEXT() ? (ARCEXT3() ? 14 : 10) : 0;
+  arcxDots = ARCEXT() ? Array.from({length: NOUT}, () => el('circle', G.nodes, { class: 'node outer', r: 0.014 })) : null;
+  arcxLabels = ARCEXT() ? Array.from({length: NOUT}, (_, i) => {
+    const t = el('text', G.labels, { class: 'lbl' }); t.textContent = 69 + i; return t;
+  }) : null;
+  arcxHits = ARCEXT() ? Array.from({length: ARCEXT3() ? 6 : 4}, () => {
+    const e = el('path', G.hit, { class: 'hit', d: '' });
+    e.addEventListener('pointerenter', ev => {
+      if (!e._what) return;
+      HOVERLINE = e._what; showHoverTip(ev, e._what.text); drawHover(); });
+    e.addEventListener('pointermove', ev => moveHoverTip(ev));
+    e.addEventListener('pointerleave', () => { HOVERLINE = null; hideHoverTip(); drawHover(); });
+    return e;
+  }) : null;
   /* the fills go in the fill layer so the outlines draw over them, and they
      carry the grown rings' own classes so a palette colours them without
      being told about petals at all */
@@ -4714,9 +4965,16 @@ function buildFigureDOM() {
     baseCircs.push(el('circle', G.circle,
       { cx: 0, cy: 0, r: 0, class: 'ring base' + (L + 1) }));
   /* first into the fill layer, so every face and petal draws over them */
-  rimEl = el('path', G.fills, { class: 'rim-fill', d: '' });
   paleEls = [0, 1, 2].map(() => el('path', G.fills, { class: 'pale-ground', d: '' }));
+  /* ring 5's ground, under the faces and the ring's own cells */
+  gapEl = el('path', G.fills, { class: 'ring-gap', d: '' });
   facePaths = FACES.map(() => el('path', G.fills, { class: 'f-off' }));
+  /* the new ring's cells, over the faces exactly as a grown ring's cells
+     are, and in the same class - so a palette that names a colour for a
+     grown ring names one for this ring too, without being told  */
+  arcxCellEls = RINGEXT()
+    ? Array.from({ length: 16 }, () => el('path', G.fills, { class: 'f-grow ringcell', d: '' }))
+    : null;
   lensPaths = TRI_NAMES.map(() => el('path', G.fills, { class: 'lens-face' }));
   triPaths = TRI_NAMES.map(() => el('path', G.tris, { class: 'tri ytri' }));
   growFills = []; growPathEls = []; growDots = [];
@@ -4747,6 +5005,10 @@ function buildFigureDOM() {
            outer.setAttribute('opacity', 0.62); }
     const g = k === 0 ? outer : el('g', outer, { transform: 'rotate(' + (-a) + ')' });
     return {
+      g,
+      /* one emission copy per extended side as well - grown on demand,
+         because how many the figure has depends on which figure it is */
+      ext: [],
       tri: TRI_NAMES.map(() => el('path', g, { class: 'em ytri' })),
       arcs: SIDES.map(() => el('path', g, { class: 'em' })),
       grow: Array.from({ length: GROW }, () => OUTER.map(() => el('path', g, { class: 'em' }))),
@@ -4777,6 +5039,17 @@ function buildFigureDOM() {
     e._what = { kind: 'side', si, name: nm, text: nm + '  \u2014  triangle ' + sd.tri };
     hitPaths.push(e);
   });
+  rimHits = null;
+  if (EXT) {
+    rimHits = [];
+    for (const nm of ['D0', 'U0']) for (const side of ['right', 'left']) {
+      const e = el('path', G.hit, { class: 'hit', d: '' });
+      e._what = { kind: 'rim', name: nm, side, text: nm + '.' + side + '  \u2014  ' + EXT_RIM_TEXT[nm]
+                   + ', from node ' + (nm === 'D0' ? 69 : 70) + ' to node ' + (side === 'right' ? 71 : 72) };
+      rimHits.push(e);
+      hitPaths.push(e);
+    }
+  }
   hitPaths.forEach(e => {
     e.addEventListener('pointerenter', ev => { HOVERLINE = e._what; showHoverTip(ev, e._what.text); drawHover(); });
     e.addEventListener('pointermove', ev => moveHoverTip(ev));
@@ -4789,8 +5062,8 @@ function buildFigureDOM() {
   }));
   ctrLink = el('line', G.centre, { class: 'ctr-link', x1: 0, y1: 0, x2: 0, y2: 0 });
   ctrMark = el('circle', G.centre, { class: 'ctr-mark', cx: 0, cy: 0, r: 0.021 });
-  el('circle', G.centre, { class: 'bindu-ring', cx: 0, cy: 0, r: 0.034 });
-  el('circle', G.centre, { class: 'bindu', cx: 0, cy: 0, r: 0.013 });
+  el('circle', G.centre, { class: 'bindu-ring', cx: 0, cy: 0, r: 0.034 * binduK() });
+  el('circle', G.centre, { class: 'bindu', cx: 0, cy: 0, r: 0.013 * binduK() });
   /* the grown rings' tips and the nine bases get named too, so a relation
      you can see in the figure can be written down without counting round
      the picture. They live in the same group as the node numbers and come
@@ -4808,8 +5081,1052 @@ function buildFigureDOM() {
   });
 }
 
+
+/* ============================================================
+   The extended figure: its rim corners, its two hand bases, the
+   eleven triangles, the ring of cells they cut out, and the
+   colours those cells take.
+   ============================================================ */
+const GC_RIM_UNIT = [1, 0, 0, -1];
+function gcAxisThrough(x0, y0, yv) {
+  const a = y0 - yv;
+  if (Math.abs(a) < 1e-12) return [0, 0, 1, -yv];        // three in a row
+  const c = -(x0 * x0 + y0 * y0 - yv * yv);
+  return [a, 0, c, -a * yv * yv - c * yv];
+}
+/* where g meets the rim, other than at its own apex, on the right */
+function gcRimCorner(g, apex) {
+  let best = null;
+  for (const h of [[1, 0], [0.9, 0.4], [0.9, -0.4], [0.6, 0.8], [0.6, -0.8],
+                   [1.1, 0.1], [1.1, -0.1]]) {
+    const q = gcMeet(g, GC_RIM_UNIT, h);
+    if (!q || !(q[0] > 1e-6)) continue;
+    if (apex && Math.hypot(q[0] - apex[0], q[1] - apex[1]) < 1e-6) continue;
+    if (!best || q[0] > best[0]) best = q;
+  }
+  return best;
+}
+function arcxRim() {
+  if (!ARCEXT() || !solver || typeof gcThrough3 !== 'function') return null;
+  const at = i => [solver.X[2 * i], solver.X[2 * i + 1]];
+  const gD = gcThrough3(at(ARC_D0_ON[0]), at(ARC_D0_ON[1]), at(ARC_D0_ON[2]));
+  const gU = gcThrough3(at(ARC_U0_ON[0]), at(ARC_U0_ON[1]), at(ARC_U0_ON[2]));
+  if (!gD || !gU) return null;
+  const dA = gcAxisPair(gD), uA = gcAxisPair(gU);
+  if (!dA || !uA) return null;
+  const tipD = [0, dA[0]], tipU = [0, uA[1]];
+  /* the corners the rim holds, and the bases they determine */
+  const cD = gcRimCorner(gD, tipD), cU = gcRimCorner(gU, tipU);
+  if (!cD || !cU) return null;
+  const gDb = gcAxisThrough(cD[0], cD[1], at(68)[1]);
+  const gUb = gcAxisThrough(cU[0], cU[1], at(55)[1]);
+  /* where the two legs cross each other - nodes 71, 72, exactly as D1 and U1
+     cross in the yantra itself */
+  let stop = null;
+  for (const hint of [[9, 0], [3, 0], [1, 0]]) {
+    const q = gcMeet(gD, gU, hint);
+    if (q && q[0] > 1e-9 && (!stop || q[0] < stop[0])) stop = q;
+  }
+  /* sample the arc of g from A to B, taking the way round that passes
+     nearest the hint - which is how a leg is told from the rest of its
+     circle, and a base from the far side of its own                     */
+  const span = (g, A, B, hint) => {
+    if (Math.abs(g[0]) < 1e-12) {                     // a straight side
+      const out = [];
+      for (let k = 0; k <= 40; k++)
+        out.push([A[0] + (B[0] - A[0]) * k / 40, A[1] + (B[1] - A[1]) * k / 40]);
+      return out;
+    }
+    const cx = -g[1] / (2 * g[0]), cy = -g[2] / (2 * g[0]);
+    const R = Math.sqrt(Math.max(0, cx * cx + cy * cy - g[3] / g[0]));
+    const th = q => Math.atan2(q[1] - cy, q[0] - cx);
+    const t0 = th(A);
+    let d = th(B) - t0;
+    while (d <= -Math.PI) d += 2 * Math.PI; while (d > Math.PI) d -= 2 * Math.PI;
+    const mid = a => [cx + R * Math.cos(a), cy + R * Math.sin(a)];
+    const near = a => { const q = mid(a); return Math.hypot(q[0] - hint[0], q[1] - hint[1]); };
+    const other = d > 0 ? d - 2 * Math.PI : d + 2 * Math.PI;
+    if (near(t0 + other / 2) < near(t0 + d / 2)) d = other;
+    const out = [];
+    for (let k = 0; k <= 60; k++) out.push(mid(t0 + d * (k / 60)));
+    return out;
+  };
+  const mk = (g, gb, tip, corner, farHint) => {
+    const leg = span(g, tip, corner, [corner[0] * 0.6, (tip[1] + corner[1]) / 2]);
+    const base = span(gb, corner, [-corner[0], corner[1]], [0, farHint]);
+    return { g, gb, tip, corner, leg, base,
+             pts: leg.concat(base, leg.map(q => [-q[0], q[1]]).reverse()) };
+  };
+  const D0 = mk(gD, gDb, tipD, cD, at(68)[1]);
+  const U0 = mk(gU, gUb, tipU, cU, at(55)[1]);
+  return { D0, U0, stop };
+}
+/* THE TWO BASES THAT CHANGE HANDS
+   -------------------------------
+   `Arcs extended 1` gives U0 a base through node 55 and D0 a base through
+   node 68, and the rim decides the rest of each: a leg circle meets the rim
+   in exactly one place besides its own apex, that place is the corner, and
+   the base is then the circle through the corner, its mirror, and the node
+   it must pass through. Nothing is solved for.
+
+   `Arcs extended 2` hands those two curves to U2 and D3, and its own rule
+   for them is the same one read off the new owner's legs: U2's base is the
+   axis-symmetric circle through node 55 and the point where U2's right leg
+   crosses the rim; D3's is the circle through node 68 and where D3's right
+   leg crosses the rim. Both corners are then on the rim BY CONSTRUCTION,
+   which is two of that figure's four rim conditions gone - and with them
+   the two curvature seeds, which existed only to be solved for.
+
+   Each leg crosses the rim twice, once on either side of the axis, so the
+   branch is not a matter of taste: it is the crossing on the leg's own
+   side.                                                                */
+function arcxHandBases(P, G) {
+  if (!G) return null;
+  const rimOn = (g, sgn) => {
+    for (const h of [[sgn * 0.7, 0], [sgn * 0.9, 0.4], [sgn * 0.9, -0.4],
+                     [sgn * 0.5, 0.8], [sgn * 0.5, -0.8], [sgn * 1, 0.1]]) {
+      const q = gcMeet(g, GC_RIM_UNIT, h);
+      if (q && q[0] * sgn > 1e-6) return q;
+    }
+    return null;
+  };
+  /* WHICH LEG HANDS THE BASE ITS CORNER
+     -----------------------------------
+     On `Arcs extended 2` the outer base belongs to U2, and it is drawn
+     through the point where U2's own leg crosses the rim - which is what
+     puts U2's corner there by construction. On `Arcs extended 3` the bases
+     have moved one place further out along the chain: U3 carries the outer
+     arc, U2 carries the base U3 gave up, U0 carries U2's. So the arc is
+     drawn through U3's crossing instead, and it is U3's corner that lands on
+     the rim for nothing.                                               */
+  const OUT = ARCEXT3() ? ['U3.right', 'D1.right'] : ['U2.right', 'D3.right'];
+  const cU = rimOn(G[sideIndex.get(OUT[0])], 1);
+  const cD = rimOn(G[sideIndex.get(OUT[1])], 1);
+  if (!cU || !cD) return null;
+  return { lU: gcAxisThrough(cU[0], cU[1], P[55][1]),
+           lD: gcAxisThrough(cD[0], cD[1], P[68][1]), cU2: cU, cD3: cD };
+}
+/* ---- ARCS EXTENDED 2: the four re-based triangles -----------------------
+   The same four bases as figure 1, changing owner:
+
+     U2's base becomes the arc through node 55, and its legs run out to meet
+       it - the corner is where they do;
+     D3's base becomes the arc through node 68, the same way;
+     U0 keeps its apex and its legs and takes the base U2 has given up - the
+       old U2.base, carried out past U2's old corners;
+     D0 likewise takes the old D3.base.
+
+   Four large triangles interleaving rather than two, so the star they make
+   has ten points instead of six, and the ten outer corners are the four
+   base corners on each side plus D0's and U0's own apexes.               */
+function arcx2Sides(built) {
+  if (!ARCEXT2() || !solver || typeof gcThrough3 !== 'function') return null;
+  const at = i => [solver.X[2 * i], solver.X[2 * i + 1]];
+  const si = nm => { for (let i = 0; i < SIDES.length; i++)
+                       if (SIDES[i].tri + '.' + SIDES[i].kind === nm) return i; return -1; };
+  /* a caller with a figure already in hand passes it: the converter below
+     reads a member built the OLD way, and calling arcConstruct there would
+     read its seeds with the new recipe */
+  const b = built || arcConstruct(ARCSEED || arcSeedDefaults());
+  if (!b) return null;
+  const P = b.P, G = b.G;
+  const gU2b = G[si('U2.base')], gD3b = G[si('D3.base')];
+  const HB = arcxHandBases(P, G); if (!HB) return null;
+  const { lU, lD } = HB;
+  const gU0 = gcThrough3(P[ARC_U0_ON[0]], P[ARC_U0_ON[1]], P[ARC_U0_ON[2]]);
+  const gD0 = gcThrough3(P[ARC_D0_ON[0]], P[ARC_D0_ON[1]], P[ARC_D0_ON[2]]);
+  if (!gU0 || !gD0) return null;
+  const aU = gcAxisPair(gU0), aD = gcAxisPair(gD0);
+  if (!aU || !aD) return null;
+  const cU0 = arcxCornerOnRim(gU0, gU2b);
+  const cD0 = arcxCornerOnRim(gD0, gD3b);
+  if (!cU0 || !cD0) return null;
+  /* every re-based triangle, in the order its corners are numbered: the
+     chain from the outside in, downward family first                    */
+  const CH = arcxBaseChain();
+  const reb = [];
+  for (const [nm, from] of CH) {
+    const gb = from ? G[si(from)] : (nm[0] === 'U' ? lU : lD);
+    const gl = G[si(nm + '.right')];
+    const c = arcxCornerOnRim(gl, gb);
+    const apex = P[DATASET.tri[nm].right[DATASET.tri[nm].right.length - 1]];
+    if (!gb || !gl || !c) return null;
+    reb.push({ nm, gl, gb, c, apex, mid: nm[0] === 'U' ? P[55][1] : P[68][1] });
+  }
+  /* sample the piece of g from A to B that passes nearest the hint */
+  const span = (g, A, B, hint) => {
+    if (Math.abs(g[0]) < 1e-12) { const o = [];
+      for (let k = 0; k <= 40; k++) o.push([A[0] + (B[0]-A[0])*k/40, A[1] + (B[1]-A[1])*k/40]);
+      return o; }
+    const cx = -g[1]/(2*g[0]), cy = -g[2]/(2*g[0]);
+    const R = Math.sqrt(Math.max(0, cx*cx + cy*cy - g[3]/g[0]));
+    const th = q => Math.atan2(q[1]-cy, q[0]-cx), t0 = th(A);
+    let d = th(B) - t0;
+    while (d <= -Math.PI) d += 2*Math.PI; while (d > Math.PI) d -= 2*Math.PI;
+    const mid = a => [cx + R*Math.cos(a), cy + R*Math.sin(a)];
+    const near = a => { const q = mid(a); return Math.hypot(q[0]-hint[0], q[1]-hint[1]); };
+    const alt = d > 0 ? d - 2*Math.PI : d + 2*Math.PI;
+    if (near(t0 + alt/2) < near(t0 + d/2)) d = alt;
+    const o = []; for (let k = 0; k <= 60; k++) o.push(mid(t0 + d*(k/60)));
+    return o;
+  };
+  const tri = (gLeg, gBase, apex, corner, midHint) => {
+    const leg = span(gLeg, apex, corner, [corner[0]*0.6, (apex[1]+corner[1])/2]);
+    const base = span(gBase, corner, [-corner[0], corner[1]], [0, midHint]);
+    return { apex, corner, leg, base,
+             pts: leg.concat(base, leg.map(q => [-q[0], q[1]]).reverse()) };
+  };
+  const out = {
+    U0: tri(gU0, gU2b, [0, aU[1]], cU0, gU2b[2] ? -gU2b[3] / gU2b[2] : 0),
+    D0: tri(gD0, gD3b, [0, aD[0]], cD0, gD3b[2] ? -gD3b[3] / gD3b[2] : 0)
+  };
+  for (const z of reb) out[z.nm] = tri(z.gl, z.gb, z.apex, z.c, z.mid);
+  /* the outer nodes, in the order they are numbered from 69: the two
+     apexes, then a corner and its mirror for each triangle that carries a
+     base - the downward chain from the outside in, then D0, U0, then the
+     upward chain from the inside out, which is the order figure 2 used and
+     which figure 3 extends at both ends                                */
+  const dn = reb.filter(z => z.nm[0] === 'D'), up = reb.filter(z => z.nm[0] === 'U');
+  const order = dn.map(z => z.c).concat([cD0, cU0], up.slice().reverse().map(z => z.c));
+  out.names = ['D0', 'U0'].concat(dn.map(z => z.nm), ['D0', 'U0'],
+                                  up.slice().reverse().map(z => z.nm));
+  out.nodes = [[0, aD[0]], [0, aU[1]]];
+  for (const c of order) out.nodes.push(c, [-c[0], c[1]]);
+  out.tris = ['D0', 'U0'].concat(reb.map(z => z.nm));
+  return out;
+}
+/* ---- THE NEW RING, AS A SET OF CELLS THE PALETTES CAN COLOUR ----------
+   Every palette but `Lines` colours regions, not lines: the count schemes
+   shade each atomic cell by how many triangles cover it, and the rainbow
+   ones give a colour per ring outward from the centre, with the grown rings
+   taking the last of them. Both read that from FACES, the arrangement of the
+   nine triangles, which knows nothing about D0 and U0 - so on the extended
+   figures the new ring came out bare paper while everything inside it was
+   painted.
+
+   The new ring is not a grown ring and cannot be had from growRing: its
+   cells are the points of the star the large triangles make - the places
+   covered by exactly one of them. Each large triangle here contains the
+   centre and has every side bowing outward, so it is star-shaped about the
+   origin and the covering number falls as you go out along any ray. That
+   makes the ring a band [r_in, r_out] on every ray, both ends found by
+   bisection, and a cell one run of rays with the same owner.
+
+   Each cell is then handed to the palette the same way a face is: the
+   rainbow schemes take the grown ring's own colour, and the counting ones
+   the count at a point inside it, worked out over ELEVEN triangles rather
+   than nine - which is the same arithmetic the inside uses, continued
+   outward instead of stopping at the yantra.                            */
+let ARCX_CELLS = null;
+/* every figure that grows a new outer ring: both arc ones, and the straight
+   one, where D0 and U0 close on each other into two wedges rather than six
+   points - fewer cells, the same idea */
+const RINGEXT = () => !!(typeof EXT !== 'undefined' && EXT) || (typeof ARCEXT === 'function' && ARCEXT());
+/* the cell's own colour under a counting scheme, or the ring colour under
+   any other - the class carries the second, so only the first is written */
+function ringCellColour(c) {
+  const w = c.up_n + COUNTSGN * c.dn_n;
+  return countColour((((w + COUNTSHIFT) % COUNTM) + COUNTM) % COUNTM);
+}
+/* A SCHEME THAT COLOURS BY FACING HAS TO COLOUR THE NEW RING TOO
+   --------------------------------------------------------------
+   `Bindu separated` and its neighbours shade every triangle by which way it
+   points, and they take those two colours from CSS through the class on the
+   element. The extension's cells carry `f-grow`, which those palettes never
+   name - so on the eleven-triangle figures the outer ring came out empty and
+   the yantra sat well inside the three rings with a blue gap where its own
+   outer band should be. The cells know which way their triangle points;
+   this hands them the same two colours the nine get.                  */
+function ringFacingColour(c) {
+  const p = PALETTES[palette];
+  if (!p || (p.scheme !== 'facing' && p.scheme !== 'ringfacing')) return null;
+  const css = getComputedStyle(document.body);
+  const v = k => (css.getPropertyValue(k) || '').trim();
+  const q = v(c.up ? '--x-f-up' : '--x-f-down');
+  return (q && q !== 'none') ? q : null;
+}
+function paintRingCells(counted, flip, off) {
+  if (!arcxCellEls) return;
+  const R = off ? null : arcxRingCells();
+  const cells = R ? R.cells : [];
+  /* grow the pool if a member ever makes more cells than the ring usually has */
+  while (arcxCellEls.length < cells.length)
+    arcxCellEls.push(el('path', G.fills, { class: 'f-grow ringcell', d: '' }));
+  arcxCellEls.forEach((e, k) => {
+    const c = cells[k];
+    if (!c) { e.setAttribute('d', ''); e.style.removeProperty('fill'); return; }
+    e.setAttribute('d', ringCellPath(c, flip, 4));
+    const fc = counted ? ringCellColour(c) : ringFacingColour(c);
+    if (fc) e.style.setProperty('fill', fc);
+    else e.style.removeProperty('fill');
+  });
+}
+/* RING 4 ON THE EXTENDED FIGURES, WHICH HAVE TWO OUTER BANDS
+   ----------------------------------------------------------
+   The outermost ground - whatever the figure - is the field, and it takes
+   the last step of the ramp. On the classical yantra that is the whole of
+   it: four bands of cells and the field, five in all.
+
+   The extended figures put a second ring outside the classical one, and
+   that splits the outer ground in two: the ground between the classical
+   outermost triangles, and the ground between the extension's own cells
+   out to the rim. They are separated all the way round by those triangles,
+   meeting only where a tip touches a base, so the eye reads two rings -
+   and both were bare field, which is why they came out the same colour.
+
+   The inner of the two is the one that needs a colour of its own, and it
+   is exactly the star the two new large triangles make together: inside
+   the star you are in the classical figure, in one of the ring's cells,
+   or in this band, and the faces and the cells draw over the first two.
+   The sampler behind the ring already measures that star's outline, so
+   this is one polygon laid over the field and under everything else. */
+function arcxStarPath(map, prec = 4) {
+  const R = (typeof arcxRingCells === 'function') ? arcxRingCells() : null;
+  if (!R || !R.th || !R.out || !R.out.length) return '';
+  let any = false;
+  for (const v of R.out) if (v < 1 - 1e-4) { any = true; break; }
+  if (!any) return '';                       // the star fills the disc: one band
+  const f = v => fmt(v, prec);
+  const n = R.th.length, pts = [];
+  for (let k = 0; k <= n; k++) {
+    const t = R.th[k % n] + (k === n ? 2 * Math.PI : 0), r = R.out[k % n];
+    const q = map ? map([r * Math.cos(t), r * Math.sin(t)])
+                  : [r * Math.cos(t), r * Math.sin(t)];
+    pts.push(f(q[0]) + ',' + f(q[1]));
+  }
+  return 'M' + pts.join('L') + 'Z';
+}
+function ringCellPath(c, tr, prec) {
+  const p = q => { const v = tr ? tr(q) : q;
+    return fmt(v[0], prec) + ',' + fmt(v[1], prec); };
+  return 'M' + c.pts.map(p).join('L') + 'Z';
+}
+/* WHERE A TRIANGLE'S CORNER IS, WHEN ITS BASE IS NOT ITS OWN
+   ----------------------------------------------------------
+   Every corner these figures put on the rim is a leg meeting a base, and
+   both curves cross twice - so which of the two crossings is the corner has
+   to be said. It is the one on the right that lies nearest the rim, which
+   is where the construction is putting it; hard-coded hints were fine while
+   there were two of them and became a liability at six.                */
+function arcxCornerOnRim(gLeg, gBase) {
+  let best = null, bd = Infinity;
+  for (let a = -80; a <= 80; a += 10) {
+    const h = [1.15 * Math.cos(a * Math.PI / 180), 1.15 * Math.sin(a * Math.PI / 180)];
+    const q = gcMeet(gLeg, gBase, h);
+    if (!q || !(q[0] > 1e-9)) continue;
+    const d = Math.abs(Math.hypot(q[0], q[1]) - 1);
+    if (d < bd) { bd = d; best = q; }
+  }
+  return best;
+}
+/* THE CHAIN OF BASES, ONE PLACE FURTHER OUT ON EACH FIGURE
+   --------------------------------------------------------
+   `Arcs extended 2`:  U0 <- U2.base,  U2 <- the outer arc.
+   `Arcs extended 3`:  U0 <- U2.base,  U2 <- U3.base,  U3 <- the outer arc.
+   Same downward, with D0, D3 and D1. Returned as [triangle, base] pairs so
+   the triangles, the drawing and the held conditions all read one list. */
+function arcxBaseChain() {
+  return ARCEXT3()
+    ? [['U3', null], ['U2', 'U3.base'], ['D1', null], ['D3', 'D1.base']]
+    : [['U2', null], ['D3', null]];
+}
+function arcxTriangles() {
+  if (!ARCEXT()) return extxTriangles();
+  const V = ARCSEED || arcSeedDefaults();
+  const b = arcConstruct(V);
+  if (!b) return null;
+  const P = b.P, G = b.G;
+  const f = (g, q) => g[0] * (q[0] * q[0] + q[1] * q[1]) + g[1] * q[0] + g[2] * q[1] + g[3];
+  const mir = g => [g[0], -g[1], g[2], g[3]];
+  const mk = (gs, inside, up, name) =>
+    ({ gs, sg: gs.map(g => Math.sign(f(g, inside))), up, name });
+  const mean = qs => { let x = 0, y = 0;
+    for (const q of qs) { x += q[0]; y += q[1]; } return [x / qs.length, y / qs.length]; };
+  const triIn = n => { const t = DATASET.tri[n];
+    return mean(t.base.concat(t.right, t.left).map(i => P[i])); };
+  const gOf = nm => G[sideIndex.get(nm)];
+  /* D0 and U0, with whichever base each of them carries on this figure */
+  const gD = gcThrough3(P[ARC_D0_ON[0]], P[ARC_D0_ON[1]], P[ARC_D0_ON[2]]);
+  const gU = gcThrough3(P[ARC_U0_ON[0]], P[ARC_U0_ON[1]], P[ARC_U0_ON[2]]);
+  if (!gD || !gU) return null;
+  const dA = gcAxisPair(gD), uA = gcAxisPair(gU);
+  if (!dA || !uA) return null;
+  const apexD = [0, dA[0]], apexU = [0, uA[1]];
+  let gDb, gUb, cD, cU, lU = null, lD = null, cU2 = null, cD3 = null;
+  if (ARCEXT2()) {
+    { const HB = arcxHandBases(P, G); if (!HB) return null; lU = HB.lU; lD = HB.lD; }
+    gUb = gOf('U2.base'); gDb = gOf('D3.base');
+    cU = gcMeet(gU, gUb, [0.95, -0.19]); cD = gcMeet(gD, gDb, [1.0, 0.07]);
+    cU2 = gcMeet(gOf('U2.right'), lU, [0.85, P[55][1]]);
+    cD3 = gcMeet(gOf('D3.right'), lD, [0.9, P[68][1]]);
+    if (!cU2 || !cD3) return null;
+  } else {
+    cD = gcRimCorner(gD, apexD); cU = gcRimCorner(gU, apexU);
+    if (!cD || !cU) return null;
+    gDb = gcAxisThrough(cD[0], cD[1], P[68][1]);
+    gUb = gcAxisThrough(cU[0], cU[1], P[55][1]);
+  }
+  if (!cD || !cU) return null;
+  /* which base each of the re-based triangles carries, and its own corner */
+  const CH = ARCEXT2() ? arcxBaseChain() : [];
+  const chain = {};
+  for (const [nm, from] of CH) {
+    const gb = from ? gOf(from) : (nm[0] === 'U' ? lU : lD);
+    if (!gb) return null;
+    const apex = P[DATASET.tri[nm].right[DATASET.tri[nm].right.length - 1]];
+    const c = arcxCornerOnRim(gOf(nm + '.right'), gb);
+    if (!c) return null;
+    chain[nm] = { gb, apex, c };
+  }
+  const all = [], large = [];
+  for (const n of TRI_NAMES) {
+    let gs = ['base', 'right', 'left'].map(k => gOf(n + '.' + k));
+    let inside = triIn(n);
+    if (chain[n]) { const z = chain[n];
+      gs = [z.gb, gs[1], gs[2]];
+      inside = mean([z.apex, z.c, [-z.c[0], z.c[1]]]); }
+    const t = mk(gs, inside, n[0] === 'U', n);
+    all.push(t);
+    if (chain[n]) large.push(t);
+  }
+  const tU0 = mk([gU, mir(gU), gUb], mean([apexU, cU, [-cU[0], cU[1]]]), true, 'U0');
+  const tD0 = mk([gD, mir(gD), gDb], mean([apexD, cD, [-cD[0], cD[1]]]), false, 'D0');
+  all.push(tU0, tD0); large.push(tU0, tD0);
+  for (const t of all) { const gs = t.gs, sg = t.sg;
+    t.test = q => gs.every((g, i) => Math.sign(f(g, q)) === sg[i]);
+    /* THE SAME TEST, WITHOUT THE HOUSEKEEPING
+       ---------------------------------------
+       The ray march asks this about seventy thousand times per evaluation
+       of the criteria, and the criteria are evaluated forty-five times per
+       fit step. Written with `every` over an array of arrays it costs
+       75ns a call against 27ns of actual arithmetic: a closure per side, a
+       property lookup per coefficient, and a two-element array allocated
+       for the point at every call site. Flattened into one typed array and
+       read with scalars it is the same twelve multiplications in the same
+       order, giving bit-identical answers, at a third of the price.    */
+    t.C = new Float64Array(12);
+    t.S = new Int8Array(3);
+    for (let i = 0; i < 3; i++) {
+      t.C[i * 4] = gs[i][0]; t.C[i * 4 + 1] = gs[i][1];
+      t.C[i * 4 + 2] = gs[i][2]; t.C[i * 4 + 3] = gs[i][3];
+      t.S[i] = sg[i];
+    } }
+  return { all, large, inside: (t, q) => t.test(q) };
+}
+/* THE STRAIGHT EXTENDED FIGURE'S OWN TWO CELLS
+   --------------------------------------------
+   There D0 and U0 have no bases: each is a pair of legs meeting at an apex
+   and stopping at the two places the other pair crosses it, so the two of
+   them close into a quadrilateral rather than a star, and what they ADD to
+   the yantra is two regions instead of six. Same rule as the arc figures -
+   a cell is what one of the new sides covers and nothing else does - so the
+   same code paints them.                                                 */
+function extxTriangles() {
+  if (typeof EXT === 'undefined' || !EXT || !solver) return null;
+  const R = (typeof extRimWedges === 'function') ? extRimWedges(curFigure(EXACTP)) : null;
+  if (!R) return null;
+  const line = (a, b) => { const nx = b[1] - a[1], ny = a[0] - b[0];
+    return [0, nx, ny, -(nx * a[0] + ny * a[1])]; };
+  const f = (g, q) => g[1] * q[0] + g[2] * q[1] + g[3];
+  const mkw = (z, up, name) => {
+    const gs = [line(z.apex, z.right), line(z.right, z.left), line(z.left, z.apex)];
+    const c = [(z.apex[0] + z.left[0] + z.right[0]) / 3,
+               (z.apex[1] + z.left[1] + z.right[1]) / 3];
+    const sg = gs.map(g => Math.sign(f(g, c)));
+    /* the same three sides written the way the arc figures write them, so
+       whatever reads a triangle's curves - the corner weave, the fast
+       inside test - can read these too. A straight side is a generalised
+       circle with a = 0.                                             */
+    const C = new Float64Array(12), S = new Int8Array(3);
+    for (let i = 0; i < 3; i++) {
+      C[i * 4] = gs[i][0]; C[i * 4 + 1] = gs[i][1];
+      C[i * 4 + 2] = gs[i][2]; C[i * 4 + 3] = gs[i][3];
+      S[i] = sg[i];
+    }
+    return { up, name, C, S,
+             test: q => gs.every((g, i) => Math.sign(f(g, q)) === sg[i]) };
+  };
+  const all = [];
+  for (const n of TRI_NAMES) {
+    const sd = triSides(n);
+    all.push({ up: n[0] === 'U', name: n,
+               test: q => sd.every(si => arcF(solver.A, si, q[0], q[1]) < 0) });
+  }
+  const tU = mkw(R.U0, true, 'U0'), tD = mkw(R.D0, false, 'D0');
+  all.push(tU, tD);
+  return { all, large: [tU, tD], inside: (t, q) => t.test(q) };
+}
+function arcxRingCells() {
+  if (!RINGEXT()) return null;
+  const key = figureKey + '|' + (ARCSEED || []).join(',');
+  if (ARCX_CELLS && ARCX_CELLS.key === key) return ARCX_CELLS;
+  const T = arcxTriangles();
+  if (!T) { ARCX_CELLS = { key, cells: [], lo: 1, hi: 1 }; return ARCX_CELLS; }
+  const others = T.all.filter(t => T.large.indexOf(t) < 0);
+  const cov = q => { let c = 0; for (const t of T.large) if (T.inside(t, q)) c++; return c; };
+  /* A CELL IS WHAT ONE NEW SIDE COVERS AND NOTHING ELSE DOES
+     -------------------------------------------------------
+     Two overlapping new sides is one way of not being a cell; being inside
+     one of the OTHER triangles is the other, and on the straight figure it
+     is the only one - the two wedges there do not overlap at all, and
+     without this clause each of them would have been painted straight over
+     the yantra it stands on. On `Arcs extended 2` it also trims the slivers
+     where a point of the star laps back over one of the seven triangles
+     that did not grow.                                                  */
+  const shut = q => cov(q) >= 2 || others.some(t => T.inside(t, q));
+  /* THE CORNERS ARE PUT IN, NOT SAMPLED AT
+     --------------------------------------
+     A cell's outer boundary is a piece of one of its owner's sides, and
+     where it passes from one side to the next there is a corner - a vertex
+     of that triangle, which on these figures usually sits ON the rim. Nine
+     hundred rays step straight past it: the two rays either side of the
+     crossing both fall short of it and the polygon joins them with a chord,
+     so every corner came out with its tip taken off. It is a few thousandths
+     of a radius - three to five pixels on an exported figure - and against
+     flat colour it reads as a bite out of the cell. The corner is the meet
+     of two circles and can be had exactly, so it is: each neighbouring pair
+     of boundary points that ride different curves gets theirs put in
+     between them. The same is done on the inner boundary, where the curve
+     belongs to whichever triangle is shutting the band.               */
+  const ALLG = [], _seen = new Set();
+  for (const t of T.all) if (t.C) for (let i = 0; i < 3; i++) {
+    const g = [t.C[i * 4], t.C[i * 4 + 1], t.C[i * 4 + 2], t.C[i * 4 + 3]];
+    const k = g.map(v => v.toExponential(9)).join(',');
+    if (_seen.has(k)) continue;
+    _seen.add(k); ALLG.push(g);
+  }
+  /* which curve a boundary point is standing on - the nearest one, measured
+     as a distance rather than as a value of f, so curves scaled differently
+     compare fairly. A point the bisection put on a curve is within a
+     nanometre of it; anything further out is riding nothing.          */
+  const rideOf = q => {
+    const r2 = q[0] * q[0] + q[1] * q[1];
+    let b = -1, bd = Infinity;
+    for (let i = 0; i < ALLG.length; i++) {
+      const g = ALLG[i];
+      const v = Math.abs(g[0] * r2 + g[1] * q[0] + g[2] * q[1] + g[3]);
+      const gx = 2 * g[0] * q[0] + g[1], gy = 2 * g[0] * q[1] + g[2];
+      const d = v / Math.max(1e-12, Math.hypot(gx, gy));
+      if (d < bd) { bd = d; b = i; }
+    }
+    return bd < 1e-5 ? b : -1;
+  };
+  /* the corner between two neighbouring boundary points, if there is one.
+     A meet far from the pair is a different crossing of the same two
+     circles and is not this corner - the span is the yardstick.      */
+  const cornerAt = (A, B) => {
+    const ia = rideOf(A), ib = rideOf(B);
+    if (ia < 0 || ib < 0 || ia === ib) return null;
+    const hint = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2];
+    const m = gcMeet(ALLG[ia], ALLG[ib], hint);
+    if (!m) return null;
+    const sp = Math.hypot(B[0] - A[0], B[1] - A[1]);
+    return Math.hypot(m[0] - hint[0], m[1] - hint[1]) < Math.max(6 * sp, 0.02) ? m : null;
+  };
+  const weave = pts => {
+    const out = [];
+    for (let i = 0; i < pts.length; i++) {
+      out.push(pts[i]);
+      if (i + 1 < pts.length) { const c = cornerAt(pts[i], pts[i + 1]); if (c) out.push(c); }
+    }
+    return out;
+  };
+  const RMAX = 3.2;
+  const edge = (th, test) => {          // the largest r with test true
+    const c = Math.cos(th), s = Math.sin(th);
+    if (test([RMAX * c, RMAX * s])) return RMAX;
+    if (!test([0, 0])) return 0;
+    let lo = 0, hi = RMAX;
+    for (let i = 0; i < 32; i++) { const m = (lo + hi) / 2;
+      if (test([m * c, m * s])) lo = m; else hi = m; }
+    return lo;
+  };
+  const outR = th => edge(th, q => cov(q) >= 1);
+  const inR = (th, ro) => Math.min(ro, edge(th, shut));
+  const N = 900, TH = [], IN = [], OUT = [], OWN = [];
+  for (let k = 0; k < N; k++) {
+    const th = 2 * Math.PI * k / N;
+    const ro = outR(th), ri = inR(th, ro);
+    TH.push(th); OUT.push(ro); IN.push(ri);
+    let o = -1;
+    if (ro - ri > 1e-7) { const m = (ro + ri) / 2, q = [m * Math.cos(th), m * Math.sin(th)];
+      for (let j = 0; j < T.large.length; j++) if (T.inside(T.large[j], q)) { o = j; break; } }
+    OWN.push(o);
+  }
+  /* WHERE ONE CELL ENDS AND THE NEXT BEGINS
+     ---------------------------------------
+     Not at a gap: there is none. Two neighbouring points of the star meet at
+     the single ray where the two large triangles cross, and on either side
+     of it the band is owned by one of them. So a cell is a maximal run of
+     rays with the SAME owner, and looking for a dead ray to start the walk
+     on found none - every ray is in some cell - and returned no cells at
+     all.                                                                */
+  const ownAt = th => {
+    const ro = outR(th), ri = inR(th, ro);
+    if (ro - ri <= 1e-9) return -1;
+    const m = (ro + ri) / 2, q = [m * Math.cos(th), m * Math.sin(th)];
+    for (let j = 0; j < T.large.length; j++) if (T.inside(T.large[j], q)) return j;
+    return -1;
+  };
+  const bound = (thIn, thOut, o) => {          // the ray where the owner changes
+    let a = thIn, b = thOut;
+    for (let i = 0; i < 16; i++) { const m = (a + b) / 2;
+      if (ownAt(m) === o) a = m; else b = m; }
+    return (a + b) / 2;
+  };
+  const cells = [];
+  let k0 = -1;
+  for (let k = 0; k < N; k++) if (OWN[k] !== OWN[(k - 1 + N) % N]) { k0 = k; break; }
+  if (k0 >= 0) {
+    const step = 2 * Math.PI / N;
+    let k = 0;
+    while (k < N) {
+      const a = (k0 + k) % N, o = OWN[a];
+      let j = k + 1;
+      while (j < N && OWN[(k0 + j) % N] === o) j++;
+      if (o < 0) { k = j; continue; }
+      const run = []; for (let i = k; i < j; i++) run.push((k0 + i) % N);
+      const th0 = bound(TH[run[0]], TH[run[0]] - step, o);
+      const th1 = bound(TH[run[run.length - 1]], TH[run[run.length - 1]] + step, o);
+      /* the rays of the run already have both radii measured; only the two
+         refined ends need finding again, which is most of the cost saved */
+      const ths = [th0].concat(run.map(i => TH[i]), [th1]);
+      const ro0 = outR(th0), ro1 = outR(th1);
+      const ros = [ro0].concat(run.map(i => OUT[i]), [ro1]);
+      const ris = [inR(th0, ro0)].concat(run.map(i => IN[i]), [inR(th1, ro1)]);
+      const outer = ths.map((t, i) => [ros[i] * Math.cos(t), ros[i] * Math.sin(t)]);
+      const inner = ths.map((t, i) => [ris[i] * Math.cos(t), ris[i] * Math.sin(t)]);
+      const tm = TH[run[Math.floor(run.length / 2)]];
+      const rm = (OUT[run[Math.floor(run.length / 2)]] + IN[run[Math.floor(run.length / 2)]]) / 2;
+      cells.push({ owner: o, up: T.large[o].up, name: T.large[o].name,
+                   pts: weave(outer).concat(weave(inner).reverse()),
+                   mid: [rm * Math.cos(tm), rm * Math.sin(tm)] });
+      k = j;
+    }
+  }
+  /* WHAT EACH CELL COUNTS, OVER ELEVEN TRIANGLES RATHER THAN NINE
+     -------------------------------------------------------------
+     Kept as the two tallies rather than the signed total, because the sign
+     is a control: flipping it has to recolour the ring without rebuilding
+     it, and a cached signed count would have gone on showing the old one. */
+  for (const c of cells) {
+    let up = 0, dn = 0;
+    for (const t of T.all) if (T.inside(t, c.mid)) { if (t.up) up++; else dn++; }
+    c.up_n = up; c.dn_n = dn;
+  }
+  let lo = 1, hi = 1;
+  for (let k = 0; k < N; k++) if (OWN[k] >= 0) { lo = Math.min(lo, IN[k]); hi = Math.max(hi, OUT[k]); }
+  /* TH/OUT is the outline of the star the two new triangles make: the
+     largest radius at each angle that is still inside one of them. The
+     gaps between the ring's cells lie beyond it, and that is the only
+     boundary they have that is not the rim.                         */
+  ARCX_CELLS = { key, cells, lo, hi, th: TH, out: OUT.map(v => Math.min(1, v)) };
+  return ARCX_CELLS;
+}
+/* ---- THE NEW RING, MEASURED RATHER THAN DRAWN -------------------------
+   `Regular regions, no slivers` walks FACES and `Equal areas within each
+   ring` walks AREARINGS, and both of those are the nine triangles' own
+   regions - so on an extended figure they were saying nothing at all about
+   the ring the extension adds, which is the part of the figure a reader
+   looks at first. It is not in FACES because it is not made of nodes and
+   sides: a cell is what one new side covers and nothing else does, and it
+   has to be found by looking.
+
+   arcxRingCells() already finds them, but it walks nine hundred rays at
+   thirty-two bisections apiece because what it makes is a polygon to paint:
+   fifteen milliseconds, which is fine once a frame and impossible inside a
+   residual that is evaluated fifty times a step. This is the same march at
+   the resolution a NUMBER needs rather than a picture - area and perimeter
+   of each cell and nothing else - cached on the seeds it was measured at,
+   so the repeated pushes of one point inside a fit step cost one march
+   between them.                                                         */
+let XCELL = null;
+/* HOW FINE, AND WHY
+   -----------------
+   Two numbers, and they answer different questions. XCELL_N is how many rays
+   the ring is cut into - it sets how well a curved cell is approximated by a
+   polygon, and twelve rays across the smallest cell is plenty for an area
+   that is being compared with its neighbours.
+
+   XCELL_BIS is how precisely each ray finds the edge, and it cannot be
+   traded the same way. A fit step probes by moving the figure about 1e-5 of
+   the radius; every radius here is found by bisection, so a bisection that
+   stops at 1e-5 returns the SAME number on both sides of the probe and the
+   derivative comes out as zero. Measured at eighteen bisections: three of
+   the ten cells reported exactly no change under a probe, and the rest
+   disagreed with themselves by a factor of two between probe lengths. At
+   thirty-two the quantum is 7e-10, four orders below the probe, and the
+   derivative is the derivative. Depth is cheap - it is linear - so the
+   saving comes out of the ray count instead.                            */
+let XCELL_N = 120, XCELL_BIS = 32, XCELL_OWNBIS = 18;
+/* the flattened form of `t.test`, for the march's inner loop */
+function triHasXY(t, x, y) {
+  const C = t.C, S = t.S, r = x * x + y * y;
+  for (let i = 0; i < 3; i++) {
+    const b = i * 4;
+    const v = C[b] * r + C[b + 1] * x + C[b + 2] * y + C[b + 3];
+    if ((v > 0 ? 1 : v < 0 ? -1 : 0) !== S[i]) return false;
+  }
+  return true;
+}
+function arcxCellShapes() {
+  if (!N_XCELL || typeof RINGEXT !== 'function' || !RINGEXT()) return null;
+  const key = figureKey + '|' + ((typeof ARCSEED !== 'undefined' && ARCSEED) || []).join(',');
+  if (XCELL && XCELL.key === key) return XCELL;
+  const T = arcxTriangles();
+  if (!T) { XCELL = { key, cells: [] }; return XCELL; }
+  const others = T.all.filter(t => T.large.indexOf(t) < 0);
+  /* THE INNER LOOP, WITHOUT THE HOUSEKEEPING
+     ----------------------------------------
+     These are asked about seventy thousand times per evaluation of the
+     criteria, and the criteria are evaluated forty-five times per fit step,
+     so the march was three quarters of the whole fit. Almost none of that
+     was arithmetic: a two-element array allocated for every point, a
+     closure per side, and a comparator-driven sort of forty roots twice a
+     ray. Scalars, a flattened coefficient table and one reused buffer do
+     the same twelve multiplications in the same order and compare the same
+     signs - the cell areas below come out bit-identical - at a third of
+     the cost.                                                          */
+  const LG = T.large, OT = others, NL = LG.length, NO = OT.length;
+  const covXY = (x, y) => { let c = 0;
+    for (let j = 0; j < NL; j++) if (triHasXY(LG[j], x, y)) c++; return c; };
+  const shutXY = (x, y) => { if (covXY(x, y) >= 2) return true;
+    for (let j = 0; j < NO; j++) if (triHasXY(OT[j], x, y)) return true; return false; };
+  const RMAX = 3.2;
+  /* THE BOUNDARY IS A CIRCLE, SO ITS CROSSING IS A ROOT AND NOT A GUESS
+     -------------------------------------------------------------------
+     Every edge of every triangle here is a generalised circle, and a ray
+     meets one of those where a(r cos, r sin) reduces to a quadratic in r.
+     So the radius at which the band begins or ends is always one of about
+     forty numbers that can be written down, and the only question is which.
+
+     This used to bisect [0, 3.2] thirty-two times per ray per boundary,
+     evaluating the whole set of sign tests each time - and thirty-two
+     halvings is not exact, it is exact to 7e-10, which is why the count had
+     to be that high in the first place: coarser bisection quantises the
+     radii above the motion a fit probe makes and flattens the derivative
+     the fit reads. Solving the quadratics instead and binary-searching the
+     sorted roots answers with the root itself - no quantisation at all -
+     after about six sign tests rather than thirty-two.
+
+     The bisection is kept as the fallback for the case the roots cannot
+     describe: a ray that meets no edge at all.                         */
+  const NC = T.all.length * 3;
+  const ALLC = new Float64Array(NC * 4);
+  for (let j = 0; j < T.all.length; j++) ALLC.set(T.all[j].C, j * 12);
+  const RBUF = new Float64Array(NC * 2 + 1);
+  let RLEN = 0;
+  const rootsAlong = (c, s) => {
+    let m = 0;
+    for (let j = 0; j < NC; j++) {
+      const b0 = j * 4;
+      const a = ALLC[b0], b = ALLC[b0 + 1] * c + ALLC[b0 + 2] * s, d = ALLC[b0 + 3];
+      if (a > 1e-13 || a < -1e-13) {
+        const disc = b * b - 4 * a * d;
+        if (disc < 0) continue;
+        const sq = Math.sqrt(disc);
+        const r1 = (-b - sq) / (2 * a), r2 = (-b + sq) / (2 * a);
+        if (r1 > 0 && r1 < RMAX) RBUF[m++] = r1;
+        if (r2 > 0 && r2 < RMAX) RBUF[m++] = r2;
+      } else if (b > 1e-13 || b < -1e-13) {
+        const r = -d / b;
+        if (r > 0 && r < RMAX) RBUF[m++] = r;
+      }
+    }
+    RBUF[m++] = RMAX;
+    RLEN = m;
+    RBUF.subarray(0, m).sort();
+    return RBUF;
+  };
+  const bisectEdge = (c, s, test) => {
+    let lo = 0, hi = RMAX;
+    for (let i = 0; i < XCELL_BIS; i++) { const m = (lo + hi) / 2;
+      if (test(m * c, m * s)) lo = m; else hi = m; }
+    return lo;
+  };
+  /* both edges of a ray are looked for along the same ray, and the outer
+     one's boundary circles are a subset of the inner one's, so the roots
+     are found once and read twice - extra roots only subdivide a stretch
+     the predicate is constant on, which the search does not mind      */
+  let ROOT_TH = NaN, ROOT_R = null, ROOT_N = 0;
+  const rootsAt = (th, c, s) => {
+    if (th !== ROOT_TH) { ROOT_TH = th; ROOT_R = rootsAlong(c, s); ROOT_N = RLEN; }
+    return ROOT_R;
+  };
+  const edge = (th, test) => {
+    const c = Math.cos(th), s = Math.sin(th);
+    if (test(RMAX * c, RMAX * s)) return RMAX;
+    if (!test(0, 0)) return 0;
+    const R = rootsAt(th, c, s), NR = ROOT_N;
+    if (NR < 2) return bisectEdge(c, s, test);
+    /* the predicate is constant between consecutive roots; find the last
+       stretch where it holds, and the boundary is that stretch's own root */
+    const holds = i => { const m = (i === 0 ? 0 : R[i - 1] + R[i]) / (i === 0 ? 1 : 2);
+                         return test(m * c, m * s); };
+    let lo = 0, hi = NR - 1;                // stretch i runs up to R[i]
+    if (!holds(hi)) {
+      while (hi - lo > 1) { const m = (lo + hi) >> 1;
+        if (holds(m)) lo = m; else hi = m; }
+      return R[lo];
+    }
+    return R[hi];
+  };
+  const covTest = (x, y) => covXY(x, y) >= 1;
+  const outR = th => edge(th, covTest);
+  const inR = (th, ro) => Math.min(ro, edge(th, shutXY));
+  const ownOf = q => { for (let j = 0; j < NL; j++)
+                         if (triHasXY(LG[j], q[0], q[1])) return j; return -1; };
+  const N = XCELL_N, TH = [], IN = [], OUT = [], OWN = [];
+  for (let k = 0; k < N; k++) {
+    const th = 2 * Math.PI * k / N;
+    const ro = outR(th), ri = inR(th, ro);
+    TH.push(th); OUT.push(ro); IN.push(ri);
+    let o = -1;
+    if (ro - ri > 1e-7) o = ownOf([(ro + ri) / 2 * Math.cos(th), (ro + ri) / 2 * Math.sin(th)]);
+    OWN.push(o);
+  }
+  /* WHERE ONE CELL ENDS AND THE NEXT BEGINS, WITHOUT PAYING FOR IT TWICE
+     ---------------------------------------------------------------------
+     The boundary is the ray at which the band changes hands, and finding it
+     means asking `who owns this angle` a couple of dozen times. Asking it
+     properly costs two full bisections - sixty-eight evaluations - and that
+     one question was more than half the cost of the whole march. The answer
+     only needs a point strictly INSIDE the band, though, not the band's
+     exact edges: between two neighbouring rays the two radii are known, so
+     the midway radius is interpolated and one point-in-triangle test
+     settles it. Where that lands outside the band - the narrowest ends,
+     where the two radii nearly meet - it falls back to the honest test. */
+  /* WHO OWNS THIS ANGLE
+     -------------------
+     Two full bisections a call, and there is no shortcut past them: between
+     one cell and the next the two large triangles OVERLAP - which is why the
+     band does not pinch to nothing there - so any guess at a radius that
+     skips finding the band's own edges lands in that overlap and answers
+     with the wrong owner. What CAN be saved is asking twice: every boundary
+     is the end of one cell and the start of the next, so it is found once,
+     before the cells are walked, and both of them read it.              */
+  const ownAt = th => {
+    const ro = outR(th), ri = inR(th, ro);
+    if (ro - ri <= 1e-9) return -1;
+    const r = (ro + ri) / 2;
+    return ownOf([r * Math.cos(th), r * Math.sin(th)]);
+  };
+  /* CHEAP FIRST, AND ONLY BELIEVED WHEN IT PROVES ITSELF
+     ----------------------------------------------------
+     The note above is right that a guessed radius cannot be trusted - where
+     two large triangles overlap it lands in the overlap and names the wrong
+     owner. But it can be CHECKED, and checking it is thirty-nine sign tests
+     against the eighteen hundred that finding the band's own edges costs.
+     A point is in the band exactly when one large triangle covers it, no
+     second one does, and none of the others does; that is the band's
+     definition, not an approximation of it. So: interpolate the two radii
+     from the rays either side, take the midpoint, and if it passes that
+     test the owner is read straight off it. Where it fails - the narrow
+     ends, which is precisely where the overlap is - fall back to the two
+     full bisections.
+
+     This was two thirds of the whole march, and the march was five of the
+     six milliseconds a criteria evaluation cost, which is fifty of those
+     per fit step. Nothing about the answer changes: every accepted point is
+     verified to be in the band by the same tests that define it.       */
+  const ownInBand = (x, y) => {
+    let o = -1, c = 0;
+    for (let j = 0; j < NL; j++)
+      if (triHasXY(LG[j], x, y)) { if (++c > 1) return -1; o = j; }
+    if (c !== 1) return -1;
+    for (let j = 0; j < NO; j++) if (triHasXY(OT[j], x, y)) return -1;
+    return o;
+  };
+  const ownNear = (th, ro, ri) => {
+    if (ro - ri > 1e-7) {
+      const r = (ro + ri) / 2;
+      const o = ownInBand(r * Math.cos(th), r * Math.sin(th));
+      if (o >= 0) return o;
+    }
+    return ownAt(th);
+  };
+  const bound = (thIn, thOut, o, roIn, riIn, roOut, riOut) => {
+    let a = 0, b = 1;                       // parameter along thIn -> thOut
+    for (let i = 0; i < XCELL_OWNBIS; i++) {
+      const t = (a + b) / 2, th = thIn + (thOut - thIn) * t;
+      const ro = roIn + (roOut - roIn) * t, ri = riIn + (riOut - riIn) * t;
+      if (ownNear(th, ro, ri) === o) a = t; else b = t;
+    }
+    return thIn + (thOut - thIn) * (a + b) / 2;
+  };
+  const cells = [];
+  let k0 = -1;
+  for (let k = 0; k < N; k++) if (OWN[k] !== OWN[(k - 1 + N) % N]) { k0 = k; break; }
+  if (k0 >= 0) {
+    const step = 2 * Math.PI / N;
+    const BND = new Array(N).fill(null);       // where the owner becomes OWN[k]
+    for (let k = 0; k < N; k++) if (OWN[k] !== OWN[(k - 1 + N) % N]) {
+      const j = (k - 1 + N) % N;
+      BND[k] = bound(TH[k], TH[k] - step, OWN[k], OUT[k], IN[k], OUT[j], IN[j]);
+    }
+    let k = 0;
+    while (k < N) {
+      const a = (k0 + k) % N, o = OWN[a];
+      let j = k + 1;
+      while (j < N && OWN[(k0 + j) % N] === o) j++;
+      if (o < 0) { k = j; continue; }
+      const run = []; for (let i = k; i < j; i++) run.push((k0 + i) % N);
+      const f0 = run[0], l0 = run[run.length - 1], nx = (l0 + 1) % N;
+      const th0 = BND[f0] !== null ? BND[f0] : TH[f0] - step / 2;
+      const th1 = BND[nx] !== null ? BND[nx] : TH[l0] + step / 2;
+      const ths = [th0].concat(run.map(i => TH[i]), [th1]);
+      const ro0 = outR(th0), ro1 = outR(th1);
+      const ros = [ro0].concat(run.map(i => OUT[i]), [ro1]);
+      const ris = [inR(th0, ro0)].concat(run.map(i => IN[i]), [inR(th1, ro1)]);
+      const pts = [];
+      for (let i = 0; i < ths.length; i++)
+        pts.push([ros[i] * Math.cos(ths[i]), ros[i] * Math.sin(ths[i])]);
+      for (let i = ths.length - 1; i >= 0; i--)
+        pts.push([ris[i] * Math.cos(ths[i]), ris[i] * Math.sin(ths[i])]);
+      let a2 = 0, per = 0;
+      for (let i = 0; i < pts.length; i++) {
+        const u = pts[i], v = pts[(i + 1) % pts.length];
+        a2 += u[0] * v[1] - v[0] * u[1];
+        per += Math.hypot(v[0] - u[0], v[1] - u[1]);
+      }
+      const area = Math.abs(a2) / 2;
+      cells.push({ owner: o, name: T.large[o].name, up: T.large[o].up, area, per,
+                   comp: per > 1e-12 ? 4 * Math.PI * area / (per * per) : 0 });
+      k = j;
+    }
+  }
+  XCELL = { key, cells };
+  return XCELL;
+}
+/* the ring's cells in the order the criteria count them, or null if this
+   figure is not showing the number of them the rows were sized for - a
+   half-built ring is measured as nothing rather than as something else  */
+function arcxCellRows() {
+  if (!N_XCELL) return null;
+  const C = arcxCellShapes();
+  if (!C || C.cells.length !== N_XCELL) return null;
+  return C.cells;
+}
+const ARCX2_TEXT = {
+  U2: 'U2 with its base carried out to the arc through node 55',
+  D3: 'D3 with its base carried out to the arc through node 68',
+  U0: 'U0 on the base U2 gave up \u2014 the old U2.base, carried out',
+  D0: 'D0 on the base D3 gave up \u2014 the old D3.base, carried out'
+};
+
+const ARCX_TEXT = {
+  D0: 'apex node 69 on the rim; legs the circle through the outer corners of '
+    + 'the three largest UPWARD triangles (47 \u00b7 65 \u00b7 64); base through '
+    + 'node 68, the apex of the largest upward triangle, and through the two '
+    + 'corners 75 and 76 \u2014 which the rim holds',
+  U0: 'apex node 70 on the rim; legs the circle through the outer corners of '
+    + 'the three largest DOWNWARD triangles (12 \u00b7 54 \u00b7 31); base through '
+    + 'node 55, the apex of the largest downward triangle, and through the two '
+    + 'corners 73 and 74 \u2014 which the rim holds'
+};
+
+
 function drawFigure() {
   applyField();
+  /* the arc figure's two new sides */
+  if (arcxPaths && ARCEXT2()) {
+    const S = arcx2Sides();
+    const pt = q => q[0].toFixed(5) + ' ' + (-q[1]).toFixed(5);
+    /* four sides on figure 2, six on figure 3 - the list comes from the
+       figure rather than being written out here                        */
+    const NMS = (S && S.tris) || ['D0', 'U0', 'U2', 'D3'];
+    while (arcxPaths.length < NMS.length)
+      arcxPaths.push(el('path', G.tris, { class: 'tri xtri', d: '' }));
+    NMS.forEach((nm, k) => {
+      const z = S && S[nm];
+      arcxPaths[k].setAttribute('d', z ? 'M' + z.pts.map(pt).join('L') + 'Z' : '');
+    });
+    const tips = S ? S.nodes : null;
+    if (arcxDots) arcxDots.forEach((e, k) => {
+      if (!tips || !tips[k] || !show.nodes) { e.setAttribute('r', 0); return; }
+      e.setAttribute('r', 0.014);
+      e.setAttribute('cx', tips[k][0].toFixed(5));
+      e.setAttribute('cy', (-tips[k][1]).toFixed(5));
+    });
+    if (arcxLabels) arcxLabels.forEach((t, k) => {
+      if (!tips || !tips[k] || !show.labels) { t.setAttribute('x', -99); return; }
+      t.setAttribute('x', tips[k][0] + (tips[k][0] < 0 ? -0.030 : 0.030));
+      t.setAttribute('y', -tips[k][1] + 0.012);
+    });
+    if (arcxHits) NMS.forEach((nm, k) => {
+      const z = S && S[nm], e = arcxHits[k];
+      if (!e) return;
+      e.setAttribute('d', z ? 'M' + z.pts.map(pt).join('L') : '');
+      e._what = { kind: 'arcx', name: nm,
+                  text: nm + '  \u2014  ' + (ARCX2_TEXT[nm] || 'carried out to the base it has taken over') };
+    });
+  } else if (arcxPaths) {
+    const R = arcxRim();
+    const pt = q => q[0].toFixed(5) + ' ' + (-q[1]).toFixed(5);
+    const lens = z => {
+      if (!z) return '';
+      const f = z.pts.map(pt), b = z.pts.map(q => pt([-q[0], q[1]]));
+      return 'M' + f.join('L') + (z.line ? '' : 'L' + b.reverse().join('L') + 'Z');
+    };
+    ['D0', 'U0'].forEach((nm, k) => arcxPaths[k].setAttribute('d', lens(R && R[nm])));
+    /* 69, 70 the two apexes; 71, 72 where D0's and U0's legs cross; 73-76
+       the four base corners. The apexes and the four corners - six in all,
+       one for each point of the ring - are held on the rim. */
+    const tips = R ? [R.D0.tip, R.U0.tip,
+                      R.stop, R.stop && [-R.stop[0], R.stop[1]],
+                      R.U0.corner, [-R.U0.corner[0], R.U0.corner[1]],
+                      R.D0.corner, [-R.D0.corner[0], R.D0.corner[1]]] : null;
+    if (arcxDots) arcxDots.forEach((e, k) => {
+      if (!tips || !tips[k] || !show.nodes) { e.setAttribute('r', 0); return; }
+      e.setAttribute('r', 0.014);
+      e.setAttribute('cx', tips[k][0].toFixed(5));
+      e.setAttribute('cy', (-tips[k][1]).toFixed(5));
+    });
+    if (arcxLabels) arcxLabels.forEach((t, k) => {
+      if (!tips || !tips[k] || !show.labels) { t.setAttribute('x', -99); return; }
+      t.setAttribute('x', tips[k][0] + 0.030);
+      t.setAttribute('y', -tips[k][1] + 0.012);
+    });
+    if (arcxHits) { ['D0', 'U0'].forEach((nm, k) => {
+      const z = R && R[nm];
+      arcxHits[k].setAttribute('d', z ? 'M' + z.pts.map(pt).join('L') : '');
+      arcxHits[k]._what = { kind: 'arcx', name: nm, text: nm + '  \u2014  ' + ARCX_TEXT[nm] };
+    });
+      for (let k = 2; k < arcxHits.length; k++) {
+        arcxHits[k].setAttribute('d', ''); arcxHits[k]._what = null; } }
+  }
+  /* D0 and U0, redrawn with the parameters. Two wedges that close on each
+     other, drawn as sides and hit-tested as sides.                      */
+  if (rimPaths) {
+    const R = EXT ? extRimWedges(curFigure(EXACTP)) : null;
+    const pt = q => q[0].toFixed(5) + ' ' + (-q[1]).toFixed(5);
+    ['D0', 'U0'].forEach((nm, k) => {
+      const z = R && R[nm];
+      rimPaths[k].setAttribute('d', z
+        ? 'M' + pt(z.left) + 'L' + pt(z.apex) + 'L' + pt(z.right) : '');
+    });
+    const rpts = R ? [R.D0.apex, R.U0.apex, R.D0.right, R.D0.left] : null;
+    if (rimDots) rimDots.forEach((e, k) => {
+      if (!rpts || !show.nodes) { e.setAttribute('r', 0); return; }
+      e.setAttribute('r', 0.014);
+      e.setAttribute('cx', rpts[k][0].toFixed(5));
+      e.setAttribute('cy', (-rpts[k][1]).toFixed(5));
+    });
+    if (rimLabels) rimLabels.forEach((t, k) => {
+      if (!rpts || !show.labels) { t.setAttribute('x', -99); return; }
+      const x = rpts[k][0], y = -rpts[k][1];
+      t.setAttribute('x', x + (x < 0 ? -0.026 : 0.026));
+      t.setAttribute('y', y + 0.012);
+    });
+    if (rimHits) {
+      let k = 0;
+      for (const nm of ['D0', 'U0']) for (const side of ['right', 'left']) {
+        const z = R && R[nm];
+        rimHits[k++].setAttribute('d', z
+          ? 'M' + pt(z.apex) + 'L' + pt(z[side]) : '');
+      }
+    }
+  }
   if (PALETTES[palette].scheme) {
     const cnt = PALETTES[palette].scheme === 'count'
       ? faceCounts(P, solver.A, COUNTM, COUNTSGN, COUNTSHIFT) : null;
@@ -4821,9 +6138,17 @@ function drawFigure() {
     }
     if (cnt) palDot.style.setProperty('fill', binduColour(cnt));
     else palDot.style.removeProperty('fill');
+    paintRingCells(!!cnt, flip);
   } else {
     for (const e of facePaths) e.setAttribute('class', 'f-off');
     palDot.style.removeProperty('fill');     // else a counted bindu outlives it
+    /* A palette with no scheme paints no regions - except Cracks, whose
+       shell IS the regions: the nine triangles and the grown cells, filled
+       in the shard colour by the stylesheet. The extension's cells belong to
+       that shell exactly as a grown ring's do, and switched off here they
+       left the whole outer band of an extended figure as bare page with the
+       yantra's light spilling over it.                                  */
+    paintRingCells(false, flip, !PALETTES[palette].crack);
   }
   if (beyondArcs) {
     const ext = BEYOND ? allSidePaths(flip, 4) : null;
@@ -4958,14 +6283,28 @@ function drawFigure() {
     const rr = frameReach(), rims = crackRims();
     const arcs = BEYOND ? crackSidePaths(flip, 4) : null;
     fig.classList.toggle('beyond', !!arcs);
+    /* THE EXTENDED FIGURE IS PART OF THE YANTRA
+       -----------------------------------------
+       The glow was built from TRI_NAMES and SIDES, which are the nine
+       triangles and their sides - so on an extended figure the six new sides
+       were drawn as bare hot cores with no light coming out of them, and the
+       shell stopped at the nine. Whatever the figure's extension draws is
+       collected here and gets the same four copies as everything else. */
+    const extEls = [];
+    if (typeof arcxPaths !== 'undefined' && arcxPaths) for (const e of arcxPaths) extEls.push(e);
+    if (typeof rimPaths !== 'undefined' && rimPaths) for (const e of rimPaths) extEls.push(e);
     for (const set of glowSets) {
+      while (set.ext.length < extEls.length)
+        set.ext.push(el('path', set.g, { class: 'em xtri' }));
+      set.ext.forEach((e, k) => e.setAttribute('d',
+        (extEls[k] && extEls[k].getAttribute('d')) || ''));
       set.tri.forEach((e, k) => e.setAttribute('d', triPaths[k].getAttribute('d') || ''));
       set.arcs.forEach((e, i) => e.setAttribute('d', arcs ? arcs[i] : ''));
       set.grow.forEach((row, L) => row.forEach((e, k) =>
         e.setAttribute('d', (growPathEls[L] && growPathEls[L][k]
                              && growPathEls[L][k].getAttribute('d')) || '')));
       set.rings.forEach((e, k) => e.setAttribute('r', (rims[k] || 0).toFixed(5)));
-      set.dot.setAttribute('r', (PALETTES[palette].dot * 0.9).toFixed(5));
+      set.dot.setAttribute('r', (PALETTES[palette].dot * 0.9 * binduK()).toFixed(5));
     }
     crackRimEls.forEach((e, k) => e.setAttribute('r', (rims[k] || 0).toFixed(5)));
     crackArcEls.forEach((e, i) => e.setAttribute('d', arcs ? arcs[i] : ''));
@@ -4981,6 +6320,7 @@ function drawFigure() {
   } else if (glowSets.length) {
     for (const set of glowSets) {
       set.tri.forEach(e => e.setAttribute('d', ''));
+      set.ext.forEach(e => e.setAttribute('d', ''));
       set.grow.forEach(row => row.forEach(e => e.setAttribute('d', '')));
       set.arcs.forEach(e => e.setAttribute('d', ''));
       set.rings.forEach(e => e.setAttribute('r', 0));
@@ -4994,6 +6334,21 @@ function drawFigure() {
   }
   /* The petals ride with the frame's colour but not with its switch: they
      are wanted most on the figures that carry no frame at all. */
+  /* RING 5 IS ONLY A BAND WHERE A PALETTE PAINTS BANDS
+     --------------------------------------------------
+     It rides the light ramp, so it belongs to the schemes that use that
+     ramp and to nothing else: with no scheme the figure is line work and
+     this would be a disc of colour laid under it.                    */
+  /* the ramp depends on the figure, so it is laid again on every frame */
+  if (typeof applyLightRamp === 'function') applyLightRamp();
+  if (gapEl) {
+    const p5 = PALETTES[palette];
+    const gv = gapVar();
+    const d5 = gv ? arcxStarPath(flip, 4) : '';
+    gapEl.setAttribute('d', d5);
+    if (d5) gapEl.style.setProperty('fill', 'var(' + gv + ')');
+    else gapEl.style.removeProperty('fill');
+  }
   if (rimEl) {
     const rc = rimFillColour();
     rimEl.setAttribute('d', rc ? discPath(1, flip, 4) : '');
@@ -5015,11 +6370,14 @@ function drawFigure() {
        petals match the yantra's lines through every palette */
     petalEl.setAttribute('d', rows.map(r => r.line).join(' ')
                               + ' ' + petalBasePaths(flip, 4));
-    /* each row filled as its own grown ring would be */
+    /* each row filled as its own grown ring would be. NOT under `ring fills`:
+       that switch names the pale ground a ring or a row of petals stands
+       IN, not the cells themselves - the same distinction the grown rings
+       keep, where the cells are part of the figure and the field is not. */
     petalFills.forEach((e, L) => {
       const row = rows[L];
       e.setAttribute('d', row ? row.fill : '');
-      const c = row ? ringFillColour(L) : 'none';
+      const c = row ? ringFillColour(L, true) : 'none';
       e.style.setProperty('fill', (c && c !== 'none') ? c : 'none');
     });
   }
@@ -5119,6 +6477,13 @@ function ringRadius(parts) {
    ring comes back empty. growLayers itself is untouched: the criteria and
    the ring measurements are about the figure, not about what is on show. */
 function ringShown(L) {
+  /* Never on `Arcs extended 2` and `3`. Each cell of a grown ring stands on
+     the arc of the rim between two neighbouring rim nodes; those two figures
+     release exactly those nodes, so the ring is left standing on a circle it
+     no longer touches and its tips run out to ten radii - which is enough to
+     drive the whole view down to a fifteenth of its size. Their own ring is
+     the one the eleven triangles cut out. */
+  if (typeof DATASET !== 'undefined' && DATASET && DATASET.arcext2) return false;
   return L === 0 ? show.ring1 !== false
        : L === 1 ? show.ring2 !== false : true;
 }
@@ -5607,10 +6972,92 @@ function buildPanel() {
 /* the disc, the three rings and the bindu are per-palette, so they are built
    once and resized whenever the palette changes                            */
 /* a palette's bindu may be conditional on the centre marker being off */
+/* ---- the small pieces the extended drawing asks for ------------------- */
+/* The bindu is drawn smaller on the two extended figures: their innermost
+   triangle is smaller than the nine-triangle one, and the dot at its old
+   size filled it. */
+function binduK() {
+  return (DATASET && DATASET.arcext2) ? 0.67 : 1;
+}
+/* How many bands of ground the palette has to colour. On the extended
+   figures there is one more than usual - the ground between the new ring's
+   cells, out to the rim - and the ramps carry six steps rather than five so
+   that band gets a colour of its own instead of wearing the field's. */
+/* WHOSE GROUND IS THE SCHEME
+   ---------------------------
+   `fixedField` says that on this palette the ground is not a decoration
+   laid under the figure but part of the scheme itself, so `ring fills` and
+   `rim fills` have nothing to switch and their buttons come down. The two
+   ramped palettes are marked with it.
+
+   It is honoured ONLY on `Arcs extended 2` and `3`. Those are the figures
+   the flag was introduced for - their own ring stands inside the rim and
+   the ground between its cells is part of the ramp, so switching the field
+   off there takes the picture apart. On the four older figures Rainbow and
+   the aum copy keep both switches and behave exactly as they did before;
+   changing that was not asked for. Remove the `&& ARCEXT2()` to let the
+   flag reach every figure. */
+function fixedField(p) {
+  p = p || PALETTES[palette];
+  return !!(p && p.fixedField && typeof ARCEXT2 === 'function' && ARCEXT2());
+}
+
+/* and where the ramp is an interpolation rather than a list of named hues,
+   its steps are generated to fit: both ends fixed - white at the heart,
+   #feff61 at the rim - and as many between them as the figure has bands.
+   Writing a fixed six-value ramp meant a five-band figure used five of
+   them and left a hole, and its outermost two bands came out the same
+   colour. Spaced by t^1.25 in the blue channel: between white and cream a
+   small change is plain, while at the saturated end two yellows the same
+   distance apart read as one, so the step has to grow outward. */
+const LIGHT_END = [255, 97];                  // #ffffff -> #feff61
+const lightHex = b => '#' + (b <= 151 ? 'feff' : 'ffff')
+                          + Math.round(b).toString(16).padStart(2, '0');
+const lightStep = (k, last) => lightHex(LIGHT_END[0]
+  - Math.pow(last ? k / last : 0, 1.25) * (LIGHT_END[0] - LIGHT_END[1]));
+function applyLightRamp() {
+  const bs = document.body.style;
+  for (let i = 0; i <= 5; i++) bs.removeProperty('--x-f-lc' + i);
+  const p = PALETTES[palette];
+  if (!p || !p.lightRamp) return;
+  const last = groundBands() - 1;
+  for (let k = 0; k <= last; k++) bs.setProperty('--x-f-lc' + k, lightStep(k, last));
+}
+
+function groundBands() {
+  const p = PALETTES[palette];
+  const star = !!(p && p.outerIn && typeof RINGEXT === 'function' && RINGEXT());
+  return star ? 6 : 5;
+}
+function fieldVar() {
+  const p = PALETTES[palette];
+  if (!p) return null;
+  return (p.outerIn && groundBands() >= 6) ? p.outerIn : p.fieldIn;
+}
+function gapVar() {
+  const p = PALETTES[palette];
+  return (p && p.outerIn && groundBands() >= 6) ? p.fieldIn : null;
+}
+function fieldInner(p) {
+  return [{ r: 1, col: fieldVar() || p.fieldIn }];
+}
+/* NOTHING IS HELD ON EITHER EXTENDED FIGURE IN THIS VIEWER
+   -------------------------------------------------------
+   `Arcs extended 2` and `3` are carried here as the constructions of
+   ARC_REC2 and ARC_REC3: their rim corners are on the rim because the order
+   puts them there, not because a correction puts them back. The development
+   viewer also carried SOLVED versions of the same two figures, which did
+   need a correction after every move; these two entry points are what it
+   called, and they are what the drawing code still asks for. With no held
+   member present they have nothing to do. */
+const ARCXRIM_TOL = 1e-9;
+function arcxRimSpread() { return 0; }        // no condition is held
+function arcxRimFix()    { return true; }     // so there is nothing to put back
+
 function palDotR() {
   const p = PALETTES[palette];
   if (!p.dot) return 0;
-  return (p.dotOff && show.centre) ? 0 : p.dot;
+  return (p.dotOff && show.centre) ? 0 : p.dot * binduK();
 }
 
 /* A palette can flood the reach of the figure with pale colour and let
@@ -5627,7 +7074,15 @@ function palDotR() {
    to that ring instead.                                                */
 function palField() {
   const p = PALETTES[palette];
-  if (!p.field || !solver || !RINGFILL) return [];
+  /* `ring fills` AND `rim fills` DO NOT REACH THESE PALETTES
+     -------------------------------------------------------
+     `ring fills` gated the whole field, the disc inside the rim included,
+     so switching it off took the ground out from under the yantra and the
+     bands of the ramp with it. On a palette whose ground IS the scheme -
+     Rainbow and the two aum copies - that is not a switch, it is a way of
+     breaking the picture. Both switches are inert there and the buttons
+     are taken down; the ground is always what the palette says it is. */
+  if (!p.field || !solver || (!RINGFILL && !fixedField(p))) return [];
   const pale = ['--x-f-grow-lt', '--x-f-grow2-lt'];
   const pad = FRAME.w * frameReach();
   /* WHAT THE FIELD STANDS ON
@@ -5648,6 +7103,15 @@ function palField() {
      of radius 1 - so the field stopped following anything and the whole of
      the outside took one flat colour. Only layers with cells in them. */
   const live = GROW ? drawLayers().filter(parts => parts && parts.length) : [];
+  /* THE EXTENDED FIGURES STAND IN THEIR OWN RING
+     --------------------------------------------
+     They grow no ring and wear no petals, so this used to hand back nothing
+     at all and the whole disc was left bare paper - the one palette element
+     that makes the arc figures read. The new ring is what the field should
+     follow here: its cells reach the rim, so the outer band is the ring's
+     own pale twin out to r = 1, and the disc inside it ends where the ring
+     begins rather than at the rim. Exactly the classical arrangement, with
+     the new ring in the grown ring's place.                            */
   if (live.length) {
     for (const parts of live) {
       let hi = 1, lo = Infinity;
@@ -5660,7 +7124,16 @@ function palField() {
   } else if (petalsOn()) {
     for (const row of petalGeom(ringReach()).rows) bands.push({ hi: row.b, lo: row.b });
   }
-  if (!bands.length) return [];
+  /* THE EXTENDED FIGURES, WEARING NOTHING OUTSIDE THE RIM
+     -----------------------------------------------------
+     They grow no ring, and with the petalled frame off they have no row of
+     petals either - so there is no band, and this returned nothing at all
+     and left the whole disc bare paper. Their new ring stands INSIDE the
+     rim and reaches it, so fieldIn goes out to the rim and nothing lies
+     beyond it. Put the petals back on and the rows below take over exactly
+     as they do everywhere else, with their own pale grounds - which is what
+     `ring fills` switches, here as on every other figure.              */
+  if (!bands.length) return (fixedField(p) || ARCEXT()) ? fieldInner(p) : [];
   const layers = bands;
   const out = [];
   for (let L = layers.length - 1; L >= 0; L--) {
@@ -5687,7 +7160,7 @@ function palField() {
     }
     out.push({ r, col: pale[L] || pale[0] });
   }
-  out.push({ r: 1, col: p.fieldIn });        // the tips sit on this one exactly
+  for (const b of fieldInner(p)) out.push(b);   // the tips sit on the first exactly
   return out;
 }
 
@@ -5863,6 +7336,13 @@ function setPalette(key) {
     !(PALETTES[key].scheme || PALETTES[key].lens || PALETTES[key].shade
       || PALETTES[key].crack || PALETTES[key].stipple));
   if (typeof applyTints === 'function') applyTints();
+  if (typeof applyLightRamp === 'function') applyLightRamp();
+  /* the two fill switches are inert on the ramped palettes, so which buttons
+     are up depends on the palette and not only on the figure. Guarded on
+     GROW: setPalette runs once during start-up, before the first figure is
+     built, and showForConstruction reads it. */
+  if (typeof showForConstruction === 'function' && typeof GROW !== 'undefined')
+    showForConstruction();
   fitView();
   applyPaletteShapes();
 }
@@ -6737,6 +8217,15 @@ function ringPolish() {
 }
 /* nothing reaches the screen with the ring off its circle */
 function ring1Gate(back) {
+  /* `Arcs extended 2` holds its two rim coincidences instead of a ring */
+  if (ARCEXT2()) {
+    if (arcxRimSpread() <= ARCXRIM_TOL) return true;
+    if (arcxRimFix(10)) { ARCXRIMLAST = ARCSEED ? ARCSEED.slice() : null; return true; }
+    if (ARCXRIMLAST) { const b = arcConstruct(ARCXRIMLAST);
+      if (b && arcPush(b)) { ARCSEED = ARCXRIMLAST.slice(); ARCPC = null; ARCPCT = null; } }
+    note('the inherited corners will not stay on the rim there \u2014 put back');
+    return false;
+  }
   if (!RING1HOLD || DATASET.construct !== 'arc') return true;
   if (ring1Spread() <= Math.max(RING1TOL, 1e-7)) return true;
   if (ring1Fix(10, ARC_PC)) { RING1LAST = ARCSEED ? ARCSEED.slice() : null; return true; }
@@ -7226,10 +8715,36 @@ function arcAnchorPC() {
              other measure still reads healthy. That is the "tiny change
              wrecks it" everyone notices, so that is what the range is set
              by.                                                        */
-          const L1 = growRing(solver.X, solver.A);
-          const L2 = GROW >= 2 ? growRing2(solver.X, solver.A, L1) : L1;
-          good = M2.minGap > GAP0 && M2.minKap > KAP0
-              && (!GROW || (L1.length === OUTER.length && L2.length === OUTER.length));
+          /* THE GROWN RINGS ARE NOT THE TEST ON THE EXTENDED FIGURES
+             --------------------------------------------------------
+             Each cell of a grown ring stands on the arc of the RIM between
+             two neighbouring rim nodes, and those are exactly the nodes
+             `Arcs extended 2` and `3` release - so the rings do not close
+             there and never will. Measured at the anchor of figure 2 the
+             second ring returns 8 cells against the 14 asked for, which
+             made `good` false at the figure itself: every bisection came
+             back with a span of zero and all 22 sliders fell through to the
+             Math.max(0.02, ...) floor below. That is the same failure the
+             comment above this loop describes, with the convexity test in
+             place of this one, and it is why those sliders looked dead.
+
+             What those two figures have instead is the ring the eleven
+             triangles cut out of the rim, so that is what is asked after:
+             it must still be there, with all of its outer nodes. Pass the
+             built figure - arcx2Sides() with no argument rebuilds from
+             ARCSEED, which the bisection never changes, so it would answer
+             about the anchor every time. */
+          let ringOK;
+          if (ARCEXT2()) {
+            const S = arcx2Sides(bb);
+            ringOK = !!S && S.nodes.length === N_XCELL
+                     && S.nodes.every(z => z && isFinite(z[0]) && isFinite(z[1]));
+          } else {
+            const L1 = growRing(solver.X, solver.A);
+            const L2 = GROW >= 2 ? growRing2(solver.X, solver.A, L1) : L1;
+            ringOK = !GROW || (L1.length === OUTER.length && L2.length === OUTER.length);
+          }
+          good = M2.minGap > GAP0 && M2.minKap > KAP0 && ringOK;
         }
         if (good) lo = m; else up = m;
       }
@@ -7318,7 +8833,8 @@ let INNER = null;        // [{v, s}] the directions, in parameter space
 let INNERT = [];         // the slider values
 let INNERP0 = null;      // the anchor
 let INNERFIX = null;     // {idx, val} the held arc parameters
-let INNERON = false;     // is the hold engaged
+let INNERON = false;     // the hold: true exactly when INNER is taken
+let INNER_PC = false;    // are the directions diagonalised, or as they were found
 let INNERINC0 = 0;       // the incidence error at the anchor, for comparison
 let INNERGAP0 = 0;       // and the narrowest cell there
 
@@ -7346,8 +8862,79 @@ function innerNodes(pv) {
   return X;
 }
 
+/* PRINCIPAL DIRECTIONS FOR THE INNER THREE
+   ----------------------------------------
+   nullBasis returns whatever basis the elimination happens to land on: the
+   directions are independent but they are not orthogonal in any sense the
+   eye can see, so two sliders often move much the same part of the figure
+   and a third moves almost nothing. This diagonalises the motion, the way
+   the Construction panel's `principal components` button does, giving a
+   basis that is orthogonal AS MOTION and ordered by how much of the figure
+   each direction moves. The span is identical either way - the same
+   family, in different coordinates - and so is the scaling convention: a
+   full slider moves the worst-placed node INNER_REACH.
+
+   ORTHONORMALISE THE STEPS FIRST. The eigenvalues of the motion Gram matrix
+   order the directions by motion per unit of COEFFICIENT in whatever basis
+   the matrix was built in, and nullBasis's vectors are neither unit nor
+   mutually orthogonal as parameter steps - so ordering by eigenvalue there
+   orders nothing a reader can check: diagonalised in the raw
+   coefficients the node motion per unit step came out 0.190, 0.118, 0.149,
+   0.234, 0.078 - not descending, and the slider labelled first was the
+   third weakest. Gram-Schmidt in parameter space first and a unit
+   eigen-coefficient is a unit step, so the order is real. Measured on the
+   ring-one figure it then runs 0.597, 0.239, 0.155, 0.130, 0.070, and the
+   largest cosine between any two of the motions falls from 0.87 - two of
+   the raw directions doing very nearly the same thing - to 3e-13.
+
+   Anything degenerate here leaves INNER exactly as it was found. There is
+   nothing to fall back to and nothing to report: the raw basis spans the
+   same family and the sliders work, they are simply not diagonal.      */
+function innerDiagonalise(p0, X0) {
+  const m = 2 * NN, e = 1e-3, n = INNER.length;
+  const B = [];
+  for (const o of INNER) {
+    const u = Float64Array.from(o.v);
+    for (const b of B) {
+      let d = 0; for (let j = 0; j < NP; j++) d += u[j] * b[j];
+      for (let j = 0; j < NP; j++) u[j] -= d * b[j];
+    }
+    let nn = 0; for (let j = 0; j < NP; j++) nn += u[j] * u[j];
+    nn = Math.sqrt(nn);
+    if (!(nn > 1e-12)) return false;
+    for (let j = 0; j < NP; j++) u[j] /= nn;
+    B.push(u);
+  }
+  /* what each unit step does to the figure, measured rather than inferred */
+  const MB = B.map(bv => {
+    const q = Float64Array.from(p0);
+    for (let j = 0; j < NP; j++) q[j] += e * bv[j];
+    const X1 = innerNodes(q), w = new Float64Array(m);
+    for (let i = 0; i < m; i++) w[i] = (X1[i] - X0[i]) / e;
+    return w;
+  });
+  const Gm = MB.map(a => Float64Array.from(MB, b => {
+    let t = 0; for (let q = 0; q < m; q++) t += a[q] * b[q]; return t;
+  }));
+  const ev = symEigen(Gm, n);
+  if (ev.length !== n || !ev.every(z => isFinite(z.val) && z.val > 0)) return false;
+  INNER = ev.map(z => {
+    const v = new Float64Array(NP), wv = new Float64Array(m);
+    for (let i = 0; i < n; i++) {
+      const c = z.vec[i]; if (!c) continue;
+      for (let j = 0; j < NP; j++) v[j] += c * B[i][j];
+      for (let q = 0; q < m; q++) wv[q] += c * MB[i][q];
+    }
+    let worst = 0;
+    for (let i = 0; i < NN; i++) worst = Math.max(worst, Math.hypot(wv[2 * i], wv[2 * i + 1]));
+    return { v, s: INNER_REACH / (worst || 1) };
+  });
+  return true;
+}
+
 function innerAnchor() {
-  INNER = null; INNERT = []; INNERP0 = null; INNERFIX = null;
+  /* the hold follows the directions: it is on exactly when they exist */
+  INNER = null; INNERT = []; INNERP0 = null; INNERFIX = null; INNERON = false;
   if (STRAIGHT) return false;              // the straight figure has none
   const p0 = Float64Array.from(p);
   /* Against the figure's OWN constraints, not the incidences alone. On the
@@ -7424,8 +9011,11 @@ function innerAnchor() {
                                          X1[2 * i + 1] - X0[2 * i + 1]));
     return { v, s: INNER_REACH / ((worst / e) || 1) };
   });
+  /* diagonalised only if asked for; see innerDiagonalise above */
+  if (INNER_PC && INNER.length > 1) innerDiagonalise(p0, X0);
   INNERT = INNER.map(() => 0);
   INNERP0 = p0;
+  INNERON = true;
   INNERFIX = { idx, val: idx.map(ix => p0[ix]) };
   INNERLAST = null;
   INNERINC0 = 0;
@@ -7720,7 +9310,15 @@ function showForConstruction() {
      sit. So the box stays; buildHardPanel() drops the rows that are about
      the solver's model and keeps the floor and the switch that holds it. */
   $('#hardbox').classList.remove('off');
-  // the criteria, the solver and the fit are not in this copy
+  /* THE CRITERIA COME OUT WHILE THE FIT IS RUNNING
+     ----------------------------------------------
+     On a construction the parameters already determine the figure, so a
+     criterion slider is a dial for nothing until something is optimising
+     against it. Press `fit the criteria` and they appear; stop, and they
+     go back in. (There is no solver box in this copy - the constructions
+     do not need one - so only these two are toggled.)                  */
+  for (const id of ['#crit-head', '#criteria'])
+    $(id).classList.toggle('off', built && !CFIT);
   /* Save, Export file and Import file are not criteria - they belong to
      every figure, and a construction is precisely the thing worth keeping.
      The snapshot already carries the seeds, so a saved arc figure comes
@@ -7728,8 +9326,13 @@ function showForConstruction() {
   $('#presetbox').classList.remove('off');
   /* the ring switches are only meaningful where there are grown rings to
      switch, which is the arc constructions */
+  /* Not on `Arcs extended 2` and `3`. A grown ring's cell stands on the arc
+     of the RIM between two neighbouring rim nodes, and those are exactly the
+     nodes those two figures let go, so the switches would raise a ring
+     standing on a circle it no longer touches. Their own ring is the one the
+     eleven triangles cut out, and it needs no switch. */
   $('#ring-toggles').classList.toggle('off',
-    !(DATASET && DATASET.construct === 'arc' && GROW));
+    !(DATASET && DATASET.construct === 'arc' && GROW && !DATASET.arcext2));
   /* circle 1, circle 2, the two ring fills and the two diamond switches all
      act on the grown rings, so on a figure that grows none - Numerical arcs
      and both straight constructions - they are dead controls */
@@ -7740,8 +9343,11 @@ function showForConstruction() {
   }
   /* `ring fills` also governs the petals, which carry the two ring colours
      on figures that grow no rings at all - so it stays while they are up */
-  { const b = $('#t-ringfill');
-    if (b) b.classList.toggle('off', !GROW && !petalsOn()); }
+  { const fx = fixedField();
+    const b = $('#t-ringfill');
+    if (b) b.classList.toggle('off', fx || (!GROW && !petalsOn()));
+    const r = $('#t-rimfill');
+    if (r) r.classList.toggle('off', !!fx); }
   buildHardPanel();
 }
 
@@ -8117,43 +9723,99 @@ function buildInnerPanel() {
      Five is what all three arc figures give; the live count is used the
      moment there is one. */
   const nd = (INNER && INNER.length) || 5, ndw = NW[nd] || nd;
+  /* HOW MANY TRIANGLES STAND STILL IS A PROPERTY OF THE FIGURE
+     ----------------------------------------------------------
+     INNER_HELD pins six of the nine CLASSICAL triangles through their arc
+     parameters in p. On `Arcs extended 2` and `3` the figure carries
+     eleven, and the two the extension adds are not in ARCREP at all, so
+     nothing here pins them - but they do not move either. They are drawn
+     from the outer corners and the rim, and the inner directions do not
+     reach that far: pushing a slider to 0.7 of its travel moves t4, t5 and
+     t6 by 1.3e-2 of the radius while every coordinate of all four drawn
+     `xtri` paths is unchanged and the outer corners shift by 1e-16. So on
+     those two figures eight of the eleven stand still, not six of nine -
+     and the extra two stand still as a consequence rather than by being
+     held. The parameter count is read from the figure for the same reason:
+     eighteen is this family's, not the extended ones'. */
+  const nTri = ARCEXT2 && ARCEXT2() ? 11 : 9;
+  const nSeed = (typeof arcSeedDefaults === 'function'
+                 && (ARCSEED || arcSeedDefaults()).length) || 18;
+  const NUMW = { 6: 'six', 8: 'eight', 9: 'nine', 11: 'eleven', 18: 'eighteen',
+                 22: 'twenty-two', 26: 'twenty-six', 30: 'thirty' };
   setNote(note,
     ndw.charAt(0).toUpperCase() + ndw.slice(1)
-    + ' directions that move t4, t5 and t6 and leave the other six of the nine '
-    + 'triangles exactly where they are. These are counted in the '
-    + 'construction\u2019s own parameters, not in the eighteen seed numbers, so '
+    + ' directions that move t4, t5 and t6 and leave the other '
+    + (NUMW[nTri - 3] || (nTri - 3)) + ' of the '
+    + (NUMW[nTri] || nTri) + ' triangles exactly where they are'
+    + (nTri === 11
+       ? '. Six of those are held here outright; the two the extension adds are '
+         + 'not held at all, but they are drawn from the outer corners and the '
+         + 'rim, and these directions do not reach that far \u2014 they leave '
+         + 'every one of those corners, and the ring standing on them, where it '
+         + 'was. '
+       : '. ')
+    + 'These are counted in the construction\u2019s own parameters, not in the '
+    + (NUMW[nSeed] || nSeed) + ' seed numbers, so '
     + 'they are not part of the count the Construction section reports \u2014 '
-    + 'the two do not add up to anything. Scaled so a full slider moves the '
-    + 'worst-placed node the same distance whichever one you pull. t6 cannot be '
-    + 'moved on its own at all, and two of the ' + ndw + ' need all three '
-    + 'triangles at once \u2014 they do not come apart.');
-  const hb = hel('button', tog, { id: 'inner-hold', title: 'put the other six triangles’ arcs '
-                 + 'back after every solver step. Without this the solver is free '
-                 + 'to move them and the sliders stop meaning what they say' });
-  hb.textContent = 'hold the other six';
-  hb.classList.toggle('on', INNERON);
-  hb.addEventListener('click', () => {
-    INNERON = !INNERON;
-    if (INNERON) {
-      /* the criteria fit drives the same figure from the other end, rebuilding
-         it from its own parameters every frame, so whichever of the two runs
-         second wins and the other's sliders do nothing. One driver at a time. */
-      if (CFIT) { CFIT = false; setNote(note,
-        'the criteria fit has been switched off — it and the hold cannot '
-        + 'both drive the figure'); }
-      if (!INNER && !innerAnchor()) { INNERON = false; setNote(note,
-        'could not find the directions here — let the figure settle first'); return; }
-      setRunning(true);              // a construction has to hand over to the solver
+    + 'the two do not add up to anything. '
+    + (INNER_PC
+       ? 'They are diagonalised here: orthogonal as motion and ordered by how '
+         + 'much of the figure each moves, so direction 1 is the broadest change '
+         + 'available and the last the finest. '
+       : 'They are the basis the null space came out in, which is independent '
+         + 'but not orthogonal \u2014 two sliders may move much the same part of '
+         + 'the figure. `principal directions` diagonalises them. ')
+    + 'Scaled so a full slider moves the '
+    + 'worst-placed node the same distance whichever one you pull.'
+    + (nTri === 9
+       ? ' t6 cannot be moved on its own at all, and two of the ' + ndw + ' need '
+         + 'all three triangles at once \u2014 they do not come apart.'
+       : ''));
+  /* SWITCHING THE BASIS RE-ANCHORS RATHER THAN CONVERTING
+     -----------------------------------------------------
+     The two bases span the same space, so the slider values could in
+     principle be carried across by solving for them. Taking the directions
+     afresh at the figure on screen is both simpler and safer: anchoring
+     does not touch p, so the figure does not move at all - only the dials
+     are re-zeroed under it, which is what `re-anchor here` does in the
+     Construction panel and what a reader expects from a change of
+     coordinates. */
+  const pb = hel('button', tog, { id: 'inner-pc', title: 'diagonalise the directions: '
+                 + 'orthogonal as motion and ordered by how much of the figure each '
+                 + 'moves, instead of the basis the null space came out in. The family '
+                 + 'is the same either way; the directions are taken afresh at the '
+                 + 'figure on screen, which does not move it' });
+  pb.textContent = 'principal directions';
+  pb.classList.toggle('on', INNER_PC);
+  pb.addEventListener('click', () => {
+    INNER_PC = !INNER_PC;
+    /* Nothing to re-take until the directions have been taken once. If the
+       re-take fails, innerAnchor has already cleared INNER and the hold with
+       it, so the panel must be rebuilt or it goes on showing sliders that
+       drive nothing - put the basis back and rebuild either way. */
+    if (INNER && !innerAnchor()) {
+      INNER_PC = !INNER_PC;
+      buildInnerPanel();
+      setNote($('#inner-note'),
+        'could not take the directions again here \u2014 let the figure settle first');
+      innerReadout();
+      return;
     }
-    showForConstruction();
-    buildInnerPanel();
-    if (DATASET.construct === 'exact') buildExactPanel(); else buildArcPanel();
+    buildInnerPanel(); innerReadout();
   });
-  /* No sliders unless the hold is on. With it off innerApply() neither
-     settles the figure nor checks it - it just offsets the parameters and
-     draws whatever comes out, which on a construction is a different and
-     badly broken yantra. That was the jump. The hold is not a refinement
-     of this feature, it IS the feature.                                */
+  /* THE HOLD IS NOT A SWITCH ANY MORE
+     ---------------------------------
+     It used to be one, and it was never a choice worth offering. With it
+     off innerApply() neither settles the figure nor checks it - it just
+     offsets the parameters and draws whatever comes out, which on a
+     construction is a different and badly broken yantra. So every path
+     that could reach a slider turned it on first: the slider handler did,
+     the `take the directions here` button did, and the note had to explain
+     a state the reader was never meant to be in. The hold is not a
+     refinement of this feature, it IS the feature, so it now follows the
+     directions: innerAnchor turns it on, and the resets that clear INNER
+     turn it off with it. INNERON therefore says exactly what INNER says,
+     and the button is gone. */
   if (!INNER) {
     $('#inner-read').textContent =
       'the five directions are taken at the figure on screen';
@@ -8163,7 +9825,7 @@ function buildInnerPanel() {
     b.addEventListener('click', () => {
       if (!innerAnchor()) { setNote(note,
         'could not find the directions here — let the figure settle first'); return; }
-      INNERON = true;
+      /* innerAnchor has engaged the hold; taking the directions IS turning it on */
       /* this called note(...), the toast at the foot of the panel - but
          inside this function 'note' is the inner-note element, so the call
          threw the moment the branch was reached. The sibling path a few lines
@@ -8188,16 +9850,12 @@ function buildInnerPanel() {
     sl.value = Math.round(v * 1000);
     val.textContent = (v >= 0 ? '+' : '') + v.toFixed(2);
     sl.addEventListener('input', () => {
-      /* the hold IS the feature: without it nothing puts the figure back on
-         the constraint sheet and nothing checks it, so moving a slider
-         engages it rather than quietly drawing a broken yantra          */
-      if (!INNERON) {
-        INNERON = true; hb.classList.add('on');
-        if (CFIT) { CFIT = false; showForConstruction();
-          note('the criteria fit has been switched off \u2014 it and the inner '
-               + 'hold cannot both drive the figure'); }
-        setRunning(true);
-      }
+      /* the hold came on with the directions, so there is nothing to engage
+         here; the criteria fit is the one thing that can still have been
+         started since, and the two cannot both drive the figure       */
+      if (CFIT) { CFIT = false; showForConstruction();
+        note('the criteria fit has been switched off \u2014 it and the inner '
+             + 'hold cannot both drive the figure'); }
       const was = INNERT[k];
       INNERT[k] = +sl.value / 1000;
       if (!innerApply()) {
@@ -8233,12 +9891,13 @@ function innerReadout() {
         + 't4, t5, t6     moved  ' + c.moved.toFixed(4) + ' of the radius\n'
         + 'incidences     ' + c.inc.toExponential(1)
         + '   (was ' + INNERINC0.toExponential(1) + ' at the anchor)';
-  if (!INNERON) s += '\n\nthe hold is off — all nine triangles may move';
+  /* there is no "hold is off" line here any more: the hold comes on with the
+     directions, and this readout only exists once they have been taken */
   /* two ways this can quietly fail, and both are worth saying out loud */
-  if (INNERON && asked && c.moved < 1e-4)
+  if (asked && c.moved < 1e-4)
     s += '\n\nnothing is moving: the criteria are holding this figure where it is.\n'
        + 'Turn them down and the directions open up.';
-  if (INNERON && c.inc > Math.max(20 * INNERINC0, 1e-6))
+  if (c.inc > Math.max(20 * INNERINC0, 1e-6))
     s += '\n\nthe incidences have drifted well past where they started — this\n'
        + 'figure holds something the directions do not respect (convexity, on\n'
        + 'the one that holds every side convex). Back off, or re-anchor.';
@@ -8617,6 +10276,7 @@ function gcMeet(g1, g2, hint) {
 /* --- run the recipe ---------------------------------------------------- */
 /* seed values are 18 numbers, in the order the panel shows them */
 function arcSeedDefaults() {
+  { const R = arcRecipe(); if (R) return R.vals.slice(); }
   const v = [];
   for (const s of ARCREC.seeds) {
     if (s.kind === 'free') v.push(s.x, s.y);
@@ -8625,13 +10285,29 @@ function arcSeedDefaults() {
   }
   return v;
 }
+
 function arcSeedLabels() {
+  /* one label per PARAMETER, and each names the corner it moves: the
+     construction's parameters are node positions, so they can be */
+  { const R = arcRecipe(); if (R) {
+      const L = [];
+      for (const [ni, kind] of R.par) {
+        const nm = R.nodeNames[ni];
+        const t = nm.charAt(0) === 'r' ? ('corner ' + nm.slice(1)) : ('P' + nm.slice(1));
+        if (kind === 0) L.push(t + ' x', t + ' y');
+        else if (kind === 1) L.push(t + ' height on the axis');
+        else L.push(t + ' along the rim');
+      }
+      return L; } }
   const L = [];
-  for (const s of ARCREC.seeds) {
+  for (const s of arcSeedList()) {
     if (s.kind === 'free') L.push('P' + s.i + ' x', 'P' + s.i + ' y');
     else if (s.kind === 'rim') L.push('P' + s.i + ' angle on the rim');
     else if (s.kind === 'axis') L.push('P' + s.i + ' height on the axis');
   }
+  /* neither extended figure carries a curvature seed: every base outside
+     the forty-five is drawn through a point the rim hands it */
+  if (ARCEXT()) for (const n of ARC_RIMSTEP) L.push('P' + n + ' along its own base');
   return L;
 }
 
@@ -9176,7 +10852,309 @@ function rbReadout() {
     + ' of it, by construction';
 }
 
+
+/* The three numbers the ported code reads from the solver's own bookkeeping.
+   This viewer has no criteria panel, so nothing sets them there; they are set
+   from the dataset when a figure is chosen (see setExtCounts below) and are
+   used only to size the ring of cells the eleven triangles cut out. */
+let N_XCELL = 0, SPACE_EXT = false, N_SPACE = 0;
+function setExtCounts(ds) {
+  N_XCELL   = ds && ds.arcext3 ? 14 : ds && ds.arcext2 ? 10 : ds && ds.arcext ? 6 : 0;
+  SPACE_EXT = !!(ds && ds.arcext && typeof arcxBaseChain === 'function');
+  N_SPACE   = !SPACE_EXT ? (typeof OUTER !== 'undefined' ? OUTER.length : 0)
+            : ds.arcext2 ? 2 + 2 * (arcxBaseChain().length + 2) : 6;
+}
+
+/* ============================================================
+   ARCS EXTENDED 2 AND 3 - the eleven-triangle constructions.
+   Ported from the development viewer. These two figures are built,
+   not solved: ARC_REC2 and ARC_REC3 are orders in which every node
+   and every curve is determined by what precedes it, and arcxBuildRec
+   replays one. Nothing here is fitted and nothing is corrected.
+   ============================================================ */
+const ARC_RIMSTEP = ARCREC.steps.filter(t => t[0] === 'R').map(t => t[1]);
+/* which released nodes the last arcConstructX had to pin at the extreme of
+   their own side rather than place at the abscissa asked for */
+let ARC_TFALL = 0;
+const ARC_D0_ON = [47, 65, 64];    // outer corners of the three largest UPWARD triangles
+const ARC_U0_ON = [12, 54, 31];    // ... and of the three largest DOWNWARD ones
+const gcVert = t => [0, 1, 0, -t];                    // the line x = t
+const ARCEXT  = () => !!(DATASET && DATASET.arcext);
+const ARCEXT2 = () => !!(DATASET && DATASET.arcext2);
+const ARCEXT3 = () => !!(DATASET && DATASET.arcext3);
+/* the seed list with the rim let go: a rim point becomes free, a pin an
+   axis point. Everything else is untouched. */
+let ARC_SEEDX = null;
+function arcSeedsX() {
+  if (!ARC_SEEDX) ARC_SEEDX = ARCREC.seeds.map(t =>
+      t.kind === 'rim' ? Object.assign({}, t, { kind: 'free', x: Math.cos(t.a), y: Math.sin(t.a) })
+    : t.kind === 'pin' ? Object.assign({}, t, { kind: 'axis' })
+    : Object.assign({}, t));
+  return ARC_SEEDX;
+}
+function arcSeedList() { return ARCEXT() ? arcSeedsX() : ARCREC.seeds; }
+/* the abscissae the released rim steps open on: where those nodes sat when
+   the rim still held them */
+let ARC_TDEF = null;
+function arcTDefaults() {
+  if (!ARC_TDEF) {
+    /* `Arcs extended 1` is not in this viewer, and it is the only figure that
+       reads these: the two constructed figures take their step values from the
+       recipe. Guarded so the reference cannot be evaluated. */
+    const b = (typeof arcConstructPlain === 'function')
+              ? arcConstructPlain(arcSeedDefaultsPlain()) : null;
+    ARC_TDEF = b ? ARC_RIMSTEP.map(n => b.P[n][0]) : ARC_RIMSTEP.map(() => 0.5);
+  }
+  return ARC_TDEF;
+}
+/* both crossings of a generalised circle with the axis, low first */
+function gcAxisPair(g) {
+  const a = g[0], c = g[2], e = g[3];
+  if (Math.abs(a) < 1e-13) return Math.abs(c) > 1e-13 ? [-e / c, -e / c] : null;
+  const disc = c * c - 4 * a * e;
+  if (disc < 0) return null;
+  const r = Math.sqrt(disc);
+  const u = (-c + r) / (2 * a), v = (-c - r) / (2 * a);
+  return u <= v ? [u, v] : [v, u];
+}
+
+function gcOfSide(A, si) {
+  const b = si * 6, nx = A[b], ny = A[b + 1], p = A[b + 2], k = A[b + 3];
+  const t = 1 - k * p;
+  return [k / 2, nx * t, ny * t, k * p * p / 2 - p];
+}
+function gcRimOnRight(g) {
+  for (const h of [[0.7, 0], [0.9, 0.4], [0.9, -0.4], [0.5, 0.8], [0.5, -0.8], [1, 0.1]]) {
+    const q = gcMeet(g, GC_RIM_UNIT, h);
+    if (q && q[0] > 1e-6) return q;
+  }
+  return null;
+}
+/* each with the outward normal it is measured against, so a positive kappa
+   means bowing outward here exactly as it does for the forty-five */
+function newSideCurves(X, A) {
+  if (typeof ARCEXT !== 'function' || !ARCEXT()) return null;
+  const at = i => [X[2 * i], X[2 * i + 1]];
+  const gD = gcThrough3(at(ARC_D0_ON[0]), at(ARC_D0_ON[1]), at(ARC_D0_ON[2]));
+  const gU = gcThrough3(at(ARC_U0_ON[0]), at(ARC_U0_ON[1]), at(ARC_U0_ON[2]));
+  if (!gD || !gU) return null;
+  const dA = gcAxisPair(gD), uA = gcAxisPair(gU);
+  if (!dA || !uA) return null;
+  const out = [{ g: gD, n: [1, 0], name: 'D0 leg' },
+               { g: gU, n: [1, 0], name: 'U0 leg' }];
+  let cU, cD;
+  if (ARCEXT2()) {
+    const OUT = ARCEXT3() ? ['U3.right', 'D1.right'] : ['U2.right', 'D3.right'];
+    cU = gcRimOnRight(gcOfSide(A, sideIndex.get(OUT[0])));
+    cD = gcRimOnRight(gcOfSide(A, sideIndex.get(OUT[1])));
+  } else {
+    cU = gcRimCorner(gU, [0, uA[1]]);
+    cD = gcRimCorner(gD, [0, dA[0]]);
+  }
+  if (!cU || !cD) return null;
+  const gUb = gcAxisThrough(cU[0], cU[1], at(55)[1]);
+  const gDb = gcAxisThrough(cD[0], cD[1], at(68)[1]);
+  if (!gUb || !gDb) return null;
+  const bn = ARCEXT3() ? ['U3 base', 'D1 base']
+           : ARCEXT2() ? ['U2 base', 'D3 base'] : ['U0 base', 'D0 base'];
+  out.push({ g: gUb, n: [0, -1], name: bn[0], base: true },
+           { g: gDb, n: [0, 1],  name: bn[1], base: true });
+  return out;
+}
+/* THE RING'S OUTER NODES, FROM X AND A ALONE
+   ------------------------------------------
+   arcx2Sides() finds them, but it reads the construction's own seeds and the
+   solver's state, and a residual is handed neither - only the nodes and the
+   sides of the figure it is scoring. Same points, same numbering: 69 and 70
+   the two apexes, then a corner and its mirror for each triangle that
+   carries a base, the downward chain from the outside in, then D0 and U0,
+   then the upward chain from the inside out.                            */
+function arcxOuterXA(X, A) {
+  if (typeof ARCEXT2 !== 'function' || !ARCEXT2()) return null;
+  const at = i => [X[2 * i], X[2 * i + 1]];
+  const gS = nm => { const i = sideIndex.get(nm); return i === undefined ? null : gcOfSide(A, i); };
+  const gD = gcThrough3(at(ARC_D0_ON[0]), at(ARC_D0_ON[1]), at(ARC_D0_ON[2]));
+  const gU = gcThrough3(at(ARC_U0_ON[0]), at(ARC_U0_ON[1]), at(ARC_U0_ON[2]));
+  if (!gD || !gU) return null;
+  const dA = gcAxisPair(gD), uA = gcAxisPair(gU);
+  if (!dA || !uA) return null;
+  const OUT = ARCEXT3() ? ['U3.right', 'D1.right'] : ['U2.right', 'D3.right'];
+  const cU = gcRimOnRight(gS(OUT[0])), cD = gcRimOnRight(gS(OUT[1]));
+  if (!cU || !cD || NN <= 68) return null;
+  const lU = gcAxisThrough(cU[0], cU[1], at(55)[1]);
+  const lD = gcAxisThrough(cD[0], cD[1], at(68)[1]);
+  const cD0 = arcxCornerOnRim(gD, gS('D3.base'));
+  const cU0 = arcxCornerOnRim(gU, gS('U2.base'));
+  if (!cD0 || !cU0) return null;
+  const chain = arcxBaseChain();
+  const corner = ([nm, from]) => {
+    const gb = from ? gS(from) : (nm[0] === 'U' ? lU : lD);
+    const gl = gS(nm + '.right');
+    return (gb && gl) ? arcxCornerOnRim(gl, gb) : null;
+  };
+  const dn = chain.filter(z => z[0][0] === 'D'), up = chain.filter(z => z[0][0] === 'U');
+  const order = dn.map(corner).concat([cD0, cU0], up.slice().reverse().map(corner));
+  const nodes = [[0, dA[0]], [0, uA[1]]];
+  for (const c of order) { if (!c) return null; nodes.push(c, [-c[0], c[1]]); }
+  return nodes;
+}
+/* the tips the even-spacing criterion measures: on an extended figure the
+   corners of the ring the extension adds, every one of them on the rim; on
+   every other figure the fourteen outer nodes, which are the same thing
+   there. Read from X and A alone, as a residual must be.               */
+function spacePts(X, A) {
+  if (!SPACE_EXT) return OUTER.map(i => [X[2 * i], X[2 * i + 1]]);
+  if (ARCEXT2()) {
+    const o = arcxOuterXA(X, A);
+    return (o && o.length === N_SPACE) ? o : null;
+  }
+  const at = i => [X[2 * i], X[2 * i + 1]];
+  const gD = gcThrough3(at(ARC_D0_ON[0]), at(ARC_D0_ON[1]), at(ARC_D0_ON[2]));
+  const gU = gcThrough3(at(ARC_U0_ON[0]), at(ARC_U0_ON[1]), at(ARC_U0_ON[2]));
+  if (!gD || !gU) return null;
+  const dA = gcAxisPair(gD), uA = gcAxisPair(gU);
+  if (!dA || !uA) return null;
+  const tipD = [0, dA[0]], tipU = [0, uA[1]];
+  const cD = gcRimCorner(gD, tipD), cU = gcRimCorner(gU, tipU);
+  if (!cD || !cU) return null;
+  return [tipD, tipU, cD, [-cD[0], cD[1]], cU, [-cU[0], cU[1]]];
+}
+/* the two the criterion names, 75 and 77, whatever they happen to be on
+   this figure: on `Arcs extended 2` U0's corner and U2's, on `Arcs extended
+   3` D0's and U0's                                                      */
+function arcxNode(X, A, n) {
+  const o = arcxOuterXA(X, A);
+  return (o && o[n - 69]) || null;
+}
+function newSideKappas(X, A) {
+  const c = newSideCurves(X, A);
+  if (!c) return null;
+  const out = [];
+  for (const s of c) { const a = gcToArc(s.g, s.n); if (!a) return null; out.push(a.kap); }
+  return out;
+}
+
+const ARC_REC2 = {"base":22,"nsides":22,"nnodes":45,"ops":[["pole",39],["pole",40],["seed",36],["seed",42],["s3",21,36,0,39,0,42,0],["seed",33],["seed",17],["seed",11],["seed",29],["seed",31],["seed",2],["s2",8,2,0,11,0],["na",10,8,0],["seed",23],["s2",7,23,0,33,0],["nx",25,7,0,21,0],["seed",16],["s2",9,16,0,36,0],["nr",43,9,0],["seed",4],["s3",18,4,0,17,0,25,0],["na",27,18,0],["s2",1,27,0,31,0],["nx",12,8,0,18,0],["nx",26,9,0,18,0],["s3",12,26,0,29,0,33,0],["na",32,12,0],["nx",30,1,0,12,0],["s3",20,30,0,40,0,43,0],["seed",38],["seed",0],["s2",4,0,0,4,0],["s3",19,0,0,11,0,31,0],["na",35,19,0],["s2",10,35,0,42,0],["nx",18,10,0,20,0],["s3",13,11,0,18,0,23,0],["nr",41,13,0],["s2",2,38,0,41,0],["nx",22,9,0,13,0],["nx",21,13,0,18,0],["nx",19,1,0,13,0],["s2",5,21,0,29,0],["nx",28,5,0,21,0],["na",3,5,0],["s3",16,19,0,28,0,38,0],["s3",15,0,0,2,0,3,0],["nx",7,10,0,16,0],["nx",1,15,0,18,0],["nx",34,12,0,16,0],["s3",11,4,0,7,0,10,0],["nx",5,11,0,20,0],["nx",9,11,0,19,0],["s2",3,9,0,17,0],["nx",8,1,0,11,0],["s3",17,8,0,29,0,36,0],["na",37,17,0],["nx",20,13,0,17,0],["nx",24,10,0,17,0],["s2",0,5,0,37,0],["nx",6,0,0,16,0],["nr",44,17,0],["s2",6,32,0,44,0],["nx",13,3,0,17,0],["s3",14,12,0,13,0,16,0],["nx",15,5,0,14,0],["nx",14,14,0,19,0]],"nodemap":[[0,0],[1,0],[2,0],[3,0],[7,1],[9,1],[10,1],[13,0],[14,0],[15,0],[16,0],[20,0],[21,0],[24,0],[25,0],[26,0],[27,0],[29,1],[31,0],[32,0],[33,0],[34,0],[35,0],[36,0],[38,1],[44,1],[45,1],[46,0],[47,0],[48,0],[52,1],[53,0],[55,0],[56,1],[57,1],[61,0],[65,0],[67,0],[68,0],[-1,0],[-1,0],[-1,0],[-1,0],[-1,0],[-1,0]],"sidemap":[[0,0],[3,0],[-1,0],[9,0],[12,0],[15,0],[-1,0],[21,0],[24,0],[18,0],[6,0],[1,0],[4,0],[7,0],[10,0],[13,0],[16,0],[19,0],[22,0],[25,0],[-1,0],[-1,0]],"hint":[[0.270961915201236,-0.027070713759906],[0.207383480237162,-0.118340933799668],[0.126967070346373,-0.225753598943591],[0.0,-0.379845083459326],[0.162988047913207,-0.024273145298432],[0.442298950229675,0.586762288844864],[0.183882477308717,0.639220183202615],[0.393013847631254,0.424474437688865],[0.29675234501576,0.199655918403733],[0.222638409017401,0.067030160273752],[0.0,-0.22724859748278],[0.363046797502897,-0.21501324228004],[0.244130560151647,-0.221719358284237],[0.355343230280878,0.062491324340842],[0.301464706136294,-0.088019705049316],[0.164563090179712,-0.378489330163331],[0.0,-0.637152169873279],[0.106894139741464,0.069286305033441],[0.598451863099069,0.367014117016589],[0.537885670050967,0.189795308462775],[0.412642261053177,-0.111939139255464],[0.278135272924103,-0.375971769688821],[0.121637374196045,-0.633677982681195],[0.0,-0.80776711103695],[0.146924096603586,0.460990442408342],[0.253632047204359,-0.803910903662994],[0.28555613133015,-0.617934062364991],[0.0,0.203967486504819],[0.667614719977872,-0.357508125741779],[0.465200572826239,-0.369005751327886],[0.702338584224472,0.179792705408804],[0.15019877762774,0.202863124295208],[0.0,-0.89823735233311],[0.105281978240643,-0.80710279136798],[0.625645947025607,-0.049914846764625],[0.0,0.466854564550206],[0.481881393600084,-0.58195635119511],[0.0,0.649961640251402],[0.0,0.764962511456761],[0.0,-1.0],[0.0,1.0],[0.692751220948603,0.721176639856159],[0.983147357442026,0.182814861531831],[0.898810019792483,-0.438338394705497],[0.464831332745194,-0.885399250111681]],"par":[[0,0],[2,0],[4,0],[11,0],[16,1],[17,0],[23,1],[29,0],[31,0],[33,0],[36,0],[38,1],[42,2]],"vals":[0.1942979877125958,0.042461552835265814,0.08057207741987611,-0.0819371694249938,0.09688509293950093,0.047269812480169295,0.2663965520063312,-0.07593312155189953,-0.32697860260788386,0.05229914832570769,0.12146269046943872,-0.5094674730398848,0.42537245106812943,-0.1500970622383818,0.09216650574277542,0.20533437348167616,0.1639521281782896,-0.5070811851143824,0.5164373723353672,-0.31663670632461244,0.7007790475775016,0.3429044733918067],"labels":["P0","P2","P7","P20","P27 height on the axis","P29","P36 height on the axis","P48","P53","P56","P65","P68 height on the axis","corner 73 along the rim"],"sideNames":["D1.base","D2.base","D3.base","D4.base","D5.base","U1.base","U2.base","U3.base","U4.base","U0.base","D0.base","D1.leg","D2.leg","D3.leg","D4.leg","D5.leg","U1.leg","U2.leg","U3.leg","U4.leg","U0.leg","D0.leg"],"nodeNames":["n0","n1","n2","n3","n7","n9","n10","n13","n14","n15","n16","n20","n21","n24","n25","n26","n27","n29","n31","n32","n33","n34","n35","n36","n38","n44","n45","n46","n47","n48","n52","n53","n55","n56","n57","n61","n65","n67","n68","r69","r70","r71","r73","r75","r77"]};
+const ARC_REC3 = {"base":20,"nsides":22,"nnodes":47,"ops":[["pole",39],["pole",40],["seed",42],["seed",38],["seed",35],["seed",22],["seed",13],["seed",3],["seed",0],["seed",17],["s2",3,13,0,17,0],["seed",21],["s3",13,21,0,22,0,42,0],["s2",5,3,0,21,0],["na",23,13,0],["seed",1],["s3",18,1,0,17,0,21,0],["s3",15,0,0,1,0,3,0],["nr",46,18,0],["na",27,18,0],["seed",36],["s2",9,22,0,36,0],["nx",26,9,0,18,0],["nr",44,9,0],["na",16,9,0],["seed",32],["s2",7,32,0,46,0],["seed",45],["s3",17,13,0,36,0,45,0],["s2",6,23,0,45,0],["nx",20,13,0,17,0],["nx",29,5,0,17,0],["nx",25,6,0,18,0],["s3",12,26,0,29,0,32,0],["nx",33,6,0,12,0],["na",37,17,0],["s2",2,37,0,42,0],["s3",21,25,0,36,0,39,0],["nx",28,5,0,21,0],["nr",43,21,0],["s2",10,35,0,43,0],["nx",18,10,0,13,0],["nx",24,10,0,17,0],["s3",20,18,0,40,0,44,0],["nx",5,2,0,20,0],["nx",30,12,0,20,0],["s2",1,27,0,30,0],["nx",8,1,0,17,0],["nx",19,1,0,13,0],["s3",16,19,0,28,0,38,0],["nx",34,12,0,16,0],["nx",6,2,0,16,0],["nx",7,10,0,16,0],["s3",11,5,0,7,0,8,0],["nx",4,11,0,18,0],["nx",9,3,0,11,0],["nr",41,11,0],["s2",0,38,0,41,0],["s2",4,0,0,4,0],["na",10,11,0],["s3",19,0,0,9,0,35,0],["nx",31,1,0,19,0],["nx",11,13,0,19,0],["s2",8,10,0,11,0],["nx",2,8,0,15,0],["nx",12,8,0,18,0],["s3",14,12,0,13,0,16,0],["nx",15,5,0,14,0],["nx",14,14,0,19,0]],"nodemap":[[0,0],[1,0],[2,0],[3,0],[7,1],[9,1],[10,1],[13,0],[14,0],[15,0],[16,0],[20,0],[21,0],[24,0],[25,0],[26,0],[27,0],[29,1],[31,0],[32,0],[33,0],[34,0],[35,0],[36,0],[38,1],[44,1],[45,1],[46,0],[47,0],[48,0],[52,1],[53,0],[55,0],[56,1],[57,1],[61,0],[65,0],[67,0],[68,0],[-1,0],[-1,0],[-1,0],[-1,0],[-1,0],[-1,0],[-1,0],[-1,0]],"sidemap":[[-1,0],[3,0],[0,0],[9,0],[12,0],[15,0],[21,0],[-1,0],[24,0],[18,0],[6,0],[1,0],[4,0],[7,0],[10,0],[13,0],[16,0],[19,0],[22,0],[25,0],[-1,0],[-1,0]],"hint":[[0.492389328161782,-0.008279144167732],[0.396972589003859,-0.180146560993734],[0.24088449799834,-0.382503902186863],[0.0,-0.594673610790496],[0.319545135399041,0.037776709013252],[0.484622141965335,0.755910836659396],[0.113941101551229,0.825002638478275],[0.4769356480002,0.587901592129215],[0.439896018348784,0.369392620022074],[0.392623070212298,0.210588791154957],[0.0,-0.400768244243789],[0.567560697296342,-0.296555206614611],[0.423188087534078,-0.343700553367746],[0.554096432617405,0.157416547379714],[0.521483971557295,-0.095756549148678],[0.260941544107713,-0.563696545375788],[0.0,-0.761309534136114],[0.184720673205471,0.251022355862946],[0.77462459735123,0.42863718216221],[0.75532348728061,0.241745467868272],[0.650704667055898,-0.125601002034955],[0.424201498016333,-0.510789575803613],[0.198712007309129,-0.744243644187699],[0.0,-0.888572435957866],[0.203363301515223,0.660289989251239],[0.344249985390906,-0.850108655569218],[0.395887378313875,-0.692008296362718],[0.0,0.430966301959055],[0.902508075283542,-0.134101721228751],[0.689287871643173,-0.355964310723041],[0.904600250743143,0.151155033082846],[0.262099757611217,0.409382050622903],[0.0,-0.94201741692732],[0.117962835929708,-0.884105305093854],[0.862952237641217,0.003587019599944],[0.0,0.675843747734283],[0.696461895089668,-0.53031049985677],[0.0,0.828955477714926],[0.0,0.870414829851276],[0.0,-1.0],[0.0,1.0],[0.479109631785381,0.877755068758066],[0.770796337288421,0.637081632449073],[0.964199639444371,0.265177403477954],[0.970490504638717,-0.241139337882947],[0.681516052701514,-0.731803163301958],[0.293671001601079,-0.955906555484698]],"par":[[0,0],[1,0],[3,1],[13,0],[17,0],[21,0],[22,0],[32,1],[35,1],[36,0],[38,1],[42,2],[45,2]],"vals":[0.28628911070408825,0.061652014161960506,0.21525618726075074,-0.030064310745989215,-0.2608637866562674,0.3989484794709062,0.14166985794940962,0.09888171496724503,0.16591852994817172,0.3180760460592919,-0.24693438528548078,0.15961929369680863,-0.48687452874148185,-0.8862941607922734,0.5139144971144614,0.6663285318496447,-0.43041748309342176,0.870560417875478,0.7288863826979187,-0.7333943658435886],"labels":["P0","P1","P3 height on the axis","P24","P29","P34","P35","P55 height on the axis","P61 height on the axis","P65","P68 height on the axis","corner 73 along the rim","corner 79 along the rim"],"sideNames":["D1.base","D2.base","D3.base","D4.base","D5.base","U1.base","U2.base","U3.base","U4.base","U0.base","D0.base","D1.leg","D2.leg","D3.leg","D4.leg","D5.leg","U1.leg","U2.leg","U3.leg","U4.leg","U0.leg","D0.leg"],"nodeNames":["n0","n1","n2","n3","n7","n9","n10","n13","n14","n15","n16","n20","n21","n24","n25","n26","n27","n29","n31","n32","n33","n34","n35","n36","n38","n44","n45","n46","n47","n48","n52","n53","n55","n56","n57","n61","n65","n67","n68","r69","r70","r71","r73","r75","r77","r79","r81"]};
+function arcRecipe() {
+  if (!DATASET) return null;
+  if (DATASET.arcext3) return ARC_REC3;
+  if (DATASET.arcext2) return ARC_REC2;
+  return null;
+}
+function gcMir(g) { return [g[0], -g[1], g[2], g[3]]; }
+function arcxBuildRec(vals) {
+  const R = arcRecipe();
+  if (!R) return null;
+  const N = new Array(R.nnodes).fill(null), Gs = new Array(R.nsides).fill(null);
+  const sv = {};
+  let k = 0;
+  for (const [ni, kind] of R.par) {
+    if (kind === 0) { sv[ni] = [vals[k], vals[k + 1]]; k += 2; }
+    else if (kind === 1) { sv[ni] = [0, vals[k++]]; }
+    else { const t = vals[k++]; sv[ni] = [Math.cos(t), Math.sin(t)]; }
+  }
+  for (const op of R.ops) {
+    const kind = op[0], i = op[1];
+    if (kind === 'seed') { N[i] = sv[i]; if (!N[i]) return null; continue; }
+    if (kind === 'pole') { N[i] = [0, R.hint[i][1] > 0 ? 1 : -1]; continue; }
+    if (kind === 's2' || kind === 's3') {
+      const pts = [];
+      for (let a = 2; a < op.length; a += 2) {
+        const q = N[op[a]]; if (!q) return null;
+        pts.push(op[a + 1] ? [-q[0], q[1]] : q);
+      }
+      const g = kind === 's2' ? gcAxis2(pts[0], pts[1])
+                              : gcThrough3(pts[0], pts[1], pts[2]);
+      if (!g) return null;
+      Gs[i] = g;
+      continue;
+    }
+    const gs = [];
+    for (let a = 2; a < op.length; a += 2) {
+      const g = Gs[op[a]]; if (!g) return null;
+      gs.push(op[a + 1] ? gcMir(g) : g);
+    }
+    const h = R.hint[i];
+    const q = kind === 'nx' ? gcMeet(gs[0], gs[1], h)
+            : kind === 'na' ? gcMeet(gs[0], GC_AXIS, h)
+                            : gcMeet(gs[0], GC_RIM_UNIT, h);
+    if (!q) return null;
+    N[i] = q;
+  }
+  /* back into the viewer's own indexing: the sixty-nine nodes and the
+     twenty-seven sides of the classical figure. Everything the extension
+     draws - the two hand bases, D0's and U0's legs, the ring - is worked
+     out from those by the code that already does it. */
+  const P = new Array(77).fill(null), G = new Array(27).fill(null);
+  for (let i = 0; i < R.nnodes; i++) {
+    const m = R.nodemap[i]; if (m[0] < 0 || !N[i]) continue;
+    const q = m[1] ? [-N[i][0], N[i][1]] : N[i];
+    P[m[0]] = q;
+    const mm = MIRROR[m[0]];
+    if (mm !== m[0]) P[mm] = [-q[0], q[1]];
+  }
+  for (let i = 0; i < R.nsides; i++) {
+    const m = R.sidemap[i]; if (m[0] < 0 || !Gs[i]) continue;
+    const g = m[1] ? gcMir(Gs[i]) : Gs[i];
+    G[m[0]] = g;
+    const sd = SIDES[m[0]];
+    if (sd.kind !== 'base') {
+      const other = sd.kind === 'right' ? sd.tri + '.left' : sd.tri + '.right';
+      for (let j = 0; j < SIDES.length; j++)
+        if (SIDES[j].tri + '.' + SIDES[j].kind === other) { G[j] = gcMir(g); break; }
+    }
+  }
+  for (let i = 0; i < 69; i++) if (!P[i]) return null;
+  for (let i = 0; i < 27; i++) if (!G[i]) return null;
+  /* D0 and U0 are two of the recipe's own circles; find them by name */
+  let D0 = null, U0 = null;
+  for (let i = 0; i < R.nsides; i++) {
+    if (R.sideNames[i] === 'D0.leg') D0 = Gs[i];
+    if (R.sideNames[i] === 'U0.leg') U0 = Gs[i];
+  }
+  if (!D0 || !U0) return null;
+  const c73 = gcRimCorner(U0, [0, 1]), c75 = gcRimCorner(D0, [0, -1]);
+  const U0base = c73 ? gcAxisThrough(c73[0], c73[1], P[55][1]) : null;
+  const D0base = c75 ? gcAxisThrough(c75[0], c75[1], P[68][1]) : null;
+  if (c73 && c73[0] > 1e-9) { P[73] = c73; P[74] = [-c73[0], c73[1]]; }
+  if (c75 && c75[0] > 1e-9) { P[75] = c75; P[76] = [-c75[0], c75[1]]; }
+  return { P, G, D0, U0, U0base, D0base, D0hi: -1, U0lo: 1, scale: 1, shift: 0 };
+}
+
+
+/* READING THE CONSTRUCTION'S PARAMETERS OFF A FIGURE
+   --------------------------------------------------
+   The parameters are node positions, so any member of the family - however
+   it was built - can be converted by simply looking at where those nodes
+   are. That is what makes the change of parametrisation free: every preset
+   saved under the old twenty-six seeds names the same figure, and the new
+   thirteen seeds are read off it.                                      */
+function arcRecParamsFrom(b) {
+  const R = arcRecipe();
+  if (!R || !b) return null;
+  const S = arcx2Sides(b);
+  const out = [];
+  for (const [ni, kind] of R.par) {
+    const nm = R.nodeNames[ni];
+    let q;
+    if (nm.charAt(0) === 'r') {
+      q = S ? S.nodes[+nm.slice(1) - NN] : null;
+    } else {
+      const m = R.nodemap[ni], v = b.P[m[0]];
+      q = v ? (m[1] ? [-v[0], v[1]] : v) : null;
+    }
+    if (!q) return null;
+    if (kind === 0) out.push(q[0], q[1]);
+    else if (kind === 1) out.push(q[1]);
+    else out.push(Math.atan2(q[1], q[0]));
+  }
+  return out;
+}
+
 function arcConstruct(vals) {
+  /* the two extended figures are replayed from an order, not solved */
+  if (arcRecipe()) return arcxBuildRec(vals);
   const P = new Array(69).fill(null), G = new Array(27).fill(null);
   const put = (i, q) => { P[i] = q; const m = ARCREC.mir[i]; if (m !== i) P[m] = [-q[0], q[1]]; };
   let k = 0;
@@ -9388,8 +11366,19 @@ let ARCSEEDLIM = null;
 function arcSeedOK(q) {
   const b = arcConstruct(q);
   if (!b) return false;
+  /* AN EMPTY SLOT IS A SLOT THIS FIGURE DOES NOT HAVE
+     -------------------------------------------------
+     P is 77 long and no figure fills all of it. `Arcs extended 2` and `3`
+     fill the 69 classical nodes and their own four rim corners, 73 to 76,
+     and never 69 to 72, which belong to `Arcs extended 1`'s numbering.
+     arcxBuildRec has already refused a figure with any of the 69 or any of
+     the 27 circles missing, so a hole here means "not part of this figure",
+     not "the construction failed". Read as a failure it made arcSeedOK
+     false AT THE FIGURE ITSELF, so every seed slider on those two was
+     handed the empty range [base, base] and did nothing at all. */
   for (const p of b.P) {
-    if (!p || !isFinite(p[0]) || !isFinite(p[1])) return false;
+    if (!p) continue;
+    if (!isFinite(p[0]) || !isFinite(p[1])) return false;
     if (Math.hypot(p[0], p[1]) > 1.0001) return false;      // nothing outside the rim
   }
   /* The ring check used to live here - push the figure, rebuild both grown
@@ -9427,17 +11416,29 @@ function arcSeedLimits() {
       const span = Math.abs(edge - base[k]);
       const q = base.slice();
       const N = 16;
-      let good = 0;
+      let good = 0, bad = Infinity;
       for (let i = 1; i <= N; i++) {
         if (now() > stop) { ARCSEED_HURRY = true; break; }
         const t = span * i / N;
         q[k] = base[k] + sgn * t;
-        if (!arcSeedOK(q)) break;
+        if (!arcSeedOK(q)) { bad = t; break; }
         good = t;
       }
-      if (good < span && now() <= stop) {     // refine the edge a little
-        let lo = good, hi = Math.min(span, good + span / N);
-        for (let it = 0; it < 5; it++) {
+      /* BISECT TO THE EDGE, NOT FIVE TIMES AND STOP
+         -------------------------------------------
+         This used to refine with five bisections inside the first interval,
+         so the finest edge it could report was span/16/32 - about 3e-3 of a
+         wide range of 1.6. On `Arcs extended 2` and `3` several seeds are
+         pinned far tighter than that: P7's x, for one, gives a figure for
+         about 5e-4 either side and no further. Every one of those measured
+         as exactly zero and its slider was handed the empty range
+         [base, base]. Bisect between the last t that worked and the first
+         that did not, to a tolerance fine enough to see them. The whole
+         measurement costs 8 ms of the 120 ms budget, so there is room. */
+      if (isFinite(bad)) {
+        let lo = good, hi = bad;
+        for (let it = 0; it < 40 && hi - lo > 1e-7 * Math.max(1, span); it++) {
+          if (now() > stop) { ARCSEED_HURRY = true; break; }
           const mid = 0.5 * (lo + hi);
           q[k] = base[k] + sgn * mid;
           if (arcSeedOK(q)) lo = mid; else hi = mid;
@@ -9476,7 +11477,9 @@ function arcApply(vals, rebuild) {
   if (!arcPush(b)) { ARCSEED = keep; note('the construction gave a circle the model cannot hold'); return false; }
   if (ARCREANCHOR) { ARCREANCHOR = false; arcAnchorPC(); }
   if (rebuild) arcSliders.forEach((s, k) => {
-    s.sl.value = Math.round(vals[k] * 1000); s.val.textContent = vals[k].toFixed(3);
+    /* each track has its own scale now - see buildArcPanel */
+    const sc = s.sc || 1000, dc = s.dec || 3;
+    s.sl.value = Math.round(vals[k] * sc); s.val.textContent = vals[k].toFixed(dc);
   });
   arcReadout();
   draw();
@@ -9506,8 +11509,66 @@ function buildArcPanel() {
      still null - so a ring-held figure announced eighteen free directions
      while showing twelve sliders. Written as a function here and called at
      the foot of the build, once the basis exists. */
-  const arcNoteText = () =>
-    'Twelve seed points and eighteen numbers; everything else follows by '
+  const arcNoteText = () => {
+    /* THE TWO CONSTRUCTED FIGURES SAY WHAT THEY ARE
+       ---------------------------------------------
+       `Arcs extended 2` and `3` are not this family and the note below does
+       not describe them: they carry eleven triangles rather than nine, they
+       hold none of the fourteen corners the arc families hold on the rim,
+       and they are replayed from an order rather than solved. The figures
+       are asked for their own numbers - how many corners are placed and
+       where each is free to sit, how many objects are drawn from them - so
+       the note follows the recipe rather than repeating a count written
+       out here. */
+    { const R = arcRecipe(); if (R) {
+        const NP = (ARCSEED || arcSeedDefaults()).length;
+        const plane = R.par.filter(q => q[1] === 0).length;
+        const ax    = R.par.filter(q => q[1] === 1).length;
+        const rim   = R.par.filter(q => q[1] === 2).length;
+        const bits = [];
+        if (plane) bits.push(plane + ' free in the plane');
+        if (ax)    bits.push(ax + ' on the axis');
+        if (rim)   bits.push(rim + ' on the rim');
+        const drawn = R.ops.filter(o => o[0] !== 'seed' && o[0] !== 'pole').length;
+        const ring = typeof N_XCELL !== 'undefined' && N_XCELL ? N_XCELL : 10;
+        return R.par.length + ' of the figure\u2019s own corners, placed \u2014 '
+          + bits.join(', ') + ' \u2014 ' + NP + ' numbers in all; the other '
+          + drawn + ' objects follow by "circle through three points", '
+          + '"axis-centred circle through two", "where two circles cross", '
+          + '"where a circle meets the axis" and "where a circle meets the '
+          + 'rim". '
+          + 'Nothing is held and nothing is corrected: every incidence of the '
+          + 'figure \u2014 the eleven bases, the eleven leg-orbits, and all '
+          + ring + ' outer nodes of the ring on the rim \u2014 follows from the '
+          + 'order. The fourteen corners the other arc figures hold on the '
+          + 'circle are released here in exchange, and no ring is grown: the '
+          + 'ring of cells is the one the two new sides cut out of the rim. '
+          + 'That is why all ' + NP + ' directions are free. '
+          /* WHICH BASIS, AND WHY IT MATTERS MORE HERE THAN ELSEWHERE
+             --------------------------------------------------------
+             The recipe determines each corner from the ones before it, so a
+             single seed moved on its own runs into a step that stops being
+             defined much sooner than a combination does: on figure 2 the
+             tightest seed gives a figure for about five ten-thousandths
+             either way, where the principal directions run to a fifth of
+             the radius. Each track is measured and scaled to its own range,
+             so a short one is a short journey and not a broken control. */
+          + (ARC_PC
+             ? 'These are the principal directions: an orthogonal basis '
+               + 'ordered by how much of the figure each moves. They are the '
+               + 'ones to pull, because a combination stays inside the '
+               + 'construction far longer than any single corner does.'
+               + ' They are a linearisation about the anchor, so far from '
+               + 'zero they stop being exact coordinates \u2014 re-anchor to '
+               + 'fix that.'
+             : 'These are the corners themselves. Each travels only as far '
+               + 'as the construction holds, which on these two figures is '
+               + 'much less for one corner alone than for a combination of '
+               + 'them \u2014 the tightest are a few ten-thousandths wide, '
+               + 'and their tracks are scaled to match, so a small drag is a '
+               + 'real move. The principal directions are the roomier dials.');
+      } }
+    return 'Twelve seed points and eighteen numbers; everything else follows by '
     + '"circle through three points" and "where two circles cross". Nothing is '
     + 'being fitted \u2014 the eighty-eight incidences hold because each one is '
     + 'a step of the construction. '
@@ -9526,6 +11587,7 @@ function buildArcPanel() {
          + 'zero they stop being exact coordinates \u2014 re-anchor to fix that.')
        : 'These are the seed coordinates themselves: two of them an angle and a '
          + 'height, the rest x and y of points scattered through the figure.');
+  };
 
   const tog = $('#arc-toggles');
   tog.textContent = '';
@@ -9567,9 +11629,10 @@ function buildArcPanel() {
       for (const o of arcSliders) {
         const k = arcSliders.indexOf(o);
         const lim = ARCPC && ARCPC.lim ? ARCPC.lim[k] : null;
-        if (lim) { o.sl.min = Math.round(lim[0] * 1000); o.sl.max = Math.round(lim[1] * 1000); }
-        if (ARCPCT) { o.sl.value = Math.round(ARCPCT[k] * 1000);
-                      o.val.textContent = ARCPCT[k].toFixed(3); }
+        const sc = o.sc || 1000, dc = o.dec || 3;
+        if (lim) { o.sl.min = Math.round(lim[0] * sc); o.sl.max = Math.round(lim[1] * sc); }
+        if (ARCPCT) { o.sl.value = Math.round(ARCPCT[k] * sc);
+                      o.val.textContent = ARCPCT[k].toFixed(dc); }
       }
     });
   }
@@ -9587,10 +11650,26 @@ function buildArcPanel() {
       ? ('direction ' + (k + 1) + ' \u2014 ' + (100 * arcPCWeight(k)).toFixed(1) + '% of the first')
       : L[k];
     const val = hel('span', head, { class: 'wval' });
-    const sl = hel('input', row, { type: 'range', min: Math.round(lo * 1000),
-                                  max: Math.round(hi * 1000), step: 1 });
-    sl.value = Math.round(v * 1000);
-    val.textContent = v.toFixed(3);
+    /* ONE STEP OF THE TRACK IS NOT ALWAYS A THOUSANDTH
+       ------------------------------------------------
+       The track was always min = lo*1000 .. max = hi*1000, a fixed
+       thousandth of a seed per step. That is fine while a seed can travel a
+       fifth of the radius; it is useless when it can travel five
+       ten-thousandths, which is what several seeds of `Arcs extended 2` and
+       `3` do - the whole range rounded to a single integer, or to none, and
+       the slider had nowhere to go. The scale is per slider and chosen so
+       the track always has at least 60 steps in it. It changes only how
+       finely the reader can ask, never how far: lo and hi are the measured
+       range either way. Two of the free figure's eighteen (0.0225 and
+       0.0249 wide) go from 22 steps to 225 by the same rule. */
+    let SC = 1000;
+    { const span = Math.max(hi - lo, 1e-12);
+      while (span * SC < 60 && SC < 1e9) SC *= 10; }
+    const dec = Math.max(3, Math.round(Math.log10(SC)));
+    const sl = hel('input', row, { type: 'range', min: Math.round(lo * SC),
+                                  max: Math.round(hi * SC), step: 1 });
+    sl.value = Math.round(v * SC);
+    val.textContent = v.toFixed(dec);
     /* Put the slider at t and keep it only if the figure survives and the
        held ring is still round. Leaves the figure standing at t when it
        returns true, and at the last good place when it returns false. */
@@ -9639,10 +11718,10 @@ function buildArcPanel() {
       return false;
     };
     const settle = t => {
-      sl.value = Math.round(t * 1000); val.textContent = t.toFixed(3); good = t;
+      sl.value = Math.round(t * SC); val.textContent = t.toFixed(dec); good = t;
     };
     sl.addEventListener('input', () => {
-      const want = +sl.value / 1000;
+      const want = +sl.value / SC;
       if (tryAt(want)) { settle(want); hardNote(); return; }
       /* WHERE THE SLIDER STOPS
          ----------------------
@@ -9661,7 +11740,8 @@ function buildArcPanel() {
          handful of ring fixes; after it the slider runs to its end.  */
       const far = want;
       let lo = good, hi = far;
-      for (let i = 0; i < 7 && Math.abs(hi - lo) > 5e-4; i++) {
+      /* half a step of THIS track, not half a thousandth */
+      for (let i = 0; i < 7 && Math.abs(hi - lo) > 0.5 / SC; i++) {
         const mid = 0.5 * (lo + hi);
         if (tryAt(mid)) lo = mid; else hi = mid;
       }
@@ -9670,14 +11750,14 @@ function buildArcPanel() {
          asking for it again from a slightly different state can fail -
          which would leave the very end of the shortened track refusing,
          the fault this is meant to cure. */
-      const step = (far > good ? -1 : 1) / 1000;
-      const back = Math.abs(lo - good) > 1.5e-3 ? lo + step : good;
+      const step = (far > good ? -1 : 1) / SC;
+      const back = Math.abs(lo - good) > 1.5 / SC ? lo + step : good;
       const wall = (back !== good && tryAt(back)) ? back : good;
       if (wall === good) tryAt(good);
       settle(wall);
       const lim = ARC_PC ? (ARCPC && ARCPC.lim ? ARCPC.lim[k] : null) : (ARCSEEDLIM ? ARCSEEDLIM[k] : null);
-      if (far > good) { sl.max = Math.round(wall * 1000); if (lim) lim[1] = wall; }
-      else            { sl.min = Math.round(wall * 1000); if (lim) lim[0] = wall; }
+      if (far > good) { sl.max = Math.round(wall * SC); if (lim) lim[1] = wall; }
+      else            { sl.min = Math.round(wall * SC); if (lim) lim[0] = wall; }
       note(RING1HOLD && DATASET.construct === 'arc'
         ? ('ring ' + RING_N + ' cannot stay round past here \u2014 the slider now ends at the wall')
         : 'the construction gives no figure past here \u2014 the slider now ends at the wall');
@@ -9689,7 +11769,7 @@ function buildArcPanel() {
        left looking at is round to the last few digits, not merely to
        within a tenth of a pixel. */
     sl.addEventListener('change', ringPolish);
-    arcSliders.push({ sl, val });
+    arcSliders.push({ sl, val, sc: SC, dec });
   });
   const btns = hel('div', rows, { class: 'btns' });
   /* WHICH SEEDS ARE THE REFERENCE
@@ -9977,6 +12057,22 @@ for (const k in show) {
    Neither touches the colour scheme: which palette you are looking through
    is not part of what the button is for.                              */
 const FIGURE_DEFAULT = {
+  /* THE EXTENDED FIGURES HAVE A DEFAULT TOO
+     ---------------------------------------
+     Without an entry here `Default` called figureDefault(), found nothing
+     for the key and returned false without saying anything - and, worse,
+     choosing the figure from the menu goes through the same call, so the
+     eleven-triangle construction was never replayed at all: the figure was
+     left standing on the nine-triangle solver's nodes, with all fourteen
+     old corners still pinned to the rim instead of released. Their default
+     is the seed vector the figure ships with - the member the search found:
+     laminar, convex on every side, and with the new ring's outer nodes on
+     the rim. `get` rather than a literal so it follows the recipe's own
+     `vals` rather than a copy of them.                                  */
+  arcx2: { get seed() { return arcSeedDefaults(); },
+           weights: { space: 1, straight: 1, parallel: 0.9, band: 1, centre: 1, equi: 0.93, compact: 1, spread: 0.14, spreadc: 0.17, pull: 0.45, slopes: 0.95, areas: 1, curves: 0.81, convex: 0.34, rimtipb: 0.25, laminar: 0.98, spacing: 0.97, radial: 1, incentre: 0.72 }, kfloor: 0 },
+  arcx3: { get seed() { return arcSeedDefaults(); },
+           weights: { space: 0.56, straight: 0.12, parallel: 1, centre: 1, tips: 0.6, slopes: 1, curves: 1, d3legs: 0.3, convex: 0.41, xtipb: 0.64, ax71: 0.66, ax81: 0.63, laminar: 0.37, spacing: 0.75, radial: 0.66, bisect: 0.44 }, kfloor: 0 },
   /* `Arcs - no rings` opens here: the figure from
      sri_yantra_presets_arcs_no_rings, so the Default button and choosing
      the figure from the menu agree. No ring is held, so nothing pulls it
@@ -10019,6 +12115,18 @@ const FIGURE_DEFAULT = {
    - the most that hold together there, at 3.8e-11. Same criteria as its
    Default; only the seeds differ.                                     */
 const FIGURE_EXTRA = {
+  /* the member `Arcs extended` steps off: every one of the fourteen back on
+     the rim, and D0 and U0 collapsed onto it. Worth being able to return to,
+     because it shows that the classical arc figure IS a member of this
+     family - the degenerate one. */
+  arcx: [{
+    n: 'Held (classical)',
+    t: 'the degenerate member: all fourteen nodes back on the rim, and D0 '
+     + 'and U0 collapsed onto the circle itself \u2014 which is the arc figure '
+     + 'exactly as `Arcs \u2014 no rings held` builds it',
+    get seed() { return arcSeedDefaults(); },
+    weights: {}, kfloor: 0
+  }],
   arcs: [{
     n: 'Five concurrences',
     t: 'five of the arc extensions meeting exactly on the first grown ring, '
@@ -10209,7 +12317,9 @@ function snapshot() {
        weights and the solver vector without them would rebuild a different
        figure and then load the old numbers into it                     */
     exactp: EXACTP.slice(),
-    innert: INNERT.slice(), inneron: INNERON,
+    /* `inneron` used to ride here. It was never read back, and it can no
+       longer differ from whether the directions have been taken at all. */
+    innert: INNERT.slice(),
     arcseed: ARCSEED ? ARCSEED.slice() : null,
     /* The five coordinates are measured from an anchor, and the anchor depends
        on where the solver happened to settle and on which constraints were
@@ -10725,10 +12835,20 @@ $('#figure-select').addEventListener('change', e => {
      the petals in their place. The other arc figures are the other way
      round - their rings are the point of them. */
   const bare = k === 'arcsfree';
-  setShow('petals', DATASETS[k].construct !== 'arc' || bare);
+  /* `Arcs extended 2` and `3` cut a ring of their own out of the rim, so the
+     rim is theirs again and the lotus stands on it as it does on the straight
+     figure: those two open petalled. The two GROWN rings are a different
+     thing - each of their cells stands on the arc of the rim between two
+     neighbouring rim nodes, and those are exactly the nodes these figures
+     release, so a grown ring here is drawn standing on a circle it no longer
+     touches and its tips fly out to ten radii. They open without them, and
+     showForConstruction takes the switches down. */
+  const xnew = !!DATASETS[k].arcext2;
+  setShow('petals', xnew || DATASETS[k].construct !== 'arc' || bare);
+  if (xnew) setShow('circle', true);
   if (DATASETS[k].construct === 'arc') {
-    setShow('ring1', !bare);
-    setShow('ring2', !bare);
+    setShow('ring1', !bare && !xnew);
+    setShow('ring2', !bare && !xnew);
   }
   setShow('diamond', false);
   /* `outer diamonds` fills each cell of the outer grown ring as the whole
@@ -10815,6 +12935,21 @@ function buildSVG() {
       s += `<path fill="${g.col}" fill-rule="evenodd" d="${g.r0 > 0
               ? annulusPath(g.r0, g.r1, fromUnit, 3)
               : discPath(g.r1, fromUnit, 3)}"/>\n`;
+    /* THE EXPORT IS BUILT, NOT COPIED
+       -------------------------------
+       Nothing here reads the SVG on screen: every mark is emitted again
+       from the model, so anything the drawing code learned to draw and this
+       function was never told about is simply missing from the file. That
+       is what happened to the whole of the extended figures' own ring - the
+       band of ground between its cells here, the cells themselves further
+       down, and the sides that cut them out, in the line group at the end.
+       On screen those are gapEl, arcxCellEls and arcxPaths.
+
+       This one is the ground the ring's cells stand in, out to the rim: on
+       the classical figures gapVar() is null and nothing is drawn. */
+    { const gv = (typeof gapVar === 'function') ? gapVar() : null;
+      const gd = gv ? arcxStarPath(fromUnit, 3) : '';
+      if (gd) s += `<path fill="${col(gv)}" d="${gd}"/>\n`; }
     for (let fi = 0; fi < FACES.length; fi++) {
       const c = cnt ? countColour(cnt[fi]) : faceFillColour(fi);
       if (c && c !== 'none') s += `<path fill="${c}" d="${facePath(P, solver.A, fi, fromUnit, 3)}"/>\n`;
@@ -10835,6 +12970,18 @@ function buildSVG() {
         for (const g of parts)
           s += `<path fill="${c0}" d="${growFillPath(g, fromUnit, 3)}"/>\n`;
       });
+    }
+    /* the cells of the ring the eleven triangles cut out of the rim. They
+       carry `f-grow` on screen and take that colour from the stylesheet;
+       here the colour has to be named. paintRingCells is the screen's
+       counterpart and this follows it, counted colour and all. */
+    if (typeof RINGEXT === 'function' && RINGEXT()) {
+      const RC = (typeof arcxRingCells === 'function') ? arcxRingCells() : null;
+      for (const c of (RC && RC.cells) || []) {
+        const fc = cnt ? ringCellColour(c) : (ringFacingColour(c) || gc);
+        if (fc && fc !== 'none')
+          s += `<path fill="${fc}" d="${ringCellPath(c, fromUnit, 3)}"/>\n`;
+      }
     }
     s += '</g>\n';
   }
@@ -11019,6 +13166,18 @@ function buildSVG() {
   }
   if (show.lines && !pal.lens && !pal.shade) {   // the export mirrors the screen
     for (const n of TRI_NAMES) s += `<path id="${n}" d="${trianglePath(P, solver.A, n, fromUnit, 3)}"/>\n`;
+    /* and the two - four on figure 3 - the extension adds. These are whole
+       curves rather than three-sided outlines, so they are drawn from the
+       point list arcx2Sides gives, the same one the screen uses. */
+    if (typeof ARCEXT2 === 'function' && ARCEXT2()) {
+      const XS = arcx2Sides();
+      for (const nm of (XS && XS.tris) || []) {
+        const z = XS[nm];
+        if (!z || !z.pts || !z.pts.length) continue;
+        s += `<path d="M${z.pts.map(q => { const v = fromUnit(q);
+                return f(v[0]) + ' ' + f(v[1]); }).join('L')}Z"/>\n`;
+      }
+    }
     if (GROW) for (const parts of drawLayers()) for (const g of parts)
       s += `<path d="${emit(growSegs(g.ea, g.tip, g.pa), fromUnit, 3)} ` +
            `${emit(growSegs(g.eb, g.tip, g.pb), fromUnit, 3)}"/>\n`;
