@@ -10021,7 +10021,13 @@ function buildExactPanel() {
   for (const key in PRE) {
     const b = hel('button', pr, { title: PRE[key].t });
     b.textContent = PRE[key].n || key;
-    b.addEventListener('click', () => { XLINE_ON = null; exactApply(PRE[key].p.slice(), key); });
+    /* the arc figures' preset buttons name the export; these did not, so on
+       the straight yantra `Kulaichev` and `Congruent` came out under
+       whatever had last been saved */
+    b.addEventListener('click', () => {
+      XLINE_ON = null; exactApply(PRE[key].p.slice(), key);
+      activeName = PRE[key].n || key; activeSaved = ''; renderSaved();
+    });
   }
   exactReadout();
 }
@@ -12244,7 +12250,7 @@ function buildFigurePresets() {
   if (DATASET && DATASET.construct === 'arc') {
     add('Default', 'the figure this construction opens on \u2014 seeds and '
         + 'criteria together. The colour scheme is left alone',
-        () => { figureDefault(); activeName = 'drawn'; activeSaved = ''; renderSaved(); });
+        () => { figureDefault(); activeName = 'default'; activeSaved = ''; renderSaved(); });
     for (const e of (FIGURE_EXTRA[figureKey] || []))
       add(e.n, e.t, () => { figureDefault(e); activeName = e.n; activeSaved = ''; renderSaved(); });
     return;
@@ -12484,7 +12490,24 @@ const slug = s => (s || '').trim().toLowerCase()
   .replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '').slice(0, 40);
 // whatever is typed in the box wins; otherwise the setting last saved or loaded
 const exportName = () => slug($('#pname').value) || slug(activeName);
-const named = (stem, ext) => { const n = exportName(); return stem + (n ? '_' + n : '') + ext; };
+/* WHICH YANTRA, AND THEN WHICH SETTING OF IT
+   ------------------------------------------
+   The stem used to be the fixed `sri_yantra_optimized`, so every export was
+   named after the setting alone - and since choosing a figure or pressing
+   `Default` set that to the same word, six different yantras all came out
+   as one filename and overwrote each other in the download folder. The
+   figure's own menu label goes in first, and the setting after it: the
+   figure is what distinguishes two files, the setting is what distinguishes
+   two exports of the same figure. */
+const figureSlug = () => {
+  const sel = $('#figure-select');
+  const o = sel && sel.selectedOptions && sel.selectedOptions[0];
+  return slug(o ? o.textContent : '') || slug(figureKey);
+};
+const named = (stem, ext) => {
+  const f = figureSlug(), n = exportName();
+  return stem + (f ? '_' + f : '') + (n ? '_' + n : '') + ext;
+};
 
 function note(msg) {
   const n = $('#store-note'); n.textContent = msg;
@@ -12820,7 +12843,13 @@ $('#figure-select').addEventListener('change', e => {
      heights after setDataset has run, and it does not come through here. */
   ARCCARRY = null;
   ARCSEED = null; ARCPC = null; ARCPCT = null; ARC_PC = false;
-  if (DATASETS[k].construct === 'exact') EXACTP = EXACT_PRESETS.goldenish.p.slice();
+  if (DATASETS[k].construct === 'exact') {
+    EXACTP = EXACT_PRESETS.goldenish.p.slice();
+    /* the arc figures get this from figureDefault below; the straight one
+       opens on goldenish, whose button is called `Default`, so the export
+       should say so rather than carrying the last saved name across */
+    activeName = 'default'; activeSaved = '';
+  }
   /* The switches that say what SHAPE the figure is drawn as belong to the
      figure, so they go back to their defaults with it. The petals are the
      straight figure's; the arc figures grow rings of their own and open
@@ -12863,7 +12892,7 @@ $('#figure-select').addEventListener('change', e => {
      so the figure opened on something the Default button would change. Press
      it, in effect, so selecting a figure and pressing Default agree. */
   if (DATASETS[k].construct === 'arc' && typeof figureDefault === 'function') {
-    if (figureDefault()) { activeName = 'drawn'; activeSaved = ''; renderSaved(); }
+    if (figureDefault()) { activeName = 'default'; activeSaved = ''; renderSaved(); }
     /* The eighteen seeds are a fine basis and poor dials - two of them an
        angle and a height, the rest x and y of points scattered through the
        figure - so an arc construction opens on the principal directions
@@ -13277,7 +13306,7 @@ function buildPNG(w, h, done, fail) {
 }
 
 function exportPNG(w, h, tag) {
-  const f = named('sri_yantra_optimized', tag + '.png');
+  const f = named('sri_yantra', tag + '.png');
   note('rendering ' + w + '×' + h + ' PNG\u2026');
   buildPNG(w, h, blob => {
     const a = document.createElement('a');
@@ -13301,7 +13330,7 @@ function syncExportButtons() {
 
 $('#exp-svg').addEventListener('click', () => {
   if (PALETTES[palette].crack) { note('the crack schemes export as PNG only'); return; }
-  const f = named('sri_yantra_optimized', '.svg');
+  const f = named('sri_yantra', '.svg');
   download(f, buildSVG(), 'image/svg+xml'); note('exported ' + f);
 });
 syncExportButtons();          // and once at start, after the button exists
