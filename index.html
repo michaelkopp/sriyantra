@@ -428,7 +428,7 @@
     <option value="arcs" title="twelve seed points · twelve free numbers · the first grown ring built onto its circle, not fitted to it">Arcs — ring 1 built</option>
     <option value="arcs2" title="the same, for the second grown ring: eleven free numbers, its fourteen vertices cut out of the circle they lie on">Arcs — ring 2 built</option>
     <option value="arcsfree" title="the same construction with neither grown ring held on a circle: the exact rimmed yantra on its own. Every seed moves as far as the rim allows, and no slider is refused by a ring. Switch both rings off in View to see it bare">Arcs — no rings held</option>
-    <option value="arcx2" title="eleven triangles instead of nine. The four largest bases change owner and carry their legs out to the rim, so four large triangles interleave and cut a ring of ten cells outside the caturdasara. Twenty-two free numbers, every step a circle through points or a crossing of two — nothing held and nothing corrected">Arcs extended 2</option>
+    <option value="arcx2" title="eleven triangles instead of nine. The four largest bases change owner and carry their legs out to the rim, so four large triangles interleave and cut a ring of ten cells between the yantra and the rim. Twenty-two free numbers, every step a circle through points or a crossing of two — nothing held and nothing corrected">Arcs extended 2</option>
     <option value="arcx3" title="the same, one level further in: U3 and D1 are carried out to the rim as well, so each of the two corners splits in two and the ring has fourteen cells. Twenty free numbers, and again a construction throughout">Arcs extended 3</option>
   </select>
   <!-- the figure's own presets, where you choose the figure -->
@@ -542,8 +542,8 @@
     <button id="t-nodes">nodes</button>
     <button id="t-labels">labels</button>
     <button id="t-circle">circle</button>
-    <button class="growdep" id="t-circle1" title="the circle through the first grown ring's tips \u2014 in the ring-one figure they lie on it exactly">circle 1</button>
-    <button class="growdep" id="t-circle2" title="the circle the outer grown ring stands on \u2014 in the ring-two figure its tips lie on this circle exactly">circle 2</button>
+    <button class="growdep" id="t-circle1" title="the circle through the first grown ring's tips — in the ring-one figure they lie on it exactly">circle 1</button>
+    <button class="growdep" id="t-circle2" title="the circle the outer grown ring stands on — in the ring-two figure its tips lie on this circle exactly">circle 2</button>
     <button id="t-chords">chords</button>
     <button id="t-centre">centre</button>
     <button id="t-frame">frame</button>
@@ -551,7 +551,7 @@
     <button id="t-rimfill" title="fill the ground between the yantra and the rim — in whatever the palette puts inside the rim">rim fills</button>
     <button class="growdep" id="t-ringfill">ring fills</button>
     <button class="growdep" id="t-diamond" title="fill every grown cell as the whole lens its two sides cut out, rather than stopping at the ring it stands on">diamonds</button>
-    <button class="growdep" id="t-diamond2" title="the same, but only for the outer grown ring \u2014 the inner one keeps its cells">outer diamonds</button>
+    <button class="growdep" id="t-diamond2" title="the same, but only for the outer grown ring — the inner one keeps its cells">outer diamonds</button>
   </div>
 
   <h2>Export</h2>
@@ -683,10 +683,10 @@
 </div>
 
 <script>
-/* `Straight extended` is not one of this viewer's figures. The drawing code
-   ported from the development copy asks whether it is showing that figure;
-   here the answer is always no, and every branch that would reach into its
-   machinery is short-circuited by this one constant. */
+/* `Straight extended` is a seventh figure this viewer does not offer. Parts
+   of the drawing code still ask whether it is showing; here the answer is
+   always no, and every branch that would reach into its machinery is
+   short-circuited by this one constant. */
 const EXT = false;
 
 // ---- Data extracted from sri_yantra_hand_nodes.csv / .svg -------------------
@@ -810,7 +810,7 @@ const DATASETS = {
      be carried across.
 
      Nor can they be found by asking which node lies on both of the two
-     sides that cross there, which is what I first tried: a triangle's APEX
+     sides that cross there, the obvious test: a triangle's APEX
      lies on both of its legs, so that test happily returns the apex sitting
      on the axis at x = 0 instead of the crossing out on the left, and two
      of the four points came back as axis points. The chains below were
@@ -1083,7 +1083,7 @@ function exactDataset(a, b, c, d) {
    Kulaichev's own four have NO solution here; swap in the equilateral variant
    and there is exactly one.                                             */
 const EXACT_PRESETS = {
-  /* The figure the site opens on, from sri_yantra_presets_exact_straight_8 */
+  /* the figure the site opens on */
   goldenish: { n: 'Default',
                p: [1.2900851547036014, 0.8857615703572294,
                    0.7566510327738913, 0.290341592847952],
@@ -7092,7 +7092,7 @@ function palField() {
      take the same pale twins. This is the whole reason the straight yantra
      had none of this: palField gave up on !GROW, so the pale ground that
      makes the arc figures read was never drawn there at all, and the
-     grounds I invented instead were a worse answer to a question this
+     grounds added in its place were a worse answer to a question this
      function had already answered properly.
 
      A band is described by how far it reaches. For a grown ring that is
@@ -7318,9 +7318,9 @@ function setPalette(key) {
      choice of colour. */
   if (key === 'none' && typeof setShow === 'function')
     for (const k of ['lines', 'circle', 'centre']) setShow(k, true);
-  /* keep the menu telling the truth. In the full viewer the default palette
-     was the first option, so a mismatch never showed; here the default is
-     Counts and the menu was still reading `Ink`. */
+  /* keep the menu telling the truth. The default palette is Counts and the
+     menu opened reading `Ink`: it only ever showed the right name while the
+     default happened to be the first option in the list. */
   { const sel = $('#palette-select'); if (sel && sel.value !== key) sel.value = key; }
   document.body.className = 'pal-' + key + ' fig-' + figureKey;  $('#countbox').classList.toggle('off', PALETTES[key].scheme !== 'count');  const ramped = PALETTES[key].scheme === 'count' || !!PALETTES[key].shade;
   $('#rampbox').classList.toggle('off', !ramped);
@@ -8548,6 +8548,16 @@ function exactPush(pp) {
 let ARCPC = null;         // { V, s, seed0, X0 }
 let ARCPCT = null;        // the eighteen coordinates
 let ARC_PC = false;       // which basis the panel is showing
+/* THE DIALS ARE ASKED FOR, NOT PRESENT FROM THE START
+   ---------------------------------------------------
+   The Construction panel used to open with every slider already on screen -
+   twenty-two of them on `Arcs extended 2` - before the reader had any idea
+   what they moved. They now appear when `principal components` is pressed,
+   the same way the inner three do: the button finds the directions and puts
+   them on dials, and after that switches between those and the figure's own
+   corner coordinates. Cleared with the figure, so each one is met the same
+   way. */
+let ARC_DIALS = false;    // ...and whether it is showing any
 let ARCREANCHOR = false;
 
 /* The directions in seed space the figure is free to move along.
@@ -8688,10 +8698,9 @@ function arcAnchorPC() {
      making it worse, so the baseline is read here and the bound follows it.
 
      Node order needs the same treatment for the same reason: the ring-two
-     figure and the free one are built with minGap already at -0.09, nodes
-     out of order before anything is moved, which is the complaint the deep
-     harness has had about arcs2 all along. Held to an absolute > 0 those
-     two figures could never show a span either. Both bounds now say "no
+     figure and the free one are built with minGap already at -0.09: their
+     nodes are out of order before anything is moved at all. Held to an
+     absolute > 0 those two figures could never show a span either. Both bounds now say "no
      worse than the anchor, by more than a whisker".                     */
   { const bq = arcConstruct(ARCPC.seed0); if (bq) arcPush(bq); }
   const A0 = metrics(solver.X, solver.A);
@@ -9336,10 +9345,15 @@ function showForConstruction() {
   /* circle 1, circle 2, the two ring fills and the two diamond switches all
      act on the grown rings, so on a figure that grows none - Numerical arcs
      and both straight constructions - they are dead controls */
+  /* ...and on `Arcs extended 2` and `3` as well. Those carry grow: 2, so
+     GROW is 2 and these stayed up, but drawLayers hands back nothing there -
+     the switches did nothing at all while their tooltips described a ring
+     the figure does not have. */
+  const xg = !GROW || !!(DATASET && DATASET.arcext2);
   for (const id of ['t-circle1', 't-circle2', 't-ringfill2',
                     't-diamond', 't-diamond2']) {
     const b = $('#' + id);
-    if (b) b.classList.toggle('off', !GROW);
+    if (b) b.classList.toggle('off', xg);
   }
   /* `ring fills` also governs the petals, which carry the two ring colours
      on figures that grow no rings at all - so it stays while they are up */
@@ -9780,26 +9794,56 @@ function buildInnerPanel() {
      are re-zeroed under it, which is what `re-anchor here` does in the
      Construction panel and what a reader expects from a change of
      coordinates. */
-  const pb = hel('button', tog, { id: 'inner-pc', title: 'diagonalise the directions: '
-                 + 'orthogonal as motion and ordered by how much of the figure each '
-                 + 'moves, instead of the basis the null space came out in. The family '
-                 + 'is the same either way; the directions are taken afresh at the '
-                 + 'figure on screen, which does not move it' });
+  /* ONE BUTTON, NOT TWO
+     -------------------
+     There used to be a `take the directions here` button as well, and the
+     panel opened showing only that: the sliders appeared after it was
+     pressed. Pressing `principal directions` first did nothing visible at
+     all - it flipped a basis for directions that did not exist yet - which
+     is exactly the dead control a reader meets first. So this button does
+     the taking too. With no directions yet it takes them, in the basis it
+     is named for, and the sliders appear; after that it switches between
+     that basis and the one the null space came out in, re-anchoring at the
+     figure on screen.
+
+     Re-anchoring rather than converting: the two bases span the same space,
+     so the slider values could in principle be carried across by solving
+     for them, but anchoring afresh does not touch p - the figure does not
+     move at all, only the dials are re-zeroed under it, which is what
+     `re-anchor here` does in the Construction panel and what a reader
+     expects from a change of coordinates. */
+  const pb = hel('button', tog, { id: 'inner-pc', title: INNER
+                 ? 'switch between directions ordered by how much of the figure each '
+                   + 'one moves, and the basis they were first found in. The same five '
+                   + 'directions either way; they are taken afresh at the figure on '
+                   + 'screen, which does not move it'
+                 : 'find the directions at the figure on screen and put them on '
+                   + 'sliders, ordered by how much of the figure each one moves. '
+                   + 'The figure does not move' });
   pb.textContent = 'principal directions';
-  pb.classList.toggle('on', INNER_PC);
+  pb.classList.toggle('on', !!INNER && INNER_PC);
   pb.addEventListener('click', () => {
-    INNER_PC = !INNER_PC;
-    /* Nothing to re-take until the directions have been taken once. If the
-       re-take fails, innerAnchor has already cleared INNER and the hold with
-       it, so the panel must be rebuilt or it goes on showing sliders that
-       drive nothing - put the basis back and rebuild either way. */
-    if (INNER && !innerAnchor()) {
-      INNER_PC = !INNER_PC;
+    const first = !INNER;
+    const was = INNER_PC;
+    INNER_PC = first ? true : !INNER_PC;
+    if (!innerAnchor()) {
+      INNER_PC = was;
       buildInnerPanel();
-      setNote($('#inner-note'),
-        'could not take the directions again here \u2014 let the figure settle first');
+      setNote($('#inner-note'), first
+        ? 'could not find the directions here \u2014 let the figure settle first'
+        : 'could not take the directions again here \u2014 let the figure settle first');
       innerReadout();
       return;
+    }
+    /* taking them hands the figure to the solver, and the criteria fit drives
+       it from the other end - whichever runs second wins, so one at a time */
+    if (first) {
+      if (CFIT) { CFIT = false;
+        setNote($('#inner-note'), 'the criteria fit has been switched off \u2014 it '
+             + 'and the inner hold cannot both drive the figure'); }
+      showForConstruction(); setRunning(true);
+      if (DATASET.construct === 'exact') buildExactPanel();
+      else if (DATASET.construct) buildArcPanel();
     }
     buildInnerPanel(); innerReadout();
   });
@@ -9818,25 +9862,7 @@ function buildInnerPanel() {
      and the button is gone. */
   if (!INNER) {
     $('#inner-read').textContent =
-      'the five directions are taken at the figure on screen';
-    const row = hel('div', rows, { class: 'btns' });
-    const b = hel('button', row, {});
-    b.textContent = 'take the directions here';
-    b.addEventListener('click', () => {
-      if (!innerAnchor()) { setNote(note,
-        'could not find the directions here — let the figure settle first'); return; }
-      /* innerAnchor has engaged the hold; taking the directions IS turning it on */
-      /* this called note(...), the toast at the foot of the panel - but
-         inside this function 'note' is the inner-note element, so the call
-         threw the moment the branch was reached. The sibling path a few lines
-         up writes the same message into the note, so this does too. */
-      if (CFIT) { CFIT = false;
-        setNote(note, 'the criteria fit has been switched off \u2014 it and the '
-             + 'inner hold cannot both drive the figure'); }
-      showForConstruction(); setRunning(true); buildInnerPanel();
-      if (DATASET.construct === 'exact') buildExactPanel();
-      else if (DATASET.construct) buildArcPanel();
-    });
+      'press \u201cprincipal directions\u201d to find them at the figure on screen';
     return;
   }
   INNERT.forEach((v, k) => {
@@ -10483,6 +10509,10 @@ function ringBuildToArcSeed(P) {
    there, and the only thing solved for is the one arranged coincidence.  */
 let RB_VALS = null, RB_R = 0, RB_LIM = null, RB_KEY = '';
 let RB_PC = null, RB_PCT = null, RB_INPC = true;
+/* ...and whether the dials are on screen at all. The ring-built figures do
+   the same as the other two panels: `principal components` asks for them,
+   and only then does a wall of sliders appear. Cleared with the figure. */
+let RB_DIALS = false;
 
 /* only the two ring-held figures: `arcsfree` also carries DATASET.ring, but
    nothing is being built there */
@@ -10764,8 +10794,15 @@ function buildRBPanel() {
   const bb = hel('button', tog, { title: 'the parameters themselves, or the principal '
                  + 'directions of the construction' });
   bb.textContent = 'principal components';
-  bb.classList.toggle('on', RB_INPC);
+  bb.classList.toggle('on', RB_DIALS && RB_INPC);
   bb.addEventListener('click', () => {
+    /* the first press asks for the dials; later ones switch basis */
+    if (!RB_DIALS) {
+      RB_DIALS = true; RB_LIM = null;
+      if (!RB_INPC) RB_INPC = true;
+      if (!rbAnchorPC()) { RB_INPC = false; note('could not take the directions here'); }
+      buildRBPanel(); return;
+    }
     RB_INPC = !RB_INPC;
     RB_LIM = null;
     if (RB_INPC && !rbAnchorPC()) { RB_INPC = false; note('could not take the directions here'); }
@@ -10773,6 +10810,13 @@ function buildRBPanel() {
   });
   const rows = $('#rb-rows');
   rows.textContent = '';
+  if (!RB_DIALS) {
+    const t = hel('div', rows, { class: 'tip' });
+    t.textContent = 'press \u201cprincipal components\u201d for the dials that move '
+                  + 'this figure';
+    $('#rb-read').textContent = rbReadout();
+    return;
+  }
   const lim = rbLimits();
   const labels = rbLabels(rb);
   const F = rbFreeIdx(rb);
@@ -10859,8 +10903,8 @@ function rbReadout() {
 }
 
 
-/* The three numbers the ported code reads from the solver's own bookkeeping.
-   This viewer has no criteria panel, so nothing sets them there; they are set
+/* Three numbers the drawing code reads. They belong to the criteria panel,
+   which this viewer does not have, so nothing sets them there; they are set
    from the dataset when a figure is chosen (see setExtCounts below) and are
    used only to size the ring of cells the eleven triangles cut out. */
 let N_XCELL = 0, SPACE_EXT = false, N_SPACE = 0;
@@ -10873,10 +10917,11 @@ function setExtCounts(ds) {
 
 /* ============================================================
    ARCS EXTENDED 2 AND 3 - the eleven-triangle constructions.
-   Ported from the development viewer. These two figures are built,
-   not solved: ARC_REC2 and ARC_REC3 are orders in which every node
-   and every curve is determined by what precedes it, and arcxBuildRec
-   replays one. Nothing here is fitted and nothing is corrected.
+   These two figures are built, not solved: ARC_REC2 and ARC_REC3
+   are orders in which every node and every curve is determined by
+   what precedes it, and arcxBuildRec replays one. Nothing here is
+   fitted and nothing is corrected. The same two constructions are
+   in the repository as GeoGebra files, built by paper/mkggb_ext.py.
    ============================================================ */
 const ARC_RIMSTEP = ARCREC.steps.filter(t => t[0] === 'R').map(t => t[1]);
 /* which released nodes the last arcConstructX had to pin at the extreme of
@@ -11597,8 +11642,12 @@ function buildArcPanel() {
 
   const tog = $('#arc-toggles');
   tog.textContent = '';
-  const bb = hel('button', tog, { title: 'the eighteen seed numbers, or the eighteen '
-                 + 'principal directions of the construction' });
+  /* the count belongs to the figure: eighteen on the arc families, twenty-two
+     on `Arcs extended 2`, twenty on `Arcs extended 3` */
+  const nSeeds = (ARCSEED || (typeof arcSeedDefaults === 'function' ? arcSeedDefaults() : [])).length || 18;
+  const bb = hel('button', tog, { title: 'the ' + nSeeds + ' numbers that place the '
+                 + 'figure\u2019s own corners, or the same many principal directions '
+                 + '\u2014 the same family, in two sets of dials' });
   /* NAME THE MODE, LIGHT UP WHEN IT IS ON
      -------------------------------------
      This button used to rename itself to whichever basis was showing, so in
@@ -11609,8 +11658,17 @@ function buildArcPanel() {
      lights up while that mode is on; this one now does the same. Unlit is
      the seed coordinates, lit is the principal directions.               */
   bb.textContent = 'principal components';
-  bb.classList.toggle('on', ARC_PC);
+  bb.classList.toggle('on', ARC_DIALS && ARC_PC);
   bb.addEventListener('click', () => {
+    /* the first press asks for the dials at all, and they arrive in the
+       basis the button is named for; every press after it switches basis */
+    if (!ARC_DIALS) {
+      if (!ARC_PC && !arcAnchorPC()) {
+        note('could not build the principal directions here \u2014 showing the '
+             + 'figure\u2019s own corner coordinates instead');
+      } else ARC_PC = true;
+      ARC_DIALS = true; buildArcPanel(); return;
+    }
     if (!ARC_PC && !arcAnchorPC()) {
       note('could not build the principal directions here — staying in the seed coordinates');
       return;
@@ -11620,6 +11678,18 @@ function buildArcPanel() {
   const rows = $('#arc-rows');
   rows.textContent = '';
   arcSliders = [];
+  if (!ARC_DIALS) {
+    const t = hel('div', rows, { class: 'tip' });
+    t.textContent = 'press \u201cprincipal components\u201d for the dials that move '
+                  + 'this figure';
+    setNote($('#arc-note'), arcNoteText());
+    arcReadout();
+    /* the tail of this function does this, and returning early skipped it -
+       so leaving a ring figure for `no rings held` left the ring panel on
+       screen underneath this one. buildRBPanel is what takes it down. */
+    buildRBPanel();
+    return;
+  }
   /* one dial for how fine all the others are */
   if (ARC_PC) {
     const srow = hel('div', rows, { class: 'crit' });
@@ -11834,6 +11904,30 @@ function arcReadout() {
   const line = (nm, r) => nm + ' '
     + (r ? ('radius ' + r.mean.toFixed(6) + '   spread ' + (100 * r.rel).toFixed(4) + '% of it')
          : 'none') + '\n';
+  /* WHICH RING IS WORTH MEASURING
+     -----------------------------
+     The two grown rings are what the nine-triangle figures are about, and
+     how round they are is the whole question there. On `Arcs extended 2`
+     and `3` they are not part of the figure at all - each of their cells
+     stands on the arc of the rim between two corners those figures let go,
+     so they are drawn nowhere and their tips run out past ten radii. This
+     used to report them anyway: `grown ring 2 radius 11.446833` next to a
+     picture with no such ring in it. What those two have instead is the
+     ring the eleven triangles cut out of the rim, and the thing worth
+     saying about it is that its outer corners are ON the rim. */
+  const X = ARCEXT2 && ARCEXT2() ? arcx2Sides() : null;
+  if (X && X.nodes && X.nodes.length) {
+    let off = 0;
+    for (const q of X.nodes) off = Math.max(off, Math.abs(Math.hypot(q[0], q[1]) - 1));
+    out.textContent =
+      'every incidence holds to  ' + c.inc.toExponential(2) + '   (built, not solved)\n'
+      + 'the ring\u2019s ' + X.nodes.length + ' outer corners sit on the rim to  '
+      + off.toExponential(2) + '\n'
+      + '\nBoth are exact to the last digits the arithmetic carries, at every\n'
+      + 'setting of the sliders: they are steps of the construction, not\n'
+      + 'conditions being met. This figure grows no ring and holds nothing.';
+    return;
+  }
   out.textContent =
     'worst incidence  ' + c.inc.toExponential(2) + '   (construction, not solved)\n'
     + line('grown ring 1   ', c.r1)
@@ -11856,7 +11950,7 @@ function arcReadout() {
       return 'ring ' + (k + 1) + '  ' + (100 * (hi - lo) / m).toFixed(3)
            + '% out of round at r ' + m.toFixed(4) + '  (' + r.length + ' tips)';
     };
-    out.textContent += '\ngrown rings\n  ' + bit(0) + '\n  ' + bit(1) + '\n';
+    out.textContent += '\ngrown rings\n  ' + bit(0) + '\n  ' + bit(1) + '\n';   // never reached on the extended figures: they return above
   }
 }
 
@@ -12079,8 +12173,7 @@ const FIGURE_DEFAULT = {
            weights: { space: 1, straight: 1, parallel: 0.9, band: 1, centre: 1, equi: 0.93, compact: 1, spread: 0.14, spreadc: 0.17, pull: 0.45, slopes: 0.95, areas: 1, curves: 0.81, convex: 0.34, rimtipb: 0.25, laminar: 0.98, spacing: 0.97, radial: 1, incentre: 0.72 }, kfloor: 0 },
   arcx3: { get seed() { return arcSeedDefaults(); },
            weights: { space: 0.56, straight: 0.12, parallel: 1, centre: 1, tips: 0.6, slopes: 1, curves: 1, d3legs: 0.3, convex: 0.41, xtipb: 0.64, ax71: 0.66, ax81: 0.63, laminar: 0.37, spacing: 0.75, radial: 0.66, bisect: 0.44 }, kfloor: 0 },
-  /* `Arcs - no rings` opens here: the figure from
-     sri_yantra_presets_arcs_no_rings, so the Default button and choosing
+  /* `Arcs - no rings` opens here, so that the Default button and choosing
      the figure from the menu agree. No ring is held, so nothing pulls it
      afterwards - these eighteen numbers ARE the figure. */
   arcsfree: {
@@ -12842,7 +12935,8 @@ $('#figure-select').addEventListener('change', e => {
      Loading a saved setting is untouched - that path sets the seeds and the
      heights after setDataset has run, and it does not come through here. */
   ARCCARRY = null;
-  ARCSEED = null; ARCPC = null; ARCPCT = null; ARC_PC = false;
+  ARCSEED = null; ARCPC = null; ARCPCT = null; ARC_PC = false; ARC_DIALS = false;
+  RB_DIALS = false;
   if (DATASETS[k].construct === 'exact') {
     EXACTP = EXACT_PRESETS.goldenish.p.slice();
     /* the arc figures get this from figureDefault below; the straight one
@@ -12874,7 +12968,10 @@ $('#figure-select').addEventListener('change', e => {
      showForConstruction takes the switches down. */
   const xnew = !!DATASETS[k].arcext2;
   setShow('petals', xnew || DATASETS[k].construct !== 'arc' || bare);
-  if (xnew) setShow('circle', true);
+  /* The rim is drawn by the ring itself on these two - its outer corners sit
+     on it - so the circle on top of them is a line over a line. They open
+     without it; the View switch puts it back. */
+  if (xnew) setShow('circle', false);
   if (DATASETS[k].construct === 'arc') {
     setShow('ring1', !bare && !xnew);
     setShow('ring2', !bare && !xnew);
@@ -12898,6 +12995,8 @@ $('#figure-select').addEventListener('change', e => {
        figure - so an arc construction opens on the principal directions
        instead, which are ordered and commensurate. figureDefault clears the
        basis, so this comes after it. The switch still moves to the seeds. */
+    /* the basis the dials WILL be in when they are asked for; ARC_DIALS
+       decides whether they are on screen at all, and stays false here */
     ARC_PC = true;
     buildArcPanel();
   }
