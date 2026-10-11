@@ -395,6 +395,7 @@
      solve nothing, so they take `on-arcx` instead and are left out here.
      `on-both` is what genuinely applies to all five arc figures. */
   body.fig-arcs .on-arc,body.fig-arcs2 .on-arc,body.fig-arcsfree .on-arc{display:block}
+  body.fig-arcs span.on-arc,body.fig-arcs2 span.on-arc,body.fig-arcsfree span.on-arc{display:inline}
   .on-arcx,.on-arcx2,.on-arcx3,.on-nine,.on-both{display:none}
   body.fig-arcx2 .on-arcx,body.fig-arcx3 .on-arcx{display:block}
   body.fig-arcx2 .on-arcx2,body.fig-arcx3 .on-arcx3{display:inline}
@@ -425,11 +426,11 @@
   <h2>Select Śrī Yantra</h2>
   <select id="figure-select">
     <option value="exact" title="ruler and compass · four parameters · 6 corners on the circle">Straight</option>
-    <option value="arcs" title="twelve seed points · twelve free numbers · the first grown ring built onto its circle, not fitted to it">Arcs — ring 1 built</option>
-    <option value="arcs2" title="the same, for the second grown ring: eleven free numbers, its fourteen vertices cut out of the circle they lie on">Arcs — ring 2 built</option>
-    <option value="arcsfree" title="the same construction with neither grown ring held on a circle: the exact rimmed yantra on its own. Every seed moves as far as the rim allows, and no slider is refused by a ring. Switch both rings off in View to see it bare">Arcs — no rings held</option>
-    <option value="arcx2" title="eleven triangles instead of nine. The four largest bases change owner and carry their legs out to the rim, so four large triangles interleave and cut a ring of ten cells between the yantra and the rim. Twenty-two free numbers, every step a circle through points or a crossing of two — nothing held and nothing corrected">Arcs extended 2</option>
-    <option value="arcx3" title="the same, one level further in: U3 and D1 are carried out to the rim as well, so each of the two corners splits in two and the ring has fourteen cells. Twenty free numbers, and again a construction throughout">Arcs extended 3</option>
+    <option value="arcs" title="twelve seed points · twelve free numbers · the first grown ring is constructed on its circle">Arcs — ring 1 built</option>
+    <option value="arcs2" title="the same construction for the second grown ring: eleven free numbers, with its fourteen vertices constructed on their circle">Arcs — ring 2 built</option>
+    <option value="arcsfree" title="the same construction with neither grown ring held on a circle: the yantra in its rim. Each seed can move as far as the rim allows. Switch both rings off to see the yantra alone">Arcs — no rings held</option>
+    <option value="arcx2" title="eleven triangles instead of nine: the two new triangles U0 and D0, with D3 and U2 carried out to the rim, cut a ring of ten cells between the yantra and the rim. Twenty-two free numbers; every step is a circle through points or the meeting of two curves">Arcs extended 2</option>
+    <option value="arcx3" title="as Arcs extended 2, with D1 and U3 also carried out to the rim, so that the ring has fourteen cells. Twenty free numbers, and again every step is a construction">Arcs extended 3</option>
   </select>
   <!-- the figure's own presets, where you choose the figure -->
   <div class="btns" id="figpresets" style="margin-top:10px"></div>
@@ -438,8 +439,8 @@
        so the switches live with the figure rather than down in View. Hidden
        for every figure that has no rings to switch. -->
   <div class="btns tog off" id="ring-toggles" style="margin-top:10px">
-    <button id="t-ring1" title="the first grown ring — off, it leaves the figure entirely: cells, outline, tips, its circle, every colour scheme and the export">ring 1</button>
-    <button id="t-ring2" title="the second grown ring — with both off the arc construction reads as the bare rimmed yantra">ring 2</button>
+    <button id="t-ring1" title="show or hide the first grown ring: its cells, outline, tips and circle, in every colour scheme and in the export">ring 1</button>
+    <button id="t-ring2" title="show or hide the second grown ring; with both rings off the figure is the yantra in its rim">ring 2</button>
   </div>
 
   <div id="presetbox">
@@ -505,7 +506,7 @@
   <select id="palette-select">
     <option value="none">Lines</option>
     <option value="rainbow2">Rainbow</option>
-    <option value="aumrings" title="the warmer Rainbow in the aum ramp's three colours: white at the heart, gold through the middle, orange at the rim, on the aum ground">AYP aum colors</option>
+    <option value="aumrings" title="Rainbow in the three colours of the aum ramp: white at the centre, gold in the middle and orange at the rim, on the aum ground">AYP aum colors</option>
     <option value="count" title="each region coloured by the number of upward triangles covering it minus the downward ones, taken modulo 3">Counts mod 3</option>
   </select>
   <div class="crit" id="rampbox">
@@ -542,16 +543,16 @@
     <button id="t-nodes">nodes</button>
     <button id="t-labels">labels</button>
     <button id="t-circle">circle</button>
-    <button class="growdep" id="t-circle1" title="the circle through the first grown ring's tips — in the ring-one figure they lie on it exactly">circle 1</button>
-    <button class="growdep" id="t-circle2" title="the circle the outer grown ring stands on — in the ring-two figure its tips lie on this circle exactly">circle 2</button>
+    <button class="growdep" id="t-circle1" title="the circle through the tips of the first grown ring; in the ring 1 figure they lie on it exactly">circle 1</button>
+    <button class="growdep" id="t-circle2" title="the circle of the second grown ring; in the ring 2 figure its tips lie on it exactly">circle 2</button>
     <button id="t-chords">chords</button>
     <button id="t-centre">centre</button>
     <button id="t-frame">frame</button>
-    <button id="t-petals" title="two rows of lotus petals between the circle and the frame — eight in the inner row, sixteen in the outer, as in the painted figures. Everything outside them moves out to make room">petalled frame</button>
-    <button id="t-rimfill" title="fill the ground between the yantra and the rim — in whatever the palette puts inside the rim">rim fills</button>
+    <button id="t-petals" title="two rows of lotus petals between the circle and the frame, eight in the inner row and sixteen in the outer, as in the painted figures; the frame moves out to make room">petalled frame</button>
+    <button id="t-rimfill" title="fill the ground between the yantra and the rim with the palette's colour for it">rim fills</button>
     <button class="growdep" id="t-ringfill">ring fills</button>
-    <button class="growdep" id="t-diamond" title="fill every grown cell as the whole lens its two sides cut out, rather than stopping at the ring it stands on">diamonds</button>
-    <button class="growdep" id="t-diamond2" title="the same, but only for the outer grown ring — the inner one keeps its cells">outer diamonds</button>
+    <button class="growdep" id="t-diamond" title="fill each grown cell as the whole lens cut out by its two sides, instead of stopping at the ring it stands on">diamonds</button>
+    <button class="growdep" id="t-diamond2" title="the same for the outer grown ring only; the inner ring keeps its cells">outer diamonds</button>
   </div>
 
   <h2>Export</h2>
@@ -564,94 +565,87 @@
   <details>
     <summary>How it is built</summary>
 
-    <p class="on-straight"><b>Four numbers.</b> The straight figure is Chiodo's:
-    nine triangles whose corners all fall where they must, built from four
-    heights <i>a, b, c, d</i> on the vertical diameter. Everything else follows
-    by ruler and compass — a circle through three points, the meeting of two
-    lines — so the sliders move the construction rather than nudging the
-    drawing towards it.</p>
+    <p class="on-straight"><b>Four numbers.</b> The straight figure is Chiodo's
+    construction: nine triangles built from four heights <i>a, b, c, d</i> on
+    the vertical diameter. Everything else follows by ruler and compass (a
+    circle through three points, the meeting of two lines), so the sliders
+    change the construction itself.</p>
 
-    <p class="on-straight"><b>What is exact about it.</b> The seven places where
-    an apex has to land on another triangle's base, and the twelve triples of
-    lines that have to meet at one point, hold to machine precision at every
-    setting of the four sliders. They are steps of the construction, not
-    conditions being satisfied.</p>
+    <p class="on-straight"><b>What is exact.</b> The seven places where an apex
+    lies on another triangle's base, and the twelve triples of lines that meet
+    in one point, hold to machine precision at every setting of the four
+    sliders, because each of them is a step of the construction.</p>
 
-    <p class="on-straight"><b>The held conditions.</b> Each switch above the
-    sliders asks for one more thing — the innermost triangle centred on the
-    bindu, or equilateral, or D3's corners on the rim — and solves the
-    remaining freedom for it. Four heights carry at most four conditions, so
-    the switches compete: turn on a fourth and something has to give.</p>
+    <p class="on-straight"><b>Held conditions.</b> Each switch above the sliders
+    adds one condition (the innermost triangle centred on the bindu, the
+    innermost triangle equilateral, or D3's corners on the rim) and satisfies
+    it with the remaining freedom. Four heights can carry at most four
+    conditions, so not every combination of switches can hold at once.</p>
 
     <p class="on-arc"><b>Twelve points, eighteen numbers.</b> The arc figures
-    are built from twelve seed points, and every side is a single circular arc
-    rather than a spline through the nodes — so the curvature of a side is
-    constant by construction, and a straight side is just the zero-curvature
-    case. The eighty-eight incidences hold because each one is a step of the
-    construction.</p>
+    are built from twelve seed points. Every side is a single circular arc, so
+    its curvature is constant, and a straight side is the case of zero
+    curvature. The eighty-eight incidences hold because each one is a step of
+    the construction.</p>
 
     <p class="on-arc"><b>The grown rings.</b> Outside the nine triangles the
     figure grows two rings of cells.
-    <span class="on-ring1">Ring 1 is <i>built</i> onto its circle here, not
-    fitted to it: the circle is drawn first, each of the ring's fourteen
-    vertices is cut out of it, and the arcs of the yantra are drawn through
-    them. Twelve numbers are free — eleven seeds and the circle's radius — and
-    one more is solved for, to make a single coincidence hold.</span><span
-    class="on-ring2">Ring 2 is <i>built</i> onto its circle in the same way,
-    with eleven free numbers instead of twelve.</span><span class="on-free">No
-    ring sits on a circle here, so all eighteen seed numbers are free and
-    nothing is solved for at all. The figure opens on the ring-two shape and
-    lets go from there.</span></p>
+    <span class="on-ring1">Here ring 1 is constructed on its circle: the
+    circle is drawn first, the ring's fourteen vertices are taken on it, and
+    the arcs of the yantra are drawn through them. Twelve numbers are free
+    (eleven seed numbers and the radius of the circle), and one more is solved
+    for so that a single coincidence holds.</span><span class="on-ring2">Here
+    ring 2 is constructed on its circle in the same way, with eleven free
+    numbers instead of twelve.</span><span class="on-free">Here neither ring
+    lies on a circle, so all eighteen seed numbers are free and nothing is
+    solved for. The figure opens in the shape of the ring 2 figure.</span></p>
 
     <p class="on-arcx"><b>Thirteen corners, <span class="on-arcx2">twenty-two</span><span
-    class="on-arcx3">twenty</span> numbers.</b> These two are not the
-    nine-triangle figure. The outermost side on each hand is carried out until
-    it closes into a triangle of its own, so there are eleven — six pointing
-    down and five up — and in exchange the fourteen corners the other arc
-    figures hold on the circle are released. Thirteen of the figure’s own
-    corners are placed <span class="on-arcx2">— nine free in the plane, three
-    on the axis, one on the rim —</span><span class="on-arcx3">— seven free
-    in the plane, four on the axis, two on the rim —</span> and the other
+    class="on-arcx3">twenty</span> numbers.</b> These two figures have eleven
+    triangles instead of nine. The outermost side on each hand is carried on
+    until it closes into a triangle of its own, so that six triangles point
+    down and five up, and the fourteen corners that the other arc figures hold
+    on the circle are released. Thirteen corners of the figure are placed
+    <span class="on-arcx2">(nine free in the plane, three on the axis and one
+    on the rim)</span><span class="on-arcx3">(seven free in the plane, four on
+    the axis and two on the rim)</span>, and the other
     <span class="on-arcx2">fifty-two</span><span class="on-arcx3">fifty-four</span>
     objects follow from them.</p>
 
-    <p class="on-arcx"><b>The ring.</b> What the two new sides cut out of the
-    rim is a ring of <span class="on-arcx2">ten</span><span
-    class="on-arcx3">fourteen</span> cells, and its
-    <span class="on-arcx2">ten</span><span class="on-arcx3">fourteen</span>
-    outer nodes are on the circle exactly. It is not a grown ring and these
-    figures grow none: it is the ring the eleven triangles cut. That is why
-    they wear the lotus and offer no ring switches.</p>
+    <p class="on-arcx"><b>The ring.</b> Between the yantra and the rim the
+    eleven triangles cut a ring of <span class="on-arcx2">ten</span><span
+    class="on-arcx3">fourteen</span> cells, and its outer nodes lie exactly on
+    the circle. This ring is part of the figure, not a grown ring, so these
+    figures have no ring switches.</p>
 
-    <p class="on-arcx"><b>Nothing is arranged.</b> The order these two are
-    replayed from produces every node and every curve from the ones before it,
-    so each step is a circle through points or the crossing of two circles and
-    nothing at all is solved at run time — there is no coincidence to
-    arrange here, and no number that has to be found for one. Move any slider
-    and every incidence holds, the ring’s outer nodes on the rim included.
-    They give out sooner than the other three in exchange: because each corner
-    is determined by the ones before it, a single corner moved on its own runs
-    out of room much earlier than a combination does, which is what the
-    principal directions are for.</p>
+    <p class="on-arcx"><b>No arranged coincidence.</b> Each step of these
+    constructions draws a node or a curve from those before it, as a circle
+    through points or the meeting of two curves, and nothing is solved while
+    the sliders move. At every setting every incidence holds, including the
+    outer nodes of the ring on the rim. Because each corner is determined by
+    the ones before it, a single corner moved on its own soon reaches the end
+    of its range; a combination of corners can move much further, and the
+    principal directions provide such combinations.</p>
 
-    <p class="on-both"><b>Principal directions.</b> The parameters are a fine
-    basis and poor dials: moving one moves the picture by an amount that has
-    nothing to do with moving another. On the built figures the disparity is
-    extreme — sixty steps of "circle through three points" amplify a change in
-    a seed<span class="on-arc">, and the ring's radius moves the innermost
-    triangles four hundred times further than it moves itself</span>. The
-    principal directions are the same space in an order, each scaled so a full
-    slider moves the worst-placed node the same distance as any other.</p>
+    <p class="on-both"><b>Principal directions.</b> The parameters form a basis
+    of the family but make poor sliders: equal moves of two parameters change
+    the figure by very different amounts. On the constructed figures the
+    differences are large, because sixty steps of "circle through three
+    points" amplify a change in a seed<span class="on-arc">, and the radius of
+    the ring moves the innermost triangles four hundred times as far as it
+    moves itself</span>. The principal directions span the same space, ordered
+    by how much of the figure each one moves and scaled so that a full slider
+    moves the most affected node by the same distance for every direction.</p>
 
-    <p><b>The bindu.</b> The dot at the centre is the point the innermost
-    triangle is measured against, not an ornament: on the straight figure one
-    of the switches puts it exactly at the centroid.</p>
+    <p><b>The bindu.</b> The dot at the centre is the reference point for the
+    innermost triangle; on the straight figure one of the switches places the
+    centre of that triangle exactly on it.</p>
 
-    <p class="on-nine"><b>Note.</b> Every figure here is a construction, and
+    <p class="on-nine"><b>Note.</b> Every figure here is a construction;
     nothing is fitted. On the two ring figures one number is solved for,
-    because one coincidence has to be arranged rather than constructed — the
-    same device Chiodo uses on the straight figure. Everything else, including
-    the whole ring, follows from the order of the steps.</p>
+    because one coincidence has to be arranged rather than constructed, as
+    Chiodo does on the straight figure. Everything else, including the whole
+    ring, follows from the order of the steps.</p>
 
     <p class="on-straight"><b>The paper.</b> The straight construction is
     Chiodo’s: A. Chiodo, <i>On the construction of the Śrī Yantra</i>,
@@ -668,15 +662,15 @@
     <i>The circular-arc Śrī Yantra</i>, which proves that the classical
     concurrency conditions hold exactly, in addition to eight further
     concurrency conditions that hold all the corners of the Śrī Yantra on the
-    circular rim; it counts the family two independent ways and comes with GeoGebra files for the three yantras above. The
+    circular rim; it counts the dimension of the family in two independent ways and comes with GeoGebra files for the three yantras above. The
     paper, the GeoGebra files and this viewer are at
     <a href="https://github.com/michaelkopp/sriyantra" target="_blank"
        rel="noopener">github.com/michaelkopp/sriyantra</a>.</p>
 
-    <p class="on-arcx"><b>The paper.</b> These two are not treated in
-    <i>The circular-arc Śrī Yantra</i>, which is about the nine-triangle
-    families; they belong to <i>Extended circular-arc Śrī Yantras</i>. This
-    viewer and the GeoGebra files for both figures are at
+    <p class="on-arcx"><b>The paper.</b> These two are treated in
+    <i>Extended circular-arc Śrī Yantras</i>, which is about the
+    eleven-triangle families. This viewer and the GeoGebra files for both
+    figures are at
     <a href="https://github.com/michaelkopp/sriyantra" target="_blank"
        rel="noopener">github.com/michaelkopp/sriyantra</a>.</p>
   </details>
@@ -1087,10 +1081,10 @@ const EXACT_PRESETS = {
   goldenish: { n: 'Default',
                p: [1.2900851547036014, 0.8857615703572294,
                    0.7566510327738913, 0.290341592847952],
-               t: 'the figure this viewer treats as the straight yantra\u2019s default. a = 1 + 1/2\u03c6 exactly, so the large downward triangle is a golden '
-                + 'triangle; four apex angles exactly 60/60/60/72\u00b0. Of the figures '
-                + 'scoring highly on golden relations this is the one nearest the drawn '
-                + 'yantra \u2014 nothing sharper than 56\u00b0' },
+               t: 'the default straight yantra of this viewer. a = 1 + 1/2\u03c6 exactly, so the large downward triangle is a golden '
+                + 'triangle, and four apex angles are exactly 60, 60, 60 and 72\u00b0. Among '
+                + 'the figures with many golden relations it is the closest to the drawn '
+                + 'yantra; no angle is sharper than 56\u00b0' },
   kulaichev: { n: 'Kulaichev', p: [1.30016414, 0.88495422, 0.69554730, 0.12428830],
                t: 'Kulaichev — equilateral t1, t1 and t9 on the circle, bindu centred' },
   congruent: { n: 'Congruent', p: [1.30227254, 0.88730241, 0.69772746, 0.12489138],
@@ -9694,8 +9688,8 @@ function xlineToggle(which) {
   if (!q || !exactDataset(q[0], q[1], q[2], q[3])) {
     note('no figure nearby with those three corners on a line'); return;
   }
-  if (XLINE_ON) note('the two lines cannot both be straight \u2014 measured, the '
-                     + 'best either can do together is 0.026 of the radius');
+  if (XLINE_ON) note('the two triples of corners cannot both lie on lines; '
+                     + 'the closest they come together is 0.026 of the radius');
   XLINE_ON = which;
   exactApply(q, 'line-' + which);
 }
@@ -9721,13 +9715,12 @@ function buildInnerPanel() {
      anchor is now taken at the figure on screen, when it is asked for.  */
   if (STRAIGHT || (INNER && !INNER.length)) {
     setNote(note, STRAIGHT
-      ? 'None here. On the straight figure the whole family is four-dimensional '
-        + 'before anything is held, and holding the other six triangles leaves '
-        + 'nothing at all — the four parameters are already spoken for. Each arc '
-        + 'figure has five such directions; this one has none.'
-      : 'None here. This figure already holds both grown rings, and asking for '
-        + 'six of the nine triangles on top of that leaves nothing free. Try it '
-        + 'on either arc construction — each of those has five.');
+      ? 'None here. The straight family has four dimensions before anything is '
+        + 'held, and holding the other six triangles leaves no freedom. Each arc '
+        + 'figure has five such directions.'
+      : 'None here. This figure already holds both grown rings, and holding six '
+        + 'of the nine triangles as well leaves nothing free. Each of the arc '
+        + 'constructions has five such directions.');
     $('#inner-read').textContent = '';
     return;
   }
@@ -9758,32 +9751,31 @@ function buildInnerPanel() {
                  22: 'twenty-two', 26: 'twenty-six', 30: 'thirty' };
   setNote(note,
     ndw.charAt(0).toUpperCase() + ndw.slice(1)
-    + ' directions that move t4, t5 and t6 and leave the other '
+    + ' directions that move t4, t5 and t6 and keep the other '
     + (NUMW[nTri - 3] || (nTri - 3)) + ' of the '
-    + (NUMW[nTri] || nTri) + ' triangles exactly where they are'
+    + (NUMW[nTri] || nTri) + ' triangles fixed'
     + (nTri === 11
-       ? '. Six of those are held here outright; the two the extension adds are '
-         + 'not held at all, but they are drawn from the outer corners and the '
-         + 'rim, and these directions do not reach that far \u2014 they leave '
-         + 'every one of those corners, and the ring standing on them, where it '
-         + 'was. '
+       ? '. Six of those are held directly; the two added by the extension are '
+         + 'not held, but they are drawn from the outer corners and the rim, '
+         + 'which these directions do not move, so those corners and the ring '
+         + 'on them stay where they are. '
        : '. ')
-    + 'These are counted in the construction\u2019s own parameters, not in the '
-    + (NUMW[nSeed] || nSeed) + ' seed numbers, so '
-    + 'they are not part of the count the Construction section reports \u2014 '
-    + 'the two do not add up to anything. '
+    + 'These directions are counted in the construction\u2019s own parameters, '
+    + 'not in the ' + (NUMW[nSeed] || nSeed) + ' seed numbers, so they are '
+    + 'separate from the count in the Construction section. '
     + (INNER_PC
-       ? 'They are diagonalised here: orthogonal as motion and ordered by how '
-         + 'much of the figure each moves, so direction 1 is the broadest change '
-         + 'available and the last the finest. '
-       : 'They are the basis the null space came out in, which is independent '
-         + 'but not orthogonal \u2014 two sliders may move much the same part of '
-         + 'the figure. `principal directions` diagonalises them. ')
-    + 'Scaled so a full slider moves the '
-    + 'worst-placed node the same distance whichever one you pull.'
+       ? 'Here they are diagonalised: orthogonal as motions and ordered by how '
+         + 'much of the figure each one moves, so direction 1 is the largest '
+         + 'change and the last the smallest. '
+       : 'This is the basis in which the null space was computed; it is '
+         + 'independent but not orthogonal, so two sliders may move much the '
+         + 'same part of the figure. The principal directions button '
+         + 'diagonalises them. ')
+    + 'Each is scaled so that a full slider moves the most affected node by '
+    + 'the same distance.'
     + (nTri === 9
-       ? ' t6 cannot be moved on its own at all, and two of the ' + ndw + ' need '
-         + 'all three triangles at once \u2014 they do not come apart.'
+       ? ' t6 cannot be moved on its own, and two of the ' + ndw + ' directions '
+         + 'move all three triangles together.'
        : ''));
   /* SWITCHING THE BASIS RE-ANCHORS RATHER THAN CONVERTING
      -----------------------------------------------------
@@ -9814,9 +9806,9 @@ function buildInnerPanel() {
      expects from a change of coordinates. */
   const pb = hel('button', tog, { id: 'inner-pc', title: INNER
                  ? 'switch between directions ordered by how much of the figure each '
-                   + 'one moves, and the basis they were first found in. The same five '
-                   + 'directions either way; they are taken afresh at the figure on '
-                   + 'screen, which does not move it'
+                   + 'one moves and the basis in which they were first found. Both span '
+                   + 'the same five directions, taken at the figure on screen, which '
+                   + 'does not move'
                  : 'find the directions at the figure on screen and put them on '
                    + 'sliders, ordered by how much of the figure each one moves. '
                    + 'The figure does not move' });
@@ -9964,30 +9956,30 @@ function buildExactPanel() {
     'Four heights on the vertical diameter, 0 at the bottom of the circle and '
     + '2 at the top. Everything else follows by ruler and compass, so every '
     + 'setting of these four sliders is an exact Sri Yantra. The buttons at the '
-    + 'top of the panel are figures worth stopping at \u2014 hover one to see '
-    + 'what it satisfies.');
+    + 'top of the panel load particular figures; hover over one to see which '
+    + 'conditions it satisfies.');
   const tog = $('#exact-toggles');
   tog.textContent = '';
   for (const which in XLINE) {
     const b = hel('button', tog);
     b.textContent = XLINE[which].label;
-    b.title = 'nodes ' + XLINE[which].nodes + ' \u2014 the right-hand base corners of the '
-            + 'three largest ' + which + 'ward triangles. Reachable on its own, leaving three '
-            + 'parameters free; the two cannot both hold.';
+    b.title = 'nodes ' + XLINE[which].nodes + ', the right-hand base corners of the '
+            + 'three largest ' + which + 'ward triangles, on one line. This can be held on '
+            + 'its own, leaving three parameters free; the two lines cannot both be held.';
     b.classList.toggle('on', XLINE_ON === which);
     b.addEventListener('click', () => xlineToggle(which));
   }
   const HOLDS = {
     centred: ['innermost triangle centred',
-      'hold the innermost triangle\u2019s centre on the middle of the figure. '
-      + 'One equation; moving any slider re-solves the others to keep it'],
+      'hold the centre of the innermost triangle at the middle of the figure: '
+      + 'one equation, kept by re-solving the other sliders whenever one moves'],
     equi: ['innermost triangle equilateral',
-      'hold its three chords equal. One equation, not two - the figure is '
-      + 'mirror symmetric, so two of the three chords are equal whatever you do'],
+      'hold the three sides of the innermost triangle equal: one equation, '
+      + 'since by mirror symmetry two of them are always equal'],
     rim: ['D3 touches the rim',
-      'hold D3\u2019s base corners on the enclosing circle. t1, t3, t7 and t9 '
-      + 'already have corners there by construction; D3\u2019s are free, and '
-      + 'asking for them costs one parameter']
+      'hold the base corners of D3 on the enclosing circle. t1, t3, t7 and t9 '
+      + 'have corners there by construction; holding those of D3 as well uses '
+      + 'one parameter']
   };
   for (const [key, label, title] of ['centred', 'equi', 'rim']
                                     .map(k => [k, HOLDS[k][0], HOLDS[k][1]])) {
@@ -10769,25 +10761,27 @@ function buildRBPanel() {
   setNote($('#rb-note'),
     'Twelve seed points and ' + (rbFreeIdx(rb).length) + ' free numbers; everything '
     + 'else follows by "circle through three points", "where two circles cross" '
-    + 'and "where a circle meets the ring". Nothing is fitted. The ring is on '
-    + 'its circle because the steps put it there: each of its fourteen vertices '
-    + 'is cut out of that circle, and the arcs are drawn through them. '
-    + 'One coincidence has to be arranged rather than constructed, which is the '
-    + 'device Chiodo uses on the straight figure — '
+    + 'and "where a circle meets the ring". Nothing is fitted. The ring lies on '
+    + 'its circle because the construction puts it there: each of its fourteen '
+    + 'vertices is taken on that circle, and the arcs are drawn through them. '
+    + 'One coincidence has to be arranged rather than constructed, as Chiodo '
+    + 'does on the straight figure: '
     + (RING_N === 1
-       ? 'here the crossing of D1’s right leg with D3’s base is asked to fall on '
-         + 'U1’s right leg as well, three arcs through one point where two of '
-         + 'them fix it, and it is the last of the sixty steps.'
-       : 'here D1’s right leg is drawn through three of its own nodes and asked '
-         + 'to pass through a vertex of the ring as well.')
+       ? 'here the crossing of D1’s right leg with D3’s base must also lie on '
+         + 'U1’s right leg, three arcs through a point that two of them already '
+         + 'fix, and this is the last of the sixty steps.'
+       : 'here D1’s right leg, drawn through three of its own nodes, must also '
+         + 'pass through a vertex of the ring.')
     + ' One number is solved for so that it holds; the rest are free, and every '
-    + 'incidence of the figure follows from the order of the steps. '
+    + 'other incidence of the figure follows from the order of the steps. '
     + (RB_INPC
-       ? 'These are the principal directions: an orthogonal basis of what the '
-         + 'construction can do, ordered by how much of the figure each moves and '
-         + 'scaled so a full slider travels the same distance whichever one you pull.'
-       : 'These are the parameters themselves — the seed coordinates and the '
-         + 'ring’s radius. They are not equally scaled; the principal directions are.'));
+       ? 'These are the principal directions, an orthogonal basis of the motions '
+         + 'of the construction, ordered by how much of the figure each one moves '
+         + 'and scaled so that a full slider moves the figure by the same amount '
+         + 'for each.'
+       : 'These are the parameters themselves, the seed coordinates and the '
+         + 'radius of the ring. They are not equally scaled; the principal '
+         + 'directions are.'));
 
   const tog = $('#rb-toggles');
   tog.textContent = '';
@@ -10849,8 +10843,8 @@ function buildRBPanel() {
                 if (!rbSetFree(rbFromPC(t), null)) return false;
                 RB_PCT = t; return true; },
          RB_PCT[k] + lim[k][0], RB_PCT[k] + lim[k][1],
-         'an orthogonal direction of the construction, scaled so a full slider '
-         + 'moves the worst-placed node the same distance as any other');
+         'an orthogonal direction of the construction, scaled so that a full '
+         + 'slider moves the most affected node by the same distance as the others');
     }
   } else {
     for (let i = 0; i < F.length; i++) {
@@ -10860,14 +10854,14 @@ function buildRBPanel() {
       mk(nm, cur,
          v => { const w = rbGetFree(); w[i] = v; return rbSetFree(w, null); },
          cur() + lim[i][0], cur() + lim[i][1],
-         F[i] === 'R' ? 'the circle the ring is built onto — it is drawn first, so '
-                      + 'its radius is an input to the construction'
+         F[i] === 'R' ? 'the circle on which the ring is constructed; it is drawn '
+                      + 'first, so its radius is an input of the construction'
                       : 'a free parameter of the construction');
     }
     const sr = hel('div', rows, { class: 'crit' });
     const sh = hel('div', sr, { class: 'crow' });
-    hel('label', sh, { title: 'not free: this is what the arranged coincidence '
-                       + 'determines' }).textContent = labels[rb.solveIdx] + ' — solved';
+    hel('label', sh, { title: 'not free: determined by the arranged '
+                       + 'coincidence' }).textContent = labels[rb.solveIdx] + ' — solved';
     hel('span', sh, { class: 'wval' }).textContent = RB_VALS[rb.solveIdx].toFixed(9);
   }
 
@@ -11582,19 +11576,18 @@ function buildArcPanel() {
         if (rim)   bits.push(rim + ' on the rim');
         const drawn = R.ops.filter(o => o[0] !== 'seed' && o[0] !== 'pole').length;
         const ring = typeof N_XCELL !== 'undefined' && N_XCELL ? N_XCELL : 10;
-        return R.par.length + ' of the figure\u2019s own corners, placed \u2014 '
-          + bits.join(', ') + ' \u2014 ' + NP + ' numbers in all; the other '
+        return R.par.length + ' corners of the figure are placed ('
+          + bits.join(', ') + '), ' + NP + ' numbers in all; the other '
           + drawn + ' objects follow by "circle through three points", '
           + '"axis-centred circle through two", "where two circles cross", '
           + '"where a circle meets the axis" and "where a circle meets the '
           + 'rim". '
-          + 'Nothing is held and nothing is corrected: every incidence of the '
-          + 'figure \u2014 the eleven bases, the eleven leg-orbits, and all '
-          + ring + ' outer nodes of the ring on the rim \u2014 follows from the '
-          + 'order. The fourteen corners the other arc figures hold on the '
-          + 'circle are released here in exchange, and no ring is grown: the '
-          + 'ring of cells is the one the two new sides cut out of the rim. '
-          + 'That is why all ' + NP + ' directions are free. '
+          + 'Nothing is solved or corrected: every incidence of the figure, '
+          + 'including the ' + ring + ' outer nodes of the ring on the rim, '
+          + 'follows from the order of the steps. The fourteen corners that the '
+          + 'other arc figures hold on the circle are released here, and no ring '
+          + 'is grown: the ring of cells is cut out by the eleven triangles. All '
+          + NP + ' numbers are therefore free. '
           /* WHICH BASIS, AND WHY IT MATTERS MORE HERE THAN ELSEWHERE
              --------------------------------------------------------
              The recipe determines each corner from the ones before it, so a
@@ -11605,39 +11598,40 @@ function buildArcPanel() {
              the radius. Each track is measured and scaled to its own range,
              so a short one is a short journey and not a broken control. */
           + (ARC_PC
-             ? 'These are the principal directions: an orthogonal basis '
-               + 'ordered by how much of the figure each moves. They are the '
-               + 'ones to pull, because a combination stays inside the '
-               + 'construction far longer than any single corner does.'
-               + ' They are a linearisation about the anchor, so far from '
-               + 'zero they stop being exact coordinates \u2014 re-anchor to '
-               + 'fix that.'
-             : 'These are the corners themselves. Each travels only as far '
-               + 'as the construction holds, which on these two figures is '
-               + 'much less for one corner alone than for a combination of '
-               + 'them \u2014 the tightest are a few ten-thousandths wide, '
-               + 'and their tracks are scaled to match, so a small drag is a '
-               + 'real move. The principal directions are the roomier dials.');
+             ? 'These are the principal directions, an orthogonal basis '
+               + 'ordered by how much of the figure each one moves. They are '
+               + 'the better sliders here, because a combination of corners '
+               + 'stays within the construction much longer than a single '
+               + 'corner does. They are linearised at the anchor, so far from '
+               + 'zero they are no longer exact coordinates; re-anchor here '
+               + 'takes them afresh.'
+             : 'These are the corners themselves. Each can move only as far '
+               + 'as the construction stays defined, which on these two '
+               + 'figures is much less for one corner alone than for a '
+               + 'combination of corners: the narrowest ranges are a few '
+               + 'ten-thousandths wide, and their sliders are scaled to match. '
+               + 'The principal directions have much more room.');
       } }
     return 'Twelve seed points and eighteen numbers; everything else follows by '
     + '"circle through three points" and "where two circles cross". Nothing is '
-    + 'being fitted \u2014 the eighty-eight incidences hold because each one is '
-    + 'a step of the construction. '
+    + 'fitted: the eighty-eight incidences hold because each one is a step of '
+    + 'the construction. '
     + (ARC_PC
-       ? ('These are the ' + (ARCPCT ? ARCPCT.length : 18) + ' directions the figure is '
-         + 'free to move along'
+       ? ('These are the ' + (ARCPCT ? ARCPCT.length : 18) + ' directions in which '
+         + 'the figure is free to move'
          + (ARCPCT && ARCPCT.length < 18
-            ? ' \u2014 fewer than the eighteen seeds, because holding a grown ring '
-              + 'on its circle uses ' + (18 - ARCPCT.length) + ' of them up. The basis is '
-              + 'taken in the null space of that condition, so every one of these '
-              + 'moves the figure and leaves the ring round'
-            : ', which here is all eighteen: no ring is held')
-         + '. Ordered by how much of the figure each moves and scaled so that a '
-         + 'full slider moves the worst-placed node the same distance whichever '
-         + 'one you pull. They are a linearisation about the anchor, so far from '
-         + 'zero they stop being exact coordinates \u2014 re-anchor to fix that.')
-       : 'These are the seed coordinates themselves: two of them an angle and a '
-         + 'height, the rest x and y of points scattered through the figure.');
+            ? ', fewer than the eighteen seed numbers, because holding a grown '
+              + 'ring on its circle uses ' + (18 - ARCPCT.length) + ' of them. The '
+              + 'basis is taken in the null space of that condition, so each of '
+              + 'these directions moves the figure and keeps the ring on its circle'
+            : '; here that is all eighteen, since no ring is held')
+         + '. They are ordered by how much of the figure each one moves and '
+         + 'scaled so that a full slider moves the most affected node by the same '
+         + 'distance for each. They are linearised at the anchor, so far from '
+         + 'zero they are no longer exact coordinates; re-anchor here takes them '
+         + 'afresh.')
+       : 'These are the seed coordinates themselves: an angle and a height, and '
+         + 'the x and y coordinates of points spread through the figure.');
   };
 
   const tog = $('#arc-toggles');
@@ -11645,9 +11639,9 @@ function buildArcPanel() {
   /* the count belongs to the figure: eighteen on the arc families, twenty-two
      on `Arcs extended 2`, twenty on `Arcs extended 3` */
   const nSeeds = (ARCSEED || (typeof arcSeedDefaults === 'function' ? arcSeedDefaults() : [])).length || 18;
-  const bb = hel('button', tog, { title: 'the ' + nSeeds + ' numbers that place the '
-                 + 'figure\u2019s own corners, or the same many principal directions '
-                 + '\u2014 the same family, in two sets of dials' });
+  const bb = hel('button', tog, { title: 'switch between the ' + nSeeds + ' numbers '
+                 + 'that place the corners of the figure and the same number of '
+                 + 'principal directions: the same family with two sets of sliders' });
   /* NAME THE MODE, LIGHT UP WHEN IT IS ON
      -------------------------------------
      This button used to rename itself to whichever basis was showing, so in
@@ -12032,9 +12026,9 @@ function buildHardPanel() {
     const b = document.createElement('button');
     b.id = 't-cvx';
     b.textContent = 'convexity enforced';
-    b.title = 'no slider may leave the region where every side clears the '
-            + 'floor. A move that would is nudged back onto it, and refused '
-            + 'if it cannot be';
+    b.title = 'keep every side above the convexity floor: a slider move that '
+            + 'would leave this region is pushed back into it, or refused if '
+            + 'that is not possible';
     b.classList.toggle('on', HARDCVX);
     b.addEventListener('click', () => {
       HARDCVX = !HARDCVX;
@@ -12052,7 +12046,7 @@ function buildHardPanel() {
     const rb = document.createElement('button');
     rb.textContent = 'onto the floor';
     rb.title = 'move the construction parameters until every side clears the '
-             + 'floor, changing nothing else on purpose';
+             + 'floor, with as little other change as possible';
     rb.addEventListener('click', () => {
       note(cvxRestore() ? 'every side clears the floor'
                         : 'could not get there from here');
@@ -12228,8 +12222,8 @@ const FIGURE_EXTRA = {
   }],
   arcs: [{
     n: 'Five concurrences',
-    t: 'five of the arc extensions meeting exactly on the first grown ring, '
-     + 'all five at once, to 3.8e-11',
+    t: 'five continued arcs meeting exactly on the first grown ring, all '
+     + 'five at once, to 3.8e-11',
     seed: [-0.15450841285, 0.896293393263, -0.328671825262, -0.0493721934969,
            1.12074671989, 0.26417763317, 0.0917156858929, 0.459709938862,
            0.725158827849, 0.309547606865, 0.132711050989, -0.904889260104,

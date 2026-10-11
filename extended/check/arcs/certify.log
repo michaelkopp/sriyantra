@@ -1,0 +1,9 @@
+== pattern 22: 67 steps, 45 nodes, 22 sides; corners ['1943/10000', '17/400', '403/5000', '-819/10000', '969/10000', '473/10000', '333/1250', '-759/10000', '-327/1000', '523/10000', '243/2000', '-1019/2000', '2127/5000', '-1501/10000', '461/5000', '2053/10000', '41/250', '-5071/10000', '1291/2500', '-1583/5000', '438/625', '3429/10000']
+  (1) construction defined; widest node enclosure 2.6e-34
+  (2) 106 node-on-side incidences, each realised by exactly one step; pairs not realised and not excluded: 0
+  (3) laminarity: 50 pairs of legs of one family (a right leg with a right or a left leg): 15 on circles that do not meet, 35 with both meeting points certainly off one of the two arcs
+== pattern 36: 69 steps, 47 nodes, 22 sides; corners ['2863/10000', '617/10000', '2153/10000', '-301/10000', '-2609/10000', '3989/10000', '1417/10000', '989/10000', '1659/10000', '3181/10000', '-2469/10000', '399/2500', '-4869/10000', '-8863/10000', '5139/10000', '6663/10000', '-269/625', '4353/5000', '7289/10000', '-3667/5000']
+  (1) construction defined; widest node enclosure 2.2e-38
+  (2) 110 node-on-side incidences, each realised by exactly one step; pairs not realised and not excluded: 0
+  (3) laminarity: 50 pairs of legs of one family (a right leg with a right or a left leg): 9 on circles that do not meet, 41 with both meeting points certainly off one of the two arcs
+ALL CERTIFIED
