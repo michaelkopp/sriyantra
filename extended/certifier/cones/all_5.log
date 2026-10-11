@@ -1,0 +1,26 @@
+worker 5: cone 13309
+worker 5: cone 13309 closed, 13043 boxes, 503s
+worker 5: cone 38829
+    cone heartbeat: 600s, 13074 boxes, stack 13, depth 35, open 0, done 0.9931
+    cone heartbeat: 1200s, 27069 boxes, stack 10, depth 31, open 0, done 0.9958
+    cone heartbeat: 1800s, 40193 boxes, stack 8, depth 30, open 0, done 0.9970
+    cone heartbeat: 2400s, 55029 boxes, stack 4, depth 20, open 0, done 0.9990
+worker 5: cone 38829 closed, 56675 boxes, 2461s
+worker 5: cone 45045
+    cone heartbeat: 600s, 14039 boxes, stack 4, depth 14, open 0, done 0.9908
+    cone heartbeat: 1200s, 28001 boxes, stack 12, depth 37, open 0, done 0.9969
+    cone heartbeat: 1800s, 42429 boxes, stack 10, depth 30, open 0, done 0.9985
+worker 5: cone 45045 closed, 50873 boxes, 2146s
+worker 5: cone 46366
+    cone heartbeat: 600s, 13995 boxes, stack 6, depth 21, open 0, done 0.9953
+worker 5: cone 46366 closed, 14987 boxes, 638s
+worker 5: cone 46476
+worker 5: cone 46476 closed, 4063 boxes, 155s
+worker 5: cone 46598
+    cone heartbeat: 600s, 15546 boxes, stack 13, depth 33, open 0, done 0.9931
+worker 5: cone 46598 closed, 19439 boxes, 717s
+worker 5 finished: 80 cones, 0 with open boxes, 6620s
+Solve 1: Forcing phase 2 since near primal feasible with unperturbed costs
+num / max / sum primal infeasiblitiles
+4 /    0.000182 /   0.0005454 (  perturbed bounds)
+4 /   0.0001786 /   0.0005377 (unperturbed bounds)

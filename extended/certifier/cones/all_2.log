@@ -1,0 +1,36 @@
+worker 2: cone 22585
+worker 2: cone 22585 closed, 1583 boxes, 81s
+worker 2: cone 23014
+worker 2: cone 23014 closed, 1571 boxes, 76s
+worker 2: cone 23028
+worker 2: cone 23028 closed, 195 boxes, 10s
+worker 2: cone 23029
+worker 2: cone 23029 closed, 93 boxes, 5s
+worker 2: cone 23146
+worker 2: cone 23146 closed, 437 boxes, 26s
+worker 2: cone 23160
+worker 2: cone 23160 closed, 3521 boxes, 196s
+worker 2: cone 37658
+worker 2: cone 37658 closed, 2107 boxes, 90s
+worker 2: cone 38820
+    cone heartbeat: 600s, 14353 boxes, stack 6, depth 24, open 0, done 0.9988
+worker 2: cone 38820 closed, 24693 boxes, 1011s
+worker 2: cone 38968
+worker 2: cone 38968 closed, 11245 boxes, 476s
+worker 2: cone 41782
+worker 2: cone 41782 closed, 2557 boxes, 119s
+worker 2: cone 41796
+worker 2: cone 41796 closed, 11657 boxes, 583s
+worker 2: cone 45043
+    cone heartbeat: 600s, 13954 boxes, stack 5, depth 18, open 0, done 0.9972
+    cone heartbeat: 1200s, 28321 boxes, stack 14, depth 37, open 0, done 0.9992
+worker 2: cone 45043 closed, 42783 boxes, 1762s
+worker 2: cone 45177
+    cone heartbeat: 600s, 14650 boxes, stack 7, depth 23, open 0, done 0.9985
+    cone heartbeat: 1200s, 29385 boxes, stack 14, depth 40, open 0, done 0.9989
+worker 2: cone 45177 closed, 34213 boxes, 1391s
+worker 2: cone 46477
+worker 2: cone 46477 closed, 4225 boxes, 162s
+worker 2: cone 46607
+worker 2: cone 46607 closed, 11713 boxes, 432s
+worker 2 finished: 80 cones, 0 with open boxes, 6422s

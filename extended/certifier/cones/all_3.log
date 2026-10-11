@@ -1,0 +1,23 @@
+worker 3: cone 13423
+    cone heartbeat: 600s, 15618 boxes, stack 13, depth 33, open 0, done 0.9979
+worker 3: cone 13423 closed, 19287 boxes, 734s
+worker 3: cone 38908
+    cone heartbeat: 600s, 11914 boxes, stack 9, depth 30, open 0, done 0.9970
+    cone heartbeat: 1200s, 22782 boxes, stack 15, depth 38, open 0, done 0.9980
+worker 3: cone 38908 closed, 32935 boxes, 1620s
+worker 3: cone 44922
+    cone heartbeat: 600s, 12141 boxes, stack 10, depth 23, open 0, done 0.9929
+    cone heartbeat: 1200s, 24170 boxes, stack 13, depth 33, open 0, done 0.9936
+    cone heartbeat: 1800s, 37862 boxes, stack 13, depth 32, open 0, done 0.9952
+    cone heartbeat: 2400s, 52017 boxes, stack 10, depth 23, open 0, done 0.9974
+worker 3: cone 44922 closed, 56681 boxes, 2588s
+worker 3: cone 46352
+    cone heartbeat: 600s, 13737 boxes, stack 12, depth 32, open 0, done 0.9915
+worker 3: cone 46352 closed, 16215 boxes, 701s
+worker 3: cone 46474
+worker 3: cone 46474 closed, 6645 boxes, 251s
+worker 3: cone 46545
+worker 3: cone 46545 closed, 4915 boxes, 197s
+worker 3: cone 46913
+worker 3: cone 46913 closed, 2737 boxes, 114s
+worker 3 finished: 80 cones, 0 with open boxes, 6207s
