@@ -244,7 +244,7 @@ follows.
   and in their GeoGebra files.
 - *Extended circular-arc Śrī Yantras*, its proofs and the programs in
   `extended/` are largely the work of Claude Opus 5.5 (model string
-  `claude-opus-5-5`), in September and October 2026, run as an agent with file,
+  `claude-opus-5-5`), run in September and October 2026 at extra reasoning effort, run as an agent with file,
   shell and browser access. It also revised the explanatory text of the viewer
   slightly.
 
