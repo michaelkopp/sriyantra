@@ -125,7 +125,10 @@ the tangent space, ordered by how much of the figure each moves and scaled so
 that a full slider travels the same distance whichever one you pull. The
 switch beside them gives the seed coordinates instead. *Sensitivity*
 sets how far a slider must travel for a given effect; *re-anchor here* takes
-the basis afresh at the figure on screen.
+the basis afresh at the figure on screen. The four heights of the straight
+figure have a *Sensitivity* control as well: each slider spans part of its
+height's range around the present value, a fifth of it by default, and
+re-centres when it is let go near either end.
 
 Colour schemes are **Lines**, **Rainbow**, **AYP aum colors** and
 **Counts mod 3**, the last colouring each region by the number of upward

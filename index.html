@@ -3,9 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- the figure is a picture in fixed colours: phones in dark mode must not
+     recolour it (Chrome on Android darkens light pages unless told not to) -->
+<meta name="color-scheme" content="only light">
 <title>Śrī Yantra — viewer</title>
 <style>
   :root{
+    color-scheme:only light;
     --bg:#15110d; --panel:#1c1712; --edge:#2c241b; --ink:#f4eee2;
     --dim:#8b8073; --dim2:#5f574c; --gold:#e0a63a; --red:#c9482f; --teal:#5c9c8f;
     --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
@@ -23,6 +27,15 @@
 
   /* ---------- stage ---------- */
   #stage{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;padding:22px;position:relative}
+  /* THE FIELD IS PAINTED AS PART OF THE PICTURE
+     --------------------------------------------
+     The page background carries the palette's field colour, and a phone in
+     dark mode may darken page backgrounds whatever the page asks for (the
+     meta tag above is honoured by Chrome, not by every browser). Drawings are
+     left alone, so the field is drawn once more as an SVG rectangle behind
+     the figure, in the same colour, and covers the stage. */
+  #field{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+  #field rect{fill:var(--bg)}
   #stage::after{content:"";position:absolute;inset:0;pointer-events:none;
     background:radial-gradient(ellipse at 50% 45%,rgba(224,166,58,.07),transparent 62%)}
   #fig{width:min(100%,86vh);height:auto;overflow:visible}
@@ -417,6 +430,7 @@
 <body>
 
 <div id="stage">
+  <svg id="field" aria-hidden="true" viewBox="0 0 1 1" preserveAspectRatio="none"><rect width="1" height="1"/></svg>
   <svg id="fig" viewBox="-1.13 -1.13 2.26 2.26" preserveAspectRatio="xMidYMid meet"></svg>
 </div>
 
@@ -9627,14 +9641,6 @@ function xholdReach(k, v) {
   return q;
 }
 
-/* the min, max and step a slider should carry right now, in thousandths */
-function xholdBounds(k) {
-  const v = EXACTP[k], r = XRANGE && XRANGE[k];
-  if (!r) return { min: 20, max: 1980, step: 1 };
-  return { min: Math.round(Math.min(r[0], v) * 1000),
-           max: Math.round(Math.max(r[1], v) * 1000), step: 0.1 };
-}
-
 function xlineResid(pp, which) {
   const T = exactFigure(pp[0], pp[1], pp[2], pp[3]);
   if (!T) return null;
@@ -9933,6 +9939,54 @@ const EXACT_LABEL = ['a \u2014 base of t3, the large downward triangle (nodes 66
                      'd \u2014 base of t9'];
 let exactSliders = [];
 
+/* SENSITIVITY OF THE FOUR HEIGHTS
+   -------------------------------
+   A slider that spans the whole range 0.02-1.98 moves a height by about half
+   a percent of the diameter per pixel, which is more than the figure can take
+   gracefully. Each slider spans a window of that range instead, centred on
+   the present value, and the sensitivity control sets its width: at 1x the
+   whole range, at 5x a fifth of it. The window re-centres when a slider is
+   let go near either end of its track, so a height can still be taken from
+   one end of its range to the other. With conditions held, the window is
+   also kept inside the span the held curve can be followed over. */
+const EXSPAN = 1.96;           // the whole range of a height, 0.02 to 1.98
+let EXSENS_M = 5;              // the number shown: travel against the whole-range slider
+const EXSC = 100000;           // track units per unit of height
+let EXWIN = [null, null, null, null];
+function exactLimits(k) {
+  const v = EXACTP[k], r = XRANGE && XRANGE[k];
+  return r ? [Math.min(r[0], v), Math.max(r[1], v)] : [0.02, 1.98];
+}
+function exactWindow(k, c) {
+  const [gLo, gHi] = exactLimits(k), w = EXSPAN / EXSENS_M;
+  let lo = c - w / 2, hi = c + w / 2;
+  if (lo < gLo) { hi += gLo - lo; lo = gLo; }
+  if (hi > gHi) { lo -= hi - gHi; hi = gHi; }
+  return [Math.max(lo, gLo), Math.min(hi, gHi)];
+}
+/* the window of slider k, re-centred on the value if `centre` is set or the
+   value has come within a sixth of the window of either end */
+function exactTrack(k, centre) {
+  const v = EXACTP[k], w0 = EXWIN[k], [gLo, gHi] = exactLimits(k);
+  if (!w0 || centre) EXWIN[k] = exactWindow(k, v);
+  else {
+    const m = (w0[1] - w0[0]) / 6;
+    if ((v < w0[0] + m && w0[0] > gLo) || (v > w0[1] - m && w0[1] < gHi)
+        || v < w0[0] || v > w0[1]) EXWIN[k] = exactWindow(k, v);
+  }
+  const s = exactSliders[k];
+  if (!s) return;
+  s.sl.min = Math.round(EXWIN[k][0] * EXSC);
+  s.sl.max = Math.round(EXWIN[k][1] * EXSC);
+  s.sl.value = Math.round(v * EXSC);
+  s.val.textContent = v.toFixed(exactDecimals());
+}
+function exactDecimals() { return EXSPAN / EXSENS_M < 0.2 ? 4 : 3; }
+function setExactSens(m) {
+  EXSENS_M = Math.max(1, Math.min(20, +m || 5));
+  for (let k = 0; k < 4; k++) exactTrack(k, true);
+}
+
 /* Dragging a slider rebuilds the figure, and rebuilding the figure calls
    this - so while a drag is in flight it must only refresh the numbers, or
    the slider under the mouse is replaced mid-gesture and the drag stops. */
@@ -9944,10 +9998,10 @@ function buildExactPanel() {
   if (!straight) return;
   if (EXACT_LIVE && exactSliders.length === 4) {
     exactSliders.forEach((s, k) => {
-      const t = Math.round(EXACTP[k] * 1000);
+      const t = Math.round(EXACTP[k] * EXSC);
       if (t < +s.sl.min) s.sl.min = t;
       if (t > +s.sl.max) s.sl.max = t;
-      s.val.textContent = EXACTP[k].toFixed(3);
+      s.val.textContent = EXACTP[k].toFixed(exactDecimals());
     });
     exactReadout();
     return;
@@ -9957,7 +10011,8 @@ function buildExactPanel() {
     + '2 at the top. Everything else follows by ruler and compass, so every '
     + 'setting of these four sliders is an exact Sri Yantra. The buttons at the '
     + 'top of the panel load particular figures; hover over one to see which '
-    + 'conditions it satisfies.');
+    + 'conditions it satisfies. Sensitivity sets how much of its range a slider '
+    + 'spans; a slider re-centres on its value when it is let go near either end.');
   const tog = $('#exact-toggles');
   tog.textContent = '';
   for (const which in XLINE) {
@@ -9992,46 +10047,57 @@ function buildExactPanel() {
   const rows = $('#exact-rows');
   rows.textContent = '';
   exactSliders = [];
+  /* one control for how finely all four move */
+  {
+    const srow = hel('div', rows, { class: 'crit' });
+    srow.title = 'how far a slider has to move for a given change of its height: at 1\u00d7 a '
+               + 'slider spans the whole range 0.02 to 1.98, at 5\u00d7 a fifth of it, centred on '
+               + 'the present value. A slider re-centres when it is let go near either end.';
+    const sh = hel('div', srow, { class: 'crow' });
+    hel('label', sh, {}).textContent = 'Sensitivity';
+    const sv = hel('span', sh, { class: 'wval' });
+    const sens = () => EXSENS_M.toFixed(1) + '\u00d7 travel \u00b7 span '
+                     + (EXSPAN / EXSENS_M).toFixed(3);
+    sv.textContent = sens();
+    const ss = hel('input', srow, { type: 'range', min: 1, max: 20, step: 0.5 });
+    ss.value = EXSENS_M;
+    ss.addEventListener('input', () => { setExactSens(+ss.value); sv.textContent = sens(); });
+  }
   EXACTP.forEach((v, k) => {
     const row = hel('div', rows, { class: 'crit' });
     const head = hel('div', row, { class: 'crow' });
     hel('label', head, {}).textContent = EXACT_LABEL[k];
     const val = hel('span', head, { class: 'wval' });
-    const bd = xholdBounds(k);
-    const sl = hel('input', row, { type: 'range', min: bd.min, max: bd.max, step: bd.step });
-    sl.value = Math.round(v * 1000);
-    val.textContent = v.toFixed(3);
+    const sl = hel('input', row, { type: 'range', step: 1 });
     sl.addEventListener('input', () => {
       let q = EXACTP.slice();
-      q[k] = +sl.value / 1000;
+      q[k] = +sl.value / EXSC;
       if (xholdCount()) {
         /* everything except the slider being moved is free to be re-solved */
         const r = xholdReach(k, q[k]);
         if (!r) { note('what is held cannot be held there');
-                  sl.value = Math.round(EXACTP[k] * 1000); return; }
+                  sl.value = Math.round(EXACTP[k] * EXSC); return; }
         q = r;
       }
-      if (!exactApply(q)) { sl.value = Math.round(EXACTP[k] * 1000); return; }
+      if (!exactApply(q)) { sl.value = Math.round(EXACTP[k] * EXSC); return; }
       /* the walk can stop short of what was asked for; show where it stopped */
-      if (Math.abs(EXACTP[k] * 1000 - +sl.value) > 1) sl.value = Math.round(EXACTP[k] * 1000);
+      if (Math.abs(EXACTP[k] * EXSC - +sl.value) > 100) sl.value = Math.round(EXACTP[k] * EXSC);
+      const dec = exactDecimals();
       exactSliders.forEach((t, i) => {
         if (i === k) return;
-        t.sl.value = Math.round(EXACTP[i] * 1000);
-        t.val.textContent = EXACTP[i].toFixed(3);
+        t.sl.value = Math.round(EXACTP[i] * EXSC);
+        t.val.textContent = EXACTP[i].toFixed(dec);
       });
-      val.textContent = EXACTP[k].toFixed(3);
+      val.textContent = EXACTP[k].toFixed(dec);
     });
     sl.addEventListener('change', () => {
-      if (!XRANGE) return;
-      xholdRanges();
-      exactSliders.forEach((t, i) => {
-        const b = xholdBounds(i);
-        t.sl.min = b.min; t.sl.max = b.max; t.sl.step = b.step;
-        t.sl.value = Math.round(EXACTP[i] * 1000);
-        t.val.textContent = EXACTP[i].toFixed(3);
-      });
+      /* with conditions held the spans are walked again from here, and every
+         window is taken afresh inside them */
+      if (XRANGE) { xholdRanges(); for (let i = 0; i < 4; i++) exactTrack(i, true); return; }
+      for (let i = 0; i < 4; i++) exactTrack(i, false);
     });
     exactSliders.push({ sl, val });
+    exactTrack(k, true);
   });
   const pr = $('#figpresets');
   pr.textContent = '';
@@ -10065,8 +10131,7 @@ function exactApply(q, name) {
   EXACT_LIVE = false;
   setWeights(keepW);                       // a parameter move is not a reset
   if (name !== undefined)
-    exactSliders.forEach((s, k) => { s.sl.value = Math.round(EXACTP[k] * 1000);
-                                     s.val.textContent = EXACTP[k].toFixed(3); });
+    exactSliders.forEach((s, k) => exactTrack(k, true));
   exactReadout();
   draw();
   return true;
