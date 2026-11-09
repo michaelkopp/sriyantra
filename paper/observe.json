@@ -1,0 +1,287 @@
+{
+ "methods": [
+  {
+   "method": "unweighted power average",
+   "bg_quiet": 0.039714141583991926,
+   "flicker_quiet": 0.42285719529383103,
+   "bg_noisy": 0.3310038674962166,
+   "flicker_noisy": 2.2802694446328533,
+   "full_ms": 120,
+   "gone_ms": 304,
+   "bg_clicks": 0.07505589579080393,
+   "scene_calm": 476.51944444444445,
+   "scene_taps": 2078.9375,
+   "scene_glides": 1218.9375
+  },
+  {
+   "method": "Observe, no weights",
+   "bg_quiet": 0.04817555069783084,
+   "flicker_quiet": 0.3798358986026566,
+   "bg_noisy": 0.2395997982175887,
+   "flicker_noisy": 2.5496786175277606,
+   "full_ms": 120,
+   "gone_ms": 144,
+   "bg_clicks": 0.05290658112180422,
+   "scene_calm": 404.79487179487177,
+   "scene_taps": 1538.25,
+   "scene_glides": 1186.25,
+   "readout_rms_cents": [
+    0.07695292508209459,
+    0.07204153777702474,
+    0.030288425710091733,
+    0.07121745172584631,
+    0.16802098692801132,
+    0.39259895403636325
+   ],
+   "readout_found": [
+    7,
+    7,
+    7,
+    7,
+    7,
+    7
+   ]
+  },
+  {
+   "method": "Observe, level weight only",
+   "bg_quiet": 0.00006053472338994451,
+   "flicker_quiet": 0.38971330638028606,
+   "bg_noisy": 0.0032285185807970403,
+   "flicker_noisy": 7.071035716801318,
+   "full_ms": 120,
+   "gone_ms": 123,
+   "bg_clicks": 0.0003645377661125693,
+   "scene_calm": 378.91730769230765,
+   "scene_taps": 478.4375,
+   "scene_glides": 590.375,
+   "readout_rms_cents": [
+    0.07695354305497941,
+    0.07197612820554854,
+    0.030290813040792786,
+    0.07397137884255112,
+    0.16708354610907622,
+    null
+   ],
+   "readout_found": [
+    7,
+    7,
+    7,
+    7,
+    7,
+    0
+   ]
+  },
+  {
+   "method": "Observe",
+   "bg_quiet": 0.000013452160753321002,
+   "flicker_quiet": 0.45710014228817225,
+   "bg_noisy": 0.0007701362031276274,
+   "flicker_noisy": 7.0667646026753115,
+   "full_ms": 120,
+   "gone_ms": 123,
+   "bg_clicks": 0,
+   "scene_calm": 257.21217948717947,
+   "scene_taps": 316.3125,
+   "scene_glides": 241,
+   "readout_rms_cents": [
+    0.07895320077738709,
+    0.06945222119719854,
+    0.025195898021877407,
+    0.06008206746145237,
+    0.13445500983960507,
+    null
+   ],
+   "readout_found": [
+    7,
+    7,
+    7,
+    7,
+    7,
+    0
+   ]
+  },
+  {
+   "method": "Observe, fast smoothing",
+   "bg_quiet": 0.00009416512527324702,
+   "flicker_quiet": 0.605863790856495,
+   "bg_noisy": 0.0030132840087439047,
+   "flicker_noisy": 7.502931469234046,
+   "full_ms": 83,
+   "gone_ms": 80,
+   "bg_clicks": 0.000007290755322251385,
+   "scene_calm": 230.37115384615385,
+   "scene_taps": 280.4375,
+   "scene_glides": 262.75,
+   "readout_rms_cents": [
+    0.11660876279917096,
+    0.13637873143898424,
+    0.061257545995428445,
+    0.09731068523862606,
+    0.22966485659102354,
+    null
+   ],
+   "readout_found": [
+    7,
+    7,
+    7,
+    7,
+    7,
+    0
+   ]
+  },
+  {
+   "method": "Observe, steady smoothing",
+   "bg_quiet": 0,
+   "flicker_quiet": 0.3307252102252646,
+   "bg_noisy": 0.00006726080376660501,
+   "flicker_noisy": 5.995011824666887,
+   "full_ms": 163,
+   "gone_ms": 203,
+   "bg_clicks": 0,
+   "scene_calm": 320.1587606837607,
+   "scene_taps": 413.1875,
+   "scene_glides": 320.375,
+   "readout_rms_cents": [
+    0.04069682961065067,
+    0.03188130589787096,
+    0.013519707123704315,
+    0.03073675839935176,
+    0.10590771839771038,
+    null
+   ],
+   "readout_found": [
+    7,
+    7,
+    7,
+    7,
+    7,
+    0
+   ]
+  },
+  {
+   "method": "Observe, short frames",
+   "bg_quiet": 0,
+   "flicker_quiet": 0.6224814929239306,
+   "bg_noisy": 0.00004371952244829326,
+   "flicker_noisy": 3.7999370429398875,
+   "full_ms": 83,
+   "gone_ms": 101,
+   "bg_clicks": 0,
+   "scene_calm": 251.90213675213678,
+   "scene_taps": 306.0625,
+   "scene_glides": 214.6875,
+   "readout_rms_cents": [
+    0.04758604874987432,
+    0.0429355079761338,
+    0.04305977395684382,
+    0.10254896836401478,
+    null,
+    null
+   ],
+   "readout_found": [
+    7,
+    7,
+    7,
+    7,
+    0,
+    0
+   ]
+  },
+  {
+   "method": "Observe, long frames",
+   "bg_quiet": 0.00008407600470825626,
+   "flicker_quiet": 0.3730468195119809,
+   "bg_noisy": 0.00456364553556415,
+   "flicker_noisy": 4.583731548393516,
+   "full_ms": 163,
+   "gone_ms": 160,
+   "bg_clicks": 0,
+   "scene_calm": 215.40320512820512,
+   "scene_taps": 294.4375,
+   "scene_glides": 234.875,
+   "readout_rms_cents": [
+    0.04822839883781982,
+    0.0333949344422581,
+    0.04154160544852063,
+    0.0421405137183459,
+    0.11442977074496438,
+    null
+   ],
+   "readout_found": [
+    7,
+    7,
+    7,
+    7,
+    7,
+    0
+   ]
+  },
+  {
+   "method": "Observe, long frames and steady smoothing (the default of the implementation)",
+   "bg_quiet": 0.000010089120564990752,
+   "flicker_quiet": 0.28946584130591146,
+   "bg_noisy": 0.001597444089456869,
+   "flicker_noisy": 3.465599587341219,
+   "full_ms": 200,
+   "gone_ms": 261,
+   "bg_clicks": 0,
+   "scene_calm": 245.60811965811965,
+   "scene_taps": 339.0625,
+   "scene_glides": 287.125,
+   "readout_rms_cents": [
+    0.021506197173863845,
+    0.015120044912778177,
+    0.02010182737471248,
+    0.020434680272651638,
+    0.0610059221595943,
+    null
+   ],
+   "readout_found": [
+    7,
+    7,
+    7,
+    7,
+    7,
+    0
+   ]
+  }
+ ],
+ "lists": {
+  "melody": {
+   "raw_changes_per_s": 36.8,
+   "raw_rows": [
+    3,
+    28
+   ],
+   "steady_changes_per_s": 14,
+   "steady_rows": [
+    12,
+    16
+   ]
+  },
+  "held note": {
+   "raw_changes_per_s": 11.3,
+   "raw_rows": [
+    3,
+    24
+   ],
+   "steady_changes_per_s": 0.3,
+   "steady_rows": [
+    14,
+    16
+   ]
+  },
+  "noise only": {
+   "raw_changes_per_s": 141.5,
+   "raw_rows": [
+    37,
+    40
+   ],
+   "steady_changes_per_s": 0,
+   "steady_rows": [
+    0,
+    0
+   ]
+  }
+ }
+}
